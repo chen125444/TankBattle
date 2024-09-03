@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.controller.StartScr">
+   <children>
+      <Button fx:id="loginBut" layoutX="774.0" layoutY="224.0" mnemonicParsing="false" onAction="#Login" prefHeight="77.0" prefWidth="201.0" text="登录">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      <Button fx:id="registerBut" layoutX="774.0" layoutY="336.0" mnemonicParsing="false" onAction="#Register" prefHeight="77.0" prefWidth="201.0" text="注册">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      <Button fx:id="exitBut" layoutX="774.0" layoutY="447.0" mnemonicParsing="false" onAction="#Exit" prefHeight="77.0" prefWidth="201.0" text="退出">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
