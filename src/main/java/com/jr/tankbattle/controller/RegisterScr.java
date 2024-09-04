@@ -1,13 +1,22 @@
 package com.jr.tankbattle.controller;
 
+import com.jr.tankbattle.Director;
+import javafx.fxml.FXML;
+
+import java.io.IOException;
+
 public class RegisterScr {
     String uid;
     String pwd;
 
-    public void RRegister() {
+    @FXML
+    public void RRegister() throws IOException {
         System.out.println("rregister");
+        Director.getInstance().toHomePage();
     }
-    public void Back(){
+    @FXML
+    public void Back() throws IOException {
         System.out.println("back");
+        Director.getInstance().init(Director.getInstance().getStage());
     }
 }

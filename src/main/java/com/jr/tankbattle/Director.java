@@ -4,9 +4,11 @@ import com.jr.tankbattle.controller.StartScr;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Director {
     public static final int WIDTH = 1080, HEIGHT = 720;
@@ -20,53 +22,78 @@ public class Director {
         return instance;
     }
 
-    public void init(Stage stage) throws IOException {
-        /*AnchorPane root = new AnchorPane();
-        Scene scene = new Scene(root , WIDTH, HEIGHT);
-        stage.setTitle("坦克");
-        stage.getIcons().add(new Image("image/logo.png"));
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.setWidth(WIDTH);
-        stage.setHeight(HEIGHT);
-        this.stage = stage;
-        toIndex();
-        stage.show();*/
+    public Stage getStage() {
+        return stage;
+    }
 
-        this.stage = stage;
+    public void init(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/jr/tankbattle/fxml/StartScr.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
         stage.setTitle("TankBattle");
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/logo.png")));
         stage.setScene(scene);
         stage.show();
+
+        this.stage = stage;
     }
 
     public void toLoginScr() throws IOException {
-//        try {
-//            Parent root = FXMLLoader.load(Main.class.getResource("/com/jr/tankbattle/fxml/LoginScr.fxml"));
-//            stage.getScene().setRoot(root);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/jr/tankbattle/fxml/LoginScr.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
-        stage.setTitle("TankBattle");
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void toStartScr() throws IOException {
-//        try {
-//            Parent root = FXMLLoader.load(Main.class.getResource("/com/jr/tankbattle/fxml/StartScr.fxml"));
-//            stage.getScene().setRoot(root);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/jr/tankbattle/fxml/StartScr.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
-        stage.setTitle("TankBattle");
-        stage.setScene(scene);
-        stage.show();
+      try {
+          Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/LoginScr.fxml")));
+           stage.getScene().setRoot(root);
+       }
+      catch (IOException e) {
+           e.printStackTrace();
+       }
     }
 
+    public void toRegisterScr() throws IOException {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/RegisterScr.fxml")));
+            stage.getScene().setRoot(root);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void toHomePage() throws IOException {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/HomePage.fxml")));
+            stage.getScene().setRoot(root);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void toSetting(){
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/Setting.fxml")));
+            stage.getScene().setRoot(root);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void toAccount(){
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/Account.fxml")));
+            stage.getScene().setRoot(root);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*public void toStartScr() throws IOException {
+       try {
+           Parent root = FXMLLoader.load(Main.class.getResource("/com/jr/tankbattle/fxml/StartScr.fxml"));
+           stage.getScene().setRoot(root);
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
+    }*/
 
 }

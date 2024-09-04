@@ -29,7 +29,7 @@
                 <Font size="31.0" />
             </font>
         </Label>
-        <TextField fx:id="txtUid" layoutX="458.0" layoutY="245.0" />
-        <TextField fx:id="txtPwd" layoutX="458.0" layoutY="355.0" />
+        <TextField fx:id="txtUid" layoutX="458.0" layoutY="245.0" prefHeight="40.0" prefWidth="352.0" />
+        <TextField fx:id="txtPwd" layoutX="458.0" layoutY="355.0" prefHeight="40.0" prefWidth="352.0" />
     </children>
 </AnchorPane>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.controller.Setting">
+   <children>
+      <Button layoutX="472.0" layoutY="166.0" mnemonicParsing="false" onAction="#Volume" prefHeight="59.0" prefWidth="137.0" text="音量调节" />
+      <Button layoutX="472.0" layoutY="262.0" mnemonicParsing="false" onAction="#Account" prefHeight="59.0" prefWidth="137.0" text="账号信息" />
+      <Button layoutX="472.0" layoutY="360.0" mnemonicParsing="false" onAction="#Help" prefHeight="59.0" prefWidth="137.0" text="游戏帮助" />
+      <Button layoutX="472.0" layoutY="455.0" mnemonicParsing="false" onAction="#Exit" prefHeight="59.0" prefWidth="137.0" text="退出游戏" />
+      <Button layoutX="472.0" layoutY="550.0" mnemonicParsing="false" onAction="#Back" prefHeight="59.0" prefWidth="137.0" text="返回" />
+   </children>
+</AnchorPane>

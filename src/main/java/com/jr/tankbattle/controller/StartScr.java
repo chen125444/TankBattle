@@ -12,8 +12,9 @@ public class StartScr {
         Director.getInstance().toLoginScr();
     }
     @FXML
-    public void Register(){
+    public void Register() throws IOException {
         System.out.println("register");
+        Director.getInstance().toRegisterScr();
     }
     @FXML
     public void Exit(){
