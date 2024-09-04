@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.controller.RegisterScr">
+    <children>
+        <Button layoutX="379.0" layoutY="571.0" mnemonicParsing="false" onAction="#RRegister" prefHeight="51.0" prefWidth="109.0" text="注册">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Button>
+        <Button layoutX="607.0" layoutY="571.0" mnemonicParsing="false" onAction="#Back" prefHeight="51.0" prefWidth="109.0" text="返回">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Button>
+        <Label layoutX="317.0" layoutY="243.0" text="账号">
+            <font>
+                <Font size="31.0" />
+            </font>
+        </Label>
+        <Label layoutX="317.0" layoutY="353.0" text="密码">
+            <font>
+                <Font size="31.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtUid" layoutX="458.0" layoutY="245.0" />
+        <TextField fx:id="txtPwd" layoutX="458.0" layoutY="355.0" />
+    </children>
+</AnchorPane>
