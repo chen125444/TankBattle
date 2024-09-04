@@ -2,6 +2,8 @@ package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.controller.StartScr;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 
 public class Tank extends AbstractObject{
@@ -16,6 +18,12 @@ public class Tank extends AbstractObject{
     @Override
     public void move() {
         // 实现坦克的移动逻辑
+        switch (direction){
+            case UP -> setY(getY() - speed);
+            case DOWN -> setY(getY() + speed);
+            case RIGHT -> setX(getX() - speed);
+            case LEFT -> setX(getX() + speed);
+        }
     }
 
     @Override
