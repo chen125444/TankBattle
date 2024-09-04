@@ -1,11 +1,10 @@
 package com.jr.tankbattle.controller;
-
 import javafx.fxml.FXML;
+
 
 public class StartScr {
     @FXML
-    public void Login(){
-        System.out.println("login");
+    public void Login() {
     }
     @FXML
     public void Register(){

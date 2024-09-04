@@ -1,4 +1,4 @@
-package com.jr.tankbattle.controller;
+package com.jr.tankbattle.entity;
 
 import javafx.scene.image.Image;
 
