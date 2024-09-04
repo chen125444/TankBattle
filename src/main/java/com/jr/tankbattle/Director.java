@@ -1,5 +1,6 @@
 package com.jr.tankbattle;
 
+import com.jr.tankbattle.controller.StartScr;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -53,4 +54,19 @@ public class Director {
         stage.setScene(scene);
         stage.show();
     }
+    public void toStartScr() throws IOException {
+//        try {
+//            Parent root = FXMLLoader.load(Main.class.getResource("/com/jr/tankbattle/fxml/StartScr.fxml"));
+//            stage.getScene().setRoot(root);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/jr/tankbattle/fxml/StartScr.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
+        stage.setTitle("TankBattle");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
 }
