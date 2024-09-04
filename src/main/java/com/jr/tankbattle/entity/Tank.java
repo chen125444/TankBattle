@@ -1,9 +1,8 @@
 package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.controller.StartScr;
+import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 
 public class Tank extends AbstractObject{
