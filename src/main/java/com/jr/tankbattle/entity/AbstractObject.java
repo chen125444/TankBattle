@@ -2,11 +2,15 @@ package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.controller.StartScr;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 public abstract class AbstractObject {
     // 坐标
     private int x;
     private int y;
+    //尺寸
+    private int width;
+    private int height;
     // 图像
     private Image image;
     // 界面
@@ -15,17 +19,22 @@ public abstract class AbstractObject {
     private boolean alive;
 
     // 构造方法
-    public AbstractObject(int x, int y, Image image, StartScr startScr) {
+    public AbstractObject(int x, int y, int width, int height, Image image, StartScr startScr) {
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
         this.image = image;
         this.startScr = startScr;
         this.alive = true;
     }
 
+    //得到矩形
+    public abstract Rectangle getrectangle();
+
     // 构造方法重载，允许不设置图像
-    public AbstractObject(int x, int y, StartScr startScr) {
-        this(x, y, null, startScr);
+    public AbstractObject(int x, int y, int width, int height, StartScr startScr) {
+        this(x, y, width, height,null, startScr);
     }
 
     // Getter 和 Setter 方法
@@ -43,6 +52,22 @@ public abstract class AbstractObject {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public Image getImage() {

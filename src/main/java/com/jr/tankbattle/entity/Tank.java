@@ -2,18 +2,14 @@ package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.controller.StartScr;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 public class Tank extends AbstractObject{
     private Direction direction = Direction.UP;
     //坦克速度
     private int speed;
-    //坦克尺寸
-    private int width;
-    private int height;
     public Tank(int x, int y, int width, int height, int speed, Image image, StartScr startScr) {
-        super(x, y, image, startScr);
-        this.width = width;
-        this.height = height;
+        super(x, y, width, height, image, startScr);
         this.speed = speed;
     }
 
@@ -28,7 +24,17 @@ public class Tank extends AbstractObject{
     }
 
     @Override
+    public Rectangle getrectangle() {
+        return new Rectangle(super.getWidth(),super.getHeight());
+    }
+
+    @Override
     public void checkCollision(AbstractObject other) {
         // 实现坦克与其他对象的碰撞检测逻辑
+        if(Math.abs(super.getX() - other.getX()) < Math.min(super.getWidth(), other.getWidth())||
+                Math.abs(super.getY() - other.getY()) < Math.min(super.getHeight(), other.getHeight())){
+            super.setAlive(false);
+            other.setAlive(false);
+        }
     }
 }
