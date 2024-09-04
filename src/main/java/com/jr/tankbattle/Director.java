@@ -87,13 +87,13 @@ public class Director {
         }
     }
 
-    /*public void toStartScr() throws IOException {
-       try {
-           Parent root = FXMLLoader.load(Main.class.getResource("/com/jr/tankbattle/fxml/StartScr.fxml"));
-           stage.getScene().setRoot(root);
-       } catch (IOException e) {
-           e.printStackTrace();
-       }
-    }*/
-
+    public void toGame(){
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/GameScene.fxml")));
+            stage.getScene().setRoot(root);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
