@@ -7,10 +7,13 @@ import com.jr.tankbattle.util.Direction;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 
 public class GameScene {
@@ -23,7 +26,7 @@ public class GameScene {
     private boolean running = false;
     private Tank playerTank;
 
-    private Background background = new Background();
+    //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
 
 
     public void init(Stage stage) {
@@ -33,7 +36,7 @@ public class GameScene {
         stage.getScene().setOnKeyReleased(this::handleKeyPressed);
         stage.getScene().setOnKeyPressed(this::handleKeyReleased);
         running = true;
-        playerTank = new Tank(400, 500, 100, 100, 30,this);
+        playerTank = new Tank(400, 500, 100, 100, 30, new Image("com/jr/tankbattle/img/p1tankU.gif"),this);
         //initSprite();
         refresh.start();
     }
@@ -67,10 +70,10 @@ public class GameScene {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // 绘制背景
-        background.render(graphicsContext);
+        graphicsContext.drawImage(new Image("com/jr/tankbattle/img/background.jpg"), 0, 0);
 
         // 绘制玩家坦克
-        //playerTank.render(graphicsContext);
+        graphicsContext.drawImage(new Image("com/jr/tankbattle/img/p1tankU.gif"), playerTank.getX(), playerTank.getY());
 
         // 绘制其他游戏元素（如敌方坦克、子弹等）
     }

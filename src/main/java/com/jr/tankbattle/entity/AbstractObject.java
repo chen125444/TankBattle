@@ -1,6 +1,7 @@
 package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.controller.StartScr;
+import com.jr.tankbattle.scene.GameScene;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
@@ -14,18 +15,18 @@ public abstract class AbstractObject {
     // 图像
     private Image image;
     // 界面
-    private StartScr startScr;
+    private GameScene gameScene;
     // 对象是否存活
     private boolean alive;
 
     // 构造方法
-    public AbstractObject(int x, int y, int width, int height, Image image, StartScr startScr) {
+    public AbstractObject(int x, int y, int width, int height, Image image, GameScene gameScene) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.image = image;
-        this.startScr = startScr;
+        this.gameScene = gameScene;
         this.alive = true;
     }
 
@@ -33,8 +34,8 @@ public abstract class AbstractObject {
     public abstract Rectangle getrectangle();
 
     // 构造方法重载，允许不设置图像
-    public AbstractObject(int x, int y, int width, int height, StartScr startScr) {
-        this(x, y, width, height,null, startScr);
+    public AbstractObject(int x, int y, int width, int height, GameScene gameScene) {
+        this(x, y, width, height,null, gameScene);
     }
 
     // Getter 和 Setter 方法
@@ -78,12 +79,12 @@ public abstract class AbstractObject {
         this.image = image;
     }
 
-    public StartScr getStartScr() {
-        return startScr;
+    public GameScene getGameScene() {
+        return gameScene;
     }
 
-    public void setStartScr(StartScr startScr) {
-        this.startScr = startScr;
+    public void setGameScene(GameScene gameScene) {
+        this.gameScene = gameScene;
     }
 
     public boolean isAlive() {
