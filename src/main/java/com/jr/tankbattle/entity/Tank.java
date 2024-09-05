@@ -7,6 +7,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Tank extends AbstractObject{
     private Direction direction = Direction.UP;
+    public boolean tankState = false;
     //坦克速度
     private int speed;
     public Tank(int x, int y, int width, int height, int speed, Image image, StartScr startScr) {
@@ -45,31 +46,14 @@ public class Tank extends AbstractObject{
         }
     }
 
-    public void openFire() {
-        // 实现坦克的开火逻辑
-        double bulletx = getX();
-        double bullety = getY();
-        switch (direction){
-            case UP:
-                bulletx = getX() + getWidth()/2;
-                bullety = getY();
-                break;
-            case DOWN:
-                bulletx = getX() + getWidth()/2;
-                bullety = getY() + getHeight();
-                break;
-            case LEFT:
-                bulletx = getX();
-                bullety = getY() + getHeight()/2;
-                break;
-            case RIGHT:
-                bulletx = getX() + getWidth();
-                bullety = getY() + getHeight()/2;
-        }
+    public Direction getDirection() {
+        return direction;
+    }
 
-        //SoundEffect.play("/sound/attack.mp3");
-        //gameScene.bullets.add(new Bullet(bulletx,bullety,direction));
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+    public void stopMoving(){
+        tankState = false;
     }
 }
-
-
