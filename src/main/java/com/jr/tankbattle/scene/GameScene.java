@@ -56,7 +56,13 @@ public class GameScene {
         graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg")), 0, 0);
 
         // 绘制玩家坦克
-        graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")), playerTank.getX(), playerTank.getY());
+        switch (playerTank.getDirection()){
+            case UP -> graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")), playerTank.getX(), playerTank.getY());
+            case DOWN -> graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankD.gif")), playerTank.getX(), playerTank.getY());
+            case LEFT -> graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankL.gif")), playerTank.getX(), playerTank.getY());
+            case RIGHT -> graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankR.gif")), playerTank.getX(), playerTank.getY());
+        }
+
 
         // 绘制其他游戏元素（如敌方坦克、子弹等）
     }
