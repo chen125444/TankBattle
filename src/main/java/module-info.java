@@ -13,4 +13,7 @@ module com.jr.tankbattle {
     opens com.jr.tankbattle.entity to javafx.fxml;
     exports com.jr.tankbattle.util;
     opens com.jr.tankbattle.util to javafx.fxml;
+
+    exports com.jr.tankbattle.scene;
+    opens com.jr.tankbattle.scene to javafx.fxml;
 }

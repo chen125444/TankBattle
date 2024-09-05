@@ -8,6 +8,7 @@ public class HomePage {
     @FXML
     public void Single(){
         System.out.println("single mode");
+        Director.getInstance().toGame();
     }
     @FXML
     public void Double(){
