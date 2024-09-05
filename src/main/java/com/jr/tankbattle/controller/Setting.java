@@ -9,6 +9,7 @@ public class Setting {
     @FXML
     public void Help(){
         System.out.println("help");
+        Director.getInstance().toHelp();
     }
     @FXML
     public void Exit(){

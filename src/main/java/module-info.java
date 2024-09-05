@@ -3,6 +3,8 @@ module com.jr.tankbattle {
     requires javafx.fxml;
     requires java.desktop;
 
+    requires javafx.media;
+
     exports com.jr.tankbattle;
     opens com.jr.tankbattle to javafx.fxml;
 

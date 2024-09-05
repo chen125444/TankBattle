@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.controller.Help">
+   <children>
+       <Button layoutX="499.0" layoutY="482.0" mnemonicParsing="false" onAction="#Back" prefHeight="51.0" prefWidth="123.0" text="返回" />
+      <TextArea layoutX="346.0" layoutY="147.0" prefHeight="240.0" prefWidth="430.0" text="坦克大战操作方式及新手指南" editable="false">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </TextArea>
+   </children>
+</AnchorPane>

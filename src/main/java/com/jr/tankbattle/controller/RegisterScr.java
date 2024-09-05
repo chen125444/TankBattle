@@ -17,6 +17,6 @@ public class RegisterScr {
     @FXML
     public void Back() throws IOException {
         System.out.println("back");
-        Director.getInstance().init(Director.getInstance().getStage());
+        Director.getInstance().toStartScr();
     }
 }
