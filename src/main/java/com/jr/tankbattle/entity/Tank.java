@@ -7,6 +7,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Tank extends AbstractObject{
     private Direction direction = Direction.UP;
+    public boolean tankState = false;
     //坦克速度
     private int speed;
     public Tank(int x, int y, int width, int height, int speed, Image image, StartScr startScr) {
@@ -43,5 +44,16 @@ public class Tank extends AbstractObject{
             super.setAlive(false);
             other.setAlive(false);
         }
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+    public void stopMoving(){
+        tankState = false;
     }
 }

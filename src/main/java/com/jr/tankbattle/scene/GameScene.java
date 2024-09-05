@@ -2,10 +2,16 @@ package com.jr.tankbattle.scene;
 
 import com.jr.tankbattle.Director;
 import javafx.fxml.FXML;
+import com.jr.tankbattle.entity.Tank;
+import com.jr.tankbattle.util.Direction;
+import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.stage.Stage;
+
 
 public class GameScene {
     @FXML
@@ -14,26 +20,80 @@ public class GameScene {
 
     //private KeyProcess keyProcess = new KeyProcess();
     //private Refresh refresh = new Refresh();
-    //private boolean running = false;
+    private boolean running = false;
+    private Tank playerTank;
 
-    //private Background background = new Background();
+    private Background background = new Background();
 
-    public GraphicsContext getGraphicsContext() {
-        return graphicsContext;
-    }
-
-    public void setGraphicsContext(GraphicsContext graphicsContext) {
-        this.graphicsContext = graphicsContext;
-    }
 
     public void init(Stage stage) {
         AnchorPane root = new AnchorPane(canvas);
         stage.getScene().setRoot(root);
-        //stage.getScene().setOnKeyReleased(keyProcess);
-        //stage.getScene().setOnKeyPressed(keyProcess);
-        //running = true;
-        //self = new Tank(400, 500, Group.green, Direction.stop, Direction.up, this);
+        //设置键盘事件
+        stage.getScene().setOnKeyReleased(this::handleKeyPressed);
+        stage.getScene().setOnKeyPressed(this::handleKeyReleased);
+        running = true;
+        playerTank = new Tank(400, 500, 100, 100, 30,this);
         //initSprite();
-        //refresh.start();
+        refresh.start();
     }
+    // 处理按键按下事件
+    private void handleKeyPressed(KeyEvent event) {
+        playerTank.tankState = true;
+        switch (event.getCode()) {
+            case W:
+                playerTank.setDirection(Direction.UP);
+                break;
+            case S:
+                playerTank.setDirection(Direction.DOWN);
+                break;
+            case A:
+                playerTank.setDirection(Direction.LEFT);
+                break;
+            case D:
+                playerTank.setDirection(Direction.RIGHT);
+                break;
+            default:
+                break;
+        }
+    }
+    // 处理按键松开事件
+    private void handleKeyReleased(KeyEvent event) {
+        // 实现坦克停止移动的逻辑（例如设置方向为停止）
+        playerTank.stopMoving();
+    }
+    // 刷新游戏界面
+    private void render() {
+        graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        // 绘制背景
+        background.render(graphicsContext);
+
+        // 绘制玩家坦克
+        //playerTank.render(graphicsContext);
+
+        // 绘制其他游戏元素（如敌方坦克、子弹等）
+    }
+
+    // 刷新任务（类似游戏主循环）
+    private final AnimationTimer refresh = new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+            if (running) {
+                render();  // 每一帧都调用 render() 以刷新游戏界面
+            }
+        }
+    };
+
+    // 获取 GraphicsContext 对象
+    public GraphicsContext getGraphicsContext() {
+        return graphicsContext;
+    }
+
+    // 设置 GraphicsContext 对象
+    public void setGraphicsContext(GraphicsContext graphicsContext) {
+        this.graphicsContext = graphicsContext;
+    }
+
+
 }
