@@ -1,6 +1,7 @@
 package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.controller.StartScr;
+import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
@@ -9,8 +10,8 @@ public class Bullet extends AbstractObject{
     //子弹速度
     private int speed;
     private Direction direction;
-    public Bullet(int x, int y, int width, int height, Direction direction,int speed, Image image, StartScr startScr) {
-        super(x, y, width, height, image, startScr);
+    public Bullet(int x, int y, int width, int height, Direction direction,int speed, Image image, GameScene gameScene) {
+        super(x, y, width, height, image,gameScene);
         this.speed = speed;
         this.direction = direction;
     }

@@ -1,6 +1,7 @@
 package com.jr.tankbattle;
 
 import com.jr.tankbattle.controller.StartScr;
+import com.jr.tankbattle.scene.GameScene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,7 +15,7 @@ public class Director {
     public static final int WIDTH = 1080, HEIGHT = 720;
     private static Director instance = new Director();
     private Stage stage;
-    //private GameScene gameScene = new GameScene();
+    private GameScene gameScene = new GameScene();
 
     private Director() {}
 
@@ -38,13 +39,13 @@ public class Director {
     }
 
     public void toLoginScr() throws IOException {
-      try {
-          Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/LoginScr.fxml")));
-           stage.getScene().setRoot(root);
-       }
-      catch (IOException e) {
-           e.printStackTrace();
-       }
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/LoginScr.fxml")));
+            stage.getScene().setRoot(root);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void toRegisterScr() throws IOException {
@@ -91,6 +92,7 @@ public class Director {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/GameScene.fxml")));
             stage.getScene().setRoot(root);
+            gameScene.init(stage);
         }
         catch (IOException e) {
             e.printStackTrace();
