@@ -4,7 +4,6 @@ module com.jr.tankbattle {
     requires java.desktop;
 
     requires javafx.media;
-    requires gson;
     requires com.google.gson;
 
     exports com.jr.tankbattle;
