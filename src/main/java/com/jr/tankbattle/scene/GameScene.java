@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import com.jr.tankbattle.entity.Tank;
 import com.jr.tankbattle.util.Direction;
 import javafx.animation.AnimationTimer;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -17,21 +18,18 @@ import java.awt.*;
 
 
 public class GameScene {
-    @FXML
-    private Canvas canvas = new Canvas(720,720);
+    private Canvas canvas = @FXML myCanvas;
     @FXML
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     //private KeyProcess keyProcess = new KeyProcess();
     //private Refresh refresh = new Refresh();
     private boolean running = false;
     private Tank playerTank;
-
+7
     //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
 
 
     public void init(Stage stage) {
-        AnchorPane root = new AnchorPane(canvas);
-        stage.getScene().setRoot(root);
         //设置键盘事件
         stage.getScene().setOnKeyReleased(this::handleKeyPressed);
         stage.getScene().setOnKeyPressed(this::handleKeyReleased);

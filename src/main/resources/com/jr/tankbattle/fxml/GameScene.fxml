@@ -13,7 +13,7 @@
    <children>
       <AnchorPane layoutX="173.0" prefHeight="720.0" prefWidth="720.0">
          <children>
-            <Canvas fx:id="canvas" layoutX="0.0" layoutY="0.0" />
+            <Canvas fx:id="myCanvas" layoutX="0.0" layoutY="0.0" />
          </children>
       </AnchorPane>
    </children>
