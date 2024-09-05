@@ -18,18 +18,19 @@ import java.awt.*;
 
 
 public class GameScene {
-    private Canvas canvas = @FXML myCanvas;
-    @FXML
+    private Canvas canvas =new Canvas(720,720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     //private KeyProcess keyProcess = new KeyProcess();
     //private Refresh refresh = new Refresh();
     private boolean running = false;
     private Tank playerTank;
-7
+
     //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
 
 
     public void init(Stage stage) {
+    AnchorPane root = new AnchorPane(canvas);
+    stage.getScene().setRoot(root);
         //设置键盘事件
         stage.getScene().setOnKeyReleased(this::handleKeyReleased);
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
@@ -40,13 +41,41 @@ public class GameScene {
     }
     // 处理按键按下事件
     private void handleKeyPressed(KeyEvent event) {
-        //实现坦克移动
-        playerTank.pressed(event.getCode());
+        switch (event.getCode()) {
+            case W:
+                playerTank.setDirection(Direction.UP);
+                playerTank.setMoving(true);
+                break;
+            case S:
+                playerTank.setDirection(Direction.DOWN);
+                playerTank.setMoving(true);
+                break;
+            case A:
+                playerTank.setDirection(Direction.LEFT);
+                playerTank.setMoving(true);
+                break;
+            case D:
+                playerTank.setDirection(Direction.RIGHT);
+                playerTank.setMoving(true);
+                break;
+            default:
+                break;
+        }
+
     }
     // 处理按键松开事件
     private void handleKeyReleased(KeyEvent event) {
         // 实现坦克停止移动的逻辑
-        playerTank.released(event.getCode());
+        switch (event.getCode()){
+            case W:
+            case S:
+            case A:
+            case D:
+                playerTank.setMoving(false);
+                break;
+            default:
+                break;
+        }
     }
     // 刷新游戏界面
     private void render() {
