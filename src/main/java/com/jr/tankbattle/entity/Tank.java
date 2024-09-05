@@ -7,24 +7,29 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 
-public class Tank extends AbstractObject{
+public class Tank extends AbstractObject {
     private Direction direction = Direction.UP;
     private boolean moving = false;
+    private int width;
+    private int height;
     //坦克速度
     private int speed;
+
     public Tank(int x, int y, int width, int height, int speed, Image image, GameScene gameScene) {
         super(x, y, width, height, image, gameScene);
         this.speed = speed;
+        this.width = width;
+        this.height = height;
     }
 
     @Override
     public void move() {
         // 实现坦克的移动逻辑
-        if(!moving){
+        if (!moving) {
             return;
 
         }
-        switch (direction){
+        switch (direction) {
             case UP -> setY(getY() - speed);
             case DOWN -> setY(getY() + speed);
             case RIGHT -> setX(getX() + speed);
@@ -33,22 +38,25 @@ public class Tank extends AbstractObject{
 
     }
 
-    public void draw(Image downImage, Image leftImage, Image rightImage) {
+    public void draw() {
         // 实现坦克的绘制逻辑
-        switch (direction){
+        switch (direction) {
             case UP -> getGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
-            case DOWN -> getGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
-            case LEFT -> getGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
-            case RIGHT -> getGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
+            case DOWN ->
+                    getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankD.gif")), super.getX(), super.getY());
+            case LEFT ->
+                    getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankL.gif")), super.getX(), super.getY());
+            case RIGHT ->
+                    getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankR.gif")), super.getX(), super.getY());
         }
     }
 
     @Override
     public Rectangle getrectangle() {
-        return new Rectangle(super.getWidth(),super.getHeight());
+        return new Rectangle(super.getWidth(), super.getHeight());
     }
 
-    public void pressed(KeyCode keyCode){
+    public void pressed(KeyCode keyCode) {
         switch (keyCode) {
             case W:
                 direction = Direction.UP;
@@ -71,13 +79,16 @@ public class Tank extends AbstractObject{
         }
     }
 
-    public void released(KeyCode keyCode){
-        switch (keyCode){
+    public void released(KeyCode keyCode) {
+        switch (keyCode) {
             case W:
             case S:
             case A:
             case D:
                 moving = false;
+                break;
+            case J:
+                openFire();
                 break;
             default:
                 break;
@@ -98,4 +109,29 @@ public class Tank extends AbstractObject{
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
+
+    public void openFire() {
+        switch (direction) {
+            case UP:
+                Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, getGameScene());
+                bullet0.draw();
+                getGameScene().bullets.add(bullet0);
+                break;
+            case DOWN:
+                Bullet bullet1 = new Bullet(getX() + width / 2 - 5, getY() + height, 22, 10, Direction.DOWN, 5, getGameScene());
+                bullet1.draw();
+                getGameScene().bullets.add(bullet1);
+                break;
+            case LEFT:
+                Bullet bullet2 = new Bullet(getX() - 22, getY() + height / 2 - 5, 22, 10, Direction.LEFT, 5, getGameScene());
+                bullet2.draw();
+                getGameScene().bullets.add(bullet2);
+                break;
+            case RIGHT:
+                Bullet bullet3 = new Bullet(getX() + width, getY() + height / 2 - 5, 22, 10, Direction.RIGHT, 5, getGameScene());
+                bullet3.draw();
+                getGameScene().bullets.add(bullet3);
+        }
+    }
 }
+

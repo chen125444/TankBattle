@@ -1,6 +1,7 @@
 package com.jr.tankbattle.scene;
 
 import com.jr.tankbattle.Director;
+import com.jr.tankbattle.entity.Bullet;
 import javafx.fxml.FXML;
 import com.jr.tankbattle.entity.Tank;
 import com.jr.tankbattle.util.Direction;
@@ -15,6 +16,8 @@ import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameScene {
@@ -24,6 +27,7 @@ public class GameScene {
     //private Refresh refresh = new Refresh();
     private boolean running = false;
     private Tank playerTank;
+    public List<Bullet> bullets = new ArrayList<>();
 
     //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
 
@@ -35,7 +39,7 @@ public class GameScene {
         stage.getScene().setOnKeyReleased(this::handleKeyReleased);
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
         running = true;
-        playerTank = new Tank(400, 500, 100, 100, 2, new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")),this);
+        playerTank = new Tank(400, 500, 60, 60, 2, new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")),this);
         //initSprite();
         refresh.start();
     }
@@ -51,16 +55,16 @@ public class GameScene {
     // 刷新游戏界面
     private void render() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
         // 绘制背景
         graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg")), 0, 0);
-
         // 绘制玩家坦克
-        playerTank.draw(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankD.gif")),
-                        new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankL.gif")),
-                        new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankR.gif")));
-
-        // 绘制其他游戏元素（如敌方坦克、子弹等）
+        playerTank.draw();
+        // 绘制子弹
+        for(int i = 0; i < bullets.size(); i++){
+            Bullet bullet = bullets.get(i);
+            bullet.move();
+            bullet.draw();
+        }
     }
 
     // 刷新任务（类似游戏主循环）

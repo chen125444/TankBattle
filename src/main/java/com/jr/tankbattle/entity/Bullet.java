@@ -11,8 +11,8 @@ public class Bullet extends AbstractObject{
     private int speed;//子弹速度
     private Direction direction;//子弹方向
     //构造函数
-    public Bullet(int x, int y, int width, int height, Direction direction,int speed, Image image, GameScene gameScene) {
-        super(x, y, width, height, image,gameScene);
+    public Bullet(int x, int y, int width, int height, Direction direction,int speed, GameScene gameScene) {
+        super(x, y, width, height,gameScene);
         this.speed = speed;
         this.direction = direction;
     }
@@ -28,7 +28,12 @@ public class Bullet extends AbstractObject{
     }
     // 实现子弹的绘制逻辑
     public void draw() {
-
+        switch (direction){
+            case UP -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenUp.png")), super.getX(), super.getY());
+            case DOWN -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenDown.png")), super.getX(), super.getY());
+            case LEFT -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenLeft.png")), super.getX(), super.getY());
+            case RIGHT -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png")), super.getX(), super.getY());
+        }
     }
     // 获取子弹的轮廓
     @Override
