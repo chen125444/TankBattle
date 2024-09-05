@@ -1,13 +1,15 @@
 package com.jr.tankbattle.scene;
 
 import com.jr.tankbattle.Director;
+import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class GameScene {
-    private Canvas canvas = new Canvas(Director.WIDTH, Director.HEIGHT);
+    @FXML
+    private Canvas canvas = new Canvas(720, 720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
     //private KeyProcess keyProcess = new KeyProcess();
