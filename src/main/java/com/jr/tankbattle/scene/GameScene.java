@@ -41,41 +41,12 @@ public class GameScene {
     }
     // 处理按键按下事件
     private void handleKeyPressed(KeyEvent event) {
-        switch (event.getCode()) {
-            case W:
-                playerTank.setDirection(Direction.UP);
-                playerTank.setMoving(true);
-                break;
-            case S:
-                playerTank.setDirection(Direction.DOWN);
-                playerTank.setMoving(true);
-                break;
-            case A:
-                playerTank.setDirection(Direction.LEFT);
-                playerTank.setMoving(true);
-                break;
-            case D:
-                playerTank.setDirection(Direction.RIGHT);
-                playerTank.setMoving(true);
-                break;
-            default:
-                break;
-        }
-
+        playerTank.pressed(event.getCode());
     }
     // 处理按键松开事件
     private void handleKeyReleased(KeyEvent event) {
         // 实现坦克停止移动的逻辑
-        switch (event.getCode()){
-            case W:
-            case S:
-            case A:
-            case D:
-                playerTank.setMoving(false);
-                break;
-            default:
-                break;
-        }
+        playerTank.released((event.getCode()));
     }
     // 刷新游戏界面
     private void render() {

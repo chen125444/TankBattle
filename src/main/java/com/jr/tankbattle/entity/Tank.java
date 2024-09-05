@@ -96,8 +96,4 @@ public class Tank extends AbstractObject{
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
-
-    public void setMoving(boolean moving) {
-        this.moving = moving;
-    }
 }
