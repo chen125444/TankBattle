@@ -27,7 +27,6 @@ public class Bullet extends AbstractObject{
         }
     }
     // 实现子弹的绘制逻辑
-    @Override
     public void draw() {
 
     }

@@ -97,7 +97,6 @@ public abstract class AbstractObject {
 
     // 抽象方法，由子类实现
     public abstract void move();  // 移动方法
-    public abstract void draw();  // 绘制对象方法
     public abstract boolean checkCollision(AbstractObject other);  // 碰撞检测
 }
 

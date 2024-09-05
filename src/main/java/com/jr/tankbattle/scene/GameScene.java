@@ -29,8 +29,8 @@ public class GameScene {
 
 
     public void init(Stage stage) {
-    AnchorPane root = new AnchorPane(canvas);
-    stage.getScene().setRoot(root);
+        AnchorPane root = new AnchorPane(canvas);
+        stage.getScene().setRoot(root);
         //设置键盘事件
         stage.getScene().setOnKeyReleased(this::handleKeyReleased);
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
@@ -56,13 +56,9 @@ public class GameScene {
         graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg")), 0, 0);
 
         // 绘制玩家坦克
-        switch (playerTank.getDirection()){
-            case UP -> graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")), playerTank.getX(), playerTank.getY());
-            case DOWN -> graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankD.gif")), playerTank.getX(), playerTank.getY());
-            case LEFT -> graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankL.gif")), playerTank.getX(), playerTank.getY());
-            case RIGHT -> graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankR.gif")), playerTank.getX(), playerTank.getY());
-        }
-
+        playerTank.draw(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankD.gif")),
+                        new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankL.gif")),
+                        new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankR.gif")));
 
         // 绘制其他游戏元素（如敌方坦克、子弹等）
     }

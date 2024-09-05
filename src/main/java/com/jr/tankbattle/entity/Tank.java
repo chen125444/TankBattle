@@ -33,9 +33,14 @@ public class Tank extends AbstractObject{
 
     }
 
-    @Override
-    public void draw() {
+    public void draw(Image downImage, Image leftImage, Image rightImage) {
         // 实现坦克的绘制逻辑
+        switch (direction){
+            case UP -> getGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
+            case DOWN -> getGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
+            case LEFT -> getGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
+            case RIGHT -> getGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
+        }
     }
 
     @Override
