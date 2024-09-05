@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Tank extends AbstractObject{
     private Direction direction = Direction.UP;
-    public boolean tankState = false;
+    private boolean moving = false;
     //坦克速度
     private int speed;
     public Tank(int x, int y, int width, int height, int speed, Image image, GameScene gameScene) {
@@ -19,12 +19,16 @@ public class Tank extends AbstractObject{
     @Override
     public void move() {
         // 实现坦克的移动逻辑
+        if(!moving){
+            return;
+        }
         switch (direction){
             case UP -> setY(getY() - speed);
             case DOWN -> setY(getY() + speed);
-            case RIGHT -> setX(getX() - speed);
-            case LEFT -> setX(getX() + speed);
+            case RIGHT -> setX(getX() + speed);
+            case LEFT -> setX(getX() - speed);
         }
+
     }
 
     @Override
@@ -54,7 +58,8 @@ public class Tank extends AbstractObject{
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
-    public void stopMoving(){
-        tankState = false;
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
 }

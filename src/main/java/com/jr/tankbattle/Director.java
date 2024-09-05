@@ -1,6 +1,7 @@
 package com.jr.tankbattle;
 
 import com.jr.tankbattle.controller.StartScr;
+import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.util.Sound;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,7 +16,7 @@ public class Director {
     public static final int WIDTH = 1080, HEIGHT = 720;
     private static Director instance = new Director();
     private Stage stage;
-    //private GameScene gameScene = new GameScene();
+    private GameScene gameScene = new GameScene();
 
     private Director() {}
 
@@ -106,6 +107,7 @@ public class Director {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/GameScene.fxml")));
             stage.getScene().setRoot(root);
+            gameScene.init(stage);
         }
         catch (IOException e) {
             e.printStackTrace();
