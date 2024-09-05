@@ -33,8 +33,8 @@ public class GameScene {
         AnchorPane root = new AnchorPane(canvas);
         stage.getScene().setRoot(root);
         //设置键盘事件
-        stage.getScene().setOnKeyReleased(this::handleKeyPressed);
-        stage.getScene().setOnKeyPressed(this::handleKeyReleased);
+        stage.getScene().setOnKeyReleased(this::handleKeyReleased);
+        stage.getScene().setOnKeyPressed(this::handleKeyPressed);
         running = true;
         playerTank = new Tank(400, 500, 100, 100, 2, new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")),this);
         //initSprite();
@@ -42,40 +42,13 @@ public class GameScene {
     }
     // 处理按键按下事件
     private void handleKeyPressed(KeyEvent event) {
-        switch (event.getCode()) {
-            case W:
-                playerTank.setDirection(Direction.UP);
-                playerTank.setMoving(true);
-                break;
-            case S:
-                playerTank.setDirection(Direction.DOWN);
-                playerTank.setMoving(true);
-                break;
-            case A:
-                playerTank.setDirection(Direction.LEFT);
-                playerTank.setMoving(true);
-                break;
-            case D:
-                playerTank.setDirection(Direction.RIGHT);
-                playerTank.setMoving(true);
-                break;
-            default:
-                break;
-        }
+        //实现坦克移动
+        playerTank.pressed(event.getCode());
     }
     // 处理按键松开事件
     private void handleKeyReleased(KeyEvent event) {
         // 实现坦克停止移动的逻辑
-        switch (event.getCode()){
-            case W:
-            case S:
-            case A:
-            case D:
-                playerTank.setMoving(false);
-                break;
-            default:
-                break;
-        }
+        playerTank.released(event.getCode());
     }
     // 刷新游戏界面
     private void render() {

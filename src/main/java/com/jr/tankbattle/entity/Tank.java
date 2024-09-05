@@ -4,6 +4,7 @@ import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 
 public class Tank extends AbstractObject{
@@ -21,6 +22,7 @@ public class Tank extends AbstractObject{
         // 实现坦克的移动逻辑
         if(!moving){
             return;
+
         }
         switch (direction){
             case UP -> setY(getY() - speed);
@@ -41,6 +43,42 @@ public class Tank extends AbstractObject{
         return new Rectangle(super.getWidth(),super.getHeight());
     }
 
+    public void pressed(KeyCode keyCode){
+        switch (keyCode) {
+            case W:
+                direction = Direction.UP;
+                moving = true;
+                break;
+            case S:
+                direction = Direction.DOWN;
+                moving = true;
+                break;
+            case A:
+                direction = Direction.LEFT;
+                moving = true;
+                break;
+            case D:
+                direction = Direction.RIGHT;
+                moving = true;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void released(KeyCode keyCode){
+        switch (keyCode){
+            case W:
+            case S:
+            case A:
+            case D:
+                moving = false;
+                break;
+            default:
+                break;
+        }
+    }
+
     @Override
     public void checkCollision(AbstractObject other) {
         // 实现坦克与其他对象的碰撞检测逻辑
@@ -57,9 +95,5 @@ public class Tank extends AbstractObject{
 
     public void setDirection(Direction direction) {
         this.direction = direction;
-    }
-
-    public void setMoving(boolean moving) {
-        this.moving = moving;
     }
 }
