@@ -4,6 +4,8 @@ module com.jr.tankbattle {
     requires java.desktop;
 
     requires javafx.media;
+    requires gson;
+    requires com.google.gson;
 
     exports com.jr.tankbattle;
     opens com.jr.tankbattle to javafx.fxml;
@@ -18,4 +20,7 @@ module com.jr.tankbattle {
 
     exports com.jr.tankbattle.scene;
     opens com.jr.tankbattle.scene to javafx.fxml;
+
+    exports com.jr.tankbattle.client;
+    opens com.jr.tankbattle.client to javafx.fxml;
 }
