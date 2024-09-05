@@ -87,10 +87,8 @@ public class Tank extends AbstractObject{
     @Override
     public boolean checkCollision(AbstractObject other) {
         // 实现坦克与其他对象的碰撞检测逻辑
-        if(Math.abs(super.getX() - other.getX()) < Math.min(super.getWidth(), other.getWidth())||
-                Math.abs(super.getY() - other.getY()) < Math.min(super.getHeight(), other.getHeight()))
-            return true;
-        else return false;
+        return Math.abs(super.getX() - other.getX()) < Math.min(super.getWidth(), other.getWidth()) ||
+                Math.abs(super.getY() - other.getY()) < Math.min(super.getHeight(), other.getHeight());
     }
 
     public Direction getDirection() {

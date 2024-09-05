@@ -38,10 +38,8 @@ public class Bullet extends AbstractObject{
     // 实现子弹与其他对象的碰撞检测逻辑
     @Override
     public boolean checkCollision(AbstractObject other) {
-        if(Math.abs(super.getX() - other.getX()) < Math.min(super.getWidth(), other.getWidth())||
-                Math.abs(super.getY() - other.getY()) < Math.min(super.getHeight(), other.getHeight()))
-            return true;
-        else return false;
+        return Math.abs(super.getX() - other.getX()) < Math.min(super.getWidth(), other.getWidth()) ||
+                Math.abs(super.getY() - other.getY()) < Math.min(super.getHeight(), other.getHeight());
     }
     // 获取子弹的方向
     public Direction getDirection() {
