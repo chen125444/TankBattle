@@ -21,7 +21,8 @@ import java.util.List;
 
 
 public class GameScene {
-    private Canvas canvas =new Canvas(720,720);
+    @FXML
+    private Canvas canvas =new Canvas(1080,720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     //private KeyProcess keyProcess = new KeyProcess();
     //private Refresh refresh = new Refresh();
@@ -56,7 +57,7 @@ public class GameScene {
     private void render() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
-        graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg")), 0, 0);
+        graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg")), 0,0 );
         // 绘制玩家坦克
         playerTank.draw();
         // 绘制子弹

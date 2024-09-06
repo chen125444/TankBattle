@@ -11,9 +11,9 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.scene.GameScene">
    <children>
-      <AnchorPane layoutX="173.0" prefHeight="720.0" prefWidth="720.0">
+      <AnchorPane prefHeight="720.0" prefWidth="1080.0">
          <children>
-            <Canvas fx:id="myCanvas" layoutX="0.0" layoutY="0.0" />
+            <Canvas fx:id="canvas" layoutX="0.0" layoutY="0.0" />
          </children>
       </AnchorPane>
    </children>
