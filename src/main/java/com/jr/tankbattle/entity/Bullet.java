@@ -14,6 +14,7 @@ public class Bullet extends AbstractObject{
     //构造函数
     public Bullet(int x, int y, int width, int height, Direction direction,int speed, GameScene gameScene) {
         super(x, y, width, height,gameScene);
+
         this.speed = speed;
         this.direction = direction;
     }

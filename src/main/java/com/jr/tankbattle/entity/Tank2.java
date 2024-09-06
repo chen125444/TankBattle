@@ -8,6 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 
+import java.util.List;
+
 public class Tank2 extends AbstractObject {
     private Direction direction = Direction.UP;
     private boolean moving = false;
@@ -44,11 +46,11 @@ public class Tank2 extends AbstractObject {
         switch (direction) {
             case UP -> getVsGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
             case DOWN ->
-                    getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankD.gif")), super.getX(), super.getY());
+                    getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankD.gif")), super.getX(), super.getY());
             case LEFT ->
-                    getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankL.gif")), super.getX(), super.getY());
+                    getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankL.gif")), super.getX(), super.getY());
             case RIGHT ->
-                    getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankR.gif")), super.getX(), super.getY());
+                    getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankR.gif")), super.getX(), super.getY());
         }
     }
 
@@ -91,11 +93,19 @@ public class Tank2 extends AbstractObject {
         }
     }
 
-    @Override
     public boolean checkCollision(AbstractObject other) {
         // 实现坦克与其他对象的碰撞检测逻辑
-        return Math.abs(super.getX() - other.getX()) < Math.min(super.getWidth(), other.getWidth()) ||
-                Math.abs(super.getY() - other.getY()) < Math.min(super.getHeight(), other.getHeight());
+        return getRectangle().intersects(other.getRectangle());
+    }
+    public void collisionBullet(List<Bullet> bullets) {
+        // 实现坦克与子弹的碰撞检测逻辑
+        for(int i = 0; i < bullets.size(); i++) {
+            Bullet bullet = bullets.get(i);
+            if(checkCollision(bullet)) {
+                setAlive(false);
+                bullets.remove(i);
+            }
+        }
     }
 
     public Direction getDirection() {

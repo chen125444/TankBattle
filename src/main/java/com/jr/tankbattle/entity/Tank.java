@@ -1,12 +1,13 @@
 package com.jr.tankbattle.entity;
 
-import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
+
+import java.util.List;
 
 import static com.jr.tankbattle.controller.HomePage.status;
 
@@ -120,6 +121,16 @@ public class Tank extends AbstractObject {
         // 实现坦克与其他对象的碰撞检测逻辑
         return getRectangle().intersects(other.getRectangle());
 
+    }
+    public void collisionBullet(List<Bullet> bullets) {
+        // 实现坦克与子弹的碰撞检测逻辑
+        for(int i = 0; i < bullets.size(); i++) {
+            Bullet bullet = bullets.get(i);
+            if(checkCollision(bullet)) {
+                setAlive(false);
+                bullets.remove(i);
+            }
+        }
     }
 
     public Direction getDirection() {

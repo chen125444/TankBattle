@@ -1,5 +1,6 @@
 package com.jr.tankbattle.scene;
 
+import com.jr.tankbattle.entity.AiTank;
 import com.jr.tankbattle.entity.Bullet;
 import com.jr.tankbattle.entity.Tank;
 import com.jr.tankbattle.entity.Tank2;
@@ -39,7 +40,7 @@ public class VsGameScene {
         running = true;
         playerTank = new Tank(400, 500, 60, 60, 2, new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")),this);
         //initSprite();
-        playerTank2 = new Tank2(800, 500, 60, 60, 2, new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")),this);
+        playerTank2 = new Tank2(800, 500, 60, 60, 2, new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankU.gif")),this);
         //initSprite();
         refresh.start();
     }
@@ -60,8 +61,13 @@ public class VsGameScene {
         // 绘制背景
         graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg")), 0,0 );
         // 绘制玩家坦克
-        playerTank.draw2();
-        playerTank2.draw();
+        if(playerTank.isAlive()){
+            playerTank.draw2();
+        }
+        if(playerTank2.isAlive()){
+            playerTank2.draw();
+        }
+
         // 绘制子弹
         for(int i = 0; i < bullets.size(); i++){
             Bullet bullet = bullets.get(i);
@@ -83,6 +89,8 @@ public class VsGameScene {
                 render();  // 每一帧都调用 render() 以刷新游戏界面
                 playerTank.move();
                 playerTank2.move();
+                playerTank.collisionBullet(bullets2);
+                playerTank2.collisionBullet(bullets);
             }
         }
     };
