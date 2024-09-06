@@ -20,18 +20,21 @@ public class LoginScr {
     public void LLogin() {
         String username = txtUid.getText();
         String password = txtPwd.getText();
-
+//
 //        if (username.isEmpty() || password.isEmpty()) {
 //            showAlert(Alert.AlertType.WARNING, "警告", "用户名或密码不能为空");
 //            return;
 //        }
 
         try {
-//            client.login(username, password);
-//             根据登录结果决定跳转
-            Director.getInstance().toHomePage();
+//            boolean loginSuccess = client.login(username, password);
+//            if (loginSuccess) {
+                Director.getInstance().toHomePage();
+//            } else {
+//                showAlert(Alert.AlertType.ERROR, "错误", "登录失败: 用户名或密码错误");
+//            }
         } catch (Exception e) {
-//            showAlert(Alert.AlertType.ERROR, "错误", "登录失败: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "错误", "登录失败: " + e.getMessage());
         }
     }
 

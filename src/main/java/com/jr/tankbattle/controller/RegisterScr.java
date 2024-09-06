@@ -27,11 +27,14 @@ public class RegisterScr {
 //        }
 
         try {
-//            client.register(username, password);
-            // 根据注册结果决定跳转
-            Director.getInstance().toHomePage();
+//            boolean registerSuccess = client.register(username, password);
+//            if (registerSuccess) {
+                Director.getInstance().toHomePage();
+//            } else {
+//                showAlert(Alert.AlertType.ERROR, "错误", "注册失败: 用户名已存在或其他错误");
+//            }
         } catch (Exception e) {
-//            showAlert(Alert.AlertType.ERROR, "错误", "注册失败: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "错误", "注册失败: " + e.getMessage());
         }
     }
 

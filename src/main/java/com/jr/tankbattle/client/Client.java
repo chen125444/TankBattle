@@ -12,19 +12,19 @@ public class Client {
     private static final Gson gson = new Gson();
 
     // 注册请求
-    public void register(String username, String password) throws Exception {
+    public boolean register(String username, String password) throws Exception {
         Message message = new Message("register", username, password);
-        sendMessage(message);
+        return sendMessage(message);
     }
 
     // 登录请求
-    public void login(String username, String password) throws Exception {
+    public boolean login(String username, String password) throws Exception {
         Message message = new Message("login", username, password);
-        sendMessage(message);
+        return sendMessage(message);
     }
 
     // 发送消息并接收响应
-    private void sendMessage(Message message) throws Exception {
+    private boolean sendMessage(Message message) throws Exception {
         DatagramSocket socket = new DatagramSocket();
         InetAddress serverAddress = InetAddress.getByName(SERVER_ADDRESS);
         String jsonMessage = gson.toJson(message);
@@ -40,12 +40,9 @@ public class Client {
 
         // 处理响应
         Message response = gson.fromJson(jsonResponse, Message.class);
-        if ("success".equals(response.status)) {
-            System.out.println("Operation successful: " + response.message);
-        } else {
-            System.out.println("Operation failed: " + response.message);
-        }
-
         socket.close();
+
+        // 根据响应状态返回结果
+        return "success".equals(response.status);
     }
 }
