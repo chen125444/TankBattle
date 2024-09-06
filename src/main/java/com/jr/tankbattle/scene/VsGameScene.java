@@ -63,9 +63,13 @@ public class VsGameScene {
         // 绘制玩家坦克
         if(playerTank.isAlive()){
             playerTank.draw2();
+            playerTank.move();
+            playerTank.collisionBullet(bullets2);
         }
         if(playerTank2.isAlive()){
             playerTank2.draw();
+            playerTank2.move();
+            playerTank2.collisionBullet(bullets);
         }
 
         // 绘制子弹
@@ -87,10 +91,6 @@ public class VsGameScene {
         public void handle(long now) {
             if (running) {
                 render();  // 每一帧都调用 render() 以刷新游戏界面
-                playerTank.move();
-                playerTank2.move();
-                playerTank.collisionBullet(bullets2);
-                playerTank2.collisionBullet(bullets);
             }
         }
     };
