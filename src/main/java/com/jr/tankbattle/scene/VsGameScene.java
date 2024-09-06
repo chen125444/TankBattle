@@ -65,24 +65,24 @@ public class VsGameScene {
             playerTank.draw2();
             playerTank.move();
             playerTank.collisionBullet(bullets2);
+            // 绘制子弹
+            for(int i = 0; i < bullets.size(); i++){
+                Bullet bullet = bullets.get(i);
+                bullet.move();
+                bullet.draw2();
+            }
         }
         if(playerTank2.isAlive()){
             playerTank2.draw();
             playerTank2.move();
             playerTank2.collisionBullet(bullets);
+            for(int i = 0; i < bullets2.size(); i++){
+                Bullet bullet2 = bullets2.get(i);
+                bullet2.move();
+                bullet2.draw2();
+            }
         }
 
-        // 绘制子弹
-        for(int i = 0; i < bullets.size(); i++){
-            Bullet bullet = bullets.get(i);
-            bullet.move();
-            bullet.draw2();
-        }
-        for(int i = 0; i < bullets2.size(); i++){
-            Bullet bullet2 = bullets2.get(i);
-            bullet2.move();
-            bullet2.draw2();
-        }
     }
 
     // 刷新任务（类似游戏主循环）
