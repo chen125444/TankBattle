@@ -22,8 +22,9 @@ public class Setting {
         Director.getInstance().toHomePage();
     }
     @FXML
-    public void Volume(){
-        System.out.println("volume");
+    public void Sound(){
+        System.out.println("sound");
+        Director.getInstance().toSoundSrc();
     }
     @FXML
     public void Account(){

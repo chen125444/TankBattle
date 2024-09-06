@@ -2,6 +2,8 @@ package com.jr.tankbattle;
 
 import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.OnlineGameScene;
+import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Sound;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +19,9 @@ public class Director {
     private static Director instance = new Director();
     private Stage stage;
     private GameScene gameScene = new GameScene();
+    private OnlineGameScene onlineGameScene = new OnlineGameScene();
+    private VsGameScene vsGameScene = new VsGameScene();
+
 
     private Director() {}
 
@@ -35,8 +40,6 @@ public class Director {
         stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/logo.png")));
         stage.setScene(scene);
         stage.show();
-
-        Sound.getInstance().BgmChg(0); //播放bgm
 
         this.stage = stage;
     }
@@ -103,7 +106,7 @@ public class Director {
         }
     }
 
-    public void toGame(){ //跳转游戏界面
+    public void toGameScene(){ //跳转单人游戏界面
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/GameScene.fxml")));
             stage.getScene().setRoot(root);
@@ -114,9 +117,41 @@ public class Director {
         }
     }
 
+    public void toOnlineGameScene(){ //跳转双人游戏界面
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/OnlineGameScene.fxml")));
+            stage.getScene().setRoot(root);
+            onlineGameScene.init(stage);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void toVsGameScene(){ //跳转双人游戏界面
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/VsGameScene.fxml")));
+            stage.getScene().setRoot(root);
+            vsGameScene.init(stage);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void toHelp(){ //跳转游戏帮助界面
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/Help.fxml")));
+            stage.getScene().setRoot(root);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void toSoundSrc(){ //跳转声音界面
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/SoundScr.fxml")));
             stage.getScene().setRoot(root);
         }
         catch (IOException e) {

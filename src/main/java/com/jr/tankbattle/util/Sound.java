@@ -1,5 +1,6 @@
 package com.jr.tankbattle.util;
 
+import javafx.scene.control.Slider;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -21,7 +22,11 @@ public class Sound {
         return instance;
     }
 
-    public int BgmChg(int num) {
+    public MediaPlayer getBgmPlayer() {
+        return bgmPlayer;
+    }
+
+    public void BgmChg(int num) { //bgm切换
         if (num >= 0 && num < soundFiles.length) {
             if(this.num!=num) { //避免切换界面引起同一个bgm重新播放
                 if (bgmPlayer != null && bgmPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
@@ -34,6 +39,5 @@ public class Sound {
                 this.num=num;
             }
         }
-        return 0;
     }
 }

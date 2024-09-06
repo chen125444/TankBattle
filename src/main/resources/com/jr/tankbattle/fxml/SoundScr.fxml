@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.controller.SoundScr">
+   <children>
+      <Label layoutX="343.0" layoutY="178.0" prefHeight="62.0" prefWidth="109.0" text="音量">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="343.0" layoutY="292.0" prefHeight="62.0" prefWidth="109.0" text="背景音乐">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Button layoutX="499.0" layoutY="475.0" mnemonicParsing="false" onAction="#Back" prefHeight="51.0" prefWidth="123.0" text="返回" />
+      <SplitMenuButton fx:id="bgmChg" layoutX="533.0" layoutY="305.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="160.0" text="请选择bgm">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#handleBgmChange" text="bgm1" />
+          <MenuItem mnemonicParsing="false" onAction="#handleBgmChange" text="bgm2" />
+        </items>
+      </SplitMenuButton>
+      <Slider fx:id="volumeChg" layoutX="503.0" layoutY="199.0" prefHeight="21.0" prefWidth="219.0" />
+   </children>
+</AnchorPane>
