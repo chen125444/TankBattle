@@ -2,6 +2,7 @@ package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.VsGameScene;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
@@ -16,6 +17,7 @@ public abstract class AbstractObject {
     private Image image;
     // 界面
     private GameScene gameScene;
+    private VsGameScene vsGameScene;
     // 对象是否存活
     private boolean alive;
 
@@ -29,6 +31,15 @@ public abstract class AbstractObject {
         this.gameScene = gameScene;
         this.alive = true;
     }
+    public AbstractObject(int x, int y, int width, int height, Image image, VsGameScene vsGameScene) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.image = image;
+        this.vsGameScene = vsGameScene;
+        this.alive = true;
+    }
 
     //得到矩形
     public abstract Rectangle getrectangle();
@@ -36,6 +47,9 @@ public abstract class AbstractObject {
     // 构造方法重载，允许不设置图像
     public AbstractObject(int x, int y, int width, int height, GameScene gameScene) {
         this(x, y, width, height,null, gameScene);
+    }
+    public AbstractObject(int x, int y, int width, int height, VsGameScene vsGameScene) {
+        this(x, y, width, height,null, vsGameScene);
     }
 
     // Getter 和 Setter 方法
@@ -77,6 +91,14 @@ public abstract class AbstractObject {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public VsGameScene getVsGameScene() {
+        return vsGameScene;
+    }
+
+    public void setVsGameScene(VsGameScene vsGameScene) {
+        this.vsGameScene = vsGameScene;
     }
 
     public GameScene getGameScene() {

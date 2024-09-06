@@ -2,6 +2,7 @@ package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -13,6 +14,11 @@ public class Bullet extends AbstractObject{
     //构造函数
     public Bullet(int x, int y, int width, int height, Direction direction,int speed, GameScene gameScene) {
         super(x, y, width, height,gameScene);
+        this.speed = speed;
+        this.direction = direction;
+    }
+    public Bullet(int x, int y, int width, int height, Direction direction,int speed, VsGameScene vsGameScene) {
+        super(x, y, width, height,vsGameScene);
         this.speed = speed;
         this.direction = direction;
     }
@@ -33,6 +39,14 @@ public class Bullet extends AbstractObject{
             case DOWN -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenDown.png")), super.getX(), super.getY());
             case LEFT -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenLeft.png")), super.getX(), super.getY());
             case RIGHT -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png")), super.getX(), super.getY());
+        }
+    }
+    public void draw2() {
+        switch (direction){
+            case UP -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenUp.png")), super.getX(), super.getY());
+            case DOWN -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenDown.png")), super.getX(), super.getY());
+            case LEFT -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenLeft.png")), super.getX(), super.getY());
+            case RIGHT -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png")), super.getX(), super.getY());
         }
     }
     // 获取子弹的轮廓
