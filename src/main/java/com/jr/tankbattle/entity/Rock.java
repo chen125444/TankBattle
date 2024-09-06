@@ -11,12 +11,6 @@ public class Rock extends AbstractObject{
         super(x, y, width, height, image, gameScene);
     }
 
-    // 获取石头的轮廓
-    @Override
-    public Rectangle getrectangle() {
-        return new Rectangle(super.getWidth(), super.getHeight());
-    }
-
     // 实现石头的移动逻辑
     @Override
     public void move() {

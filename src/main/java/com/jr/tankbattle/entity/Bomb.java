@@ -11,12 +11,6 @@ public class Bomb extends AbstractObject {
         super(x, y, width, height, image, gameScene);
     }
 
-    // 获取炸弹的轮廓
-    @Override
-    public Rectangle getrectangle() {
-        return new Rectangle(super.getWidth(), super.getHeight());
-    }
-
     // 实现炸弹的移动逻辑
     @Override
     public void move() {

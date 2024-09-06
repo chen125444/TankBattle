@@ -11,11 +11,7 @@ public class Sheild extends AbstractObject{
         super(x, y, width, height, image, gameScene);
     }
 
-    // 获取盾牌的轮廓
-    @Override
-    public Rectangle getrectangle() {
-        return new Rectangle(super.getWidth(), super.getHeight());
-    }
+
 
     // 实现盾牌的移动逻辑
     @Override

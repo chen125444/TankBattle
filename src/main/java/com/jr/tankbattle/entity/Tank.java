@@ -72,11 +72,6 @@ public class Tank extends AbstractObject {
         }
     }
 
-    @Override
-    public Rectangle getrectangle() {
-        return new Rectangle(super.getWidth(), super.getHeight());
-    }
-
     public void pressed(KeyCode keyCode) {
         switch (keyCode) {
             case W:
@@ -121,11 +116,10 @@ public class Tank extends AbstractObject {
         }
     }
 
-    @Override
     public boolean checkCollision(AbstractObject other) {
         // 实现坦克与其他对象的碰撞检测逻辑
-        return Math.abs(super.getX() - other.getX()) < Math.min(super.getWidth(), other.getWidth()) ||
-                Math.abs(super.getY() - other.getY()) < Math.min(super.getHeight(), other.getHeight());
+        return getRectangle().intersects(other.getRectangle());
+
     }
 
     public Direction getDirection() {

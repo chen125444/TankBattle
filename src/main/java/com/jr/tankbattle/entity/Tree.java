@@ -11,11 +11,6 @@ public class Tree extends AbstractObject{
         super(x, y, width, height, image, gameScene);
     }
 
-    // 获取树丛的轮廓
-    @Override
-    public Rectangle getrectangle() {
-        return new Rectangle(super.getWidth(), super.getHeight());
-    }
 
     // 实现树丛的移动逻辑
     @Override

@@ -52,11 +52,6 @@ public class Tank2 extends AbstractObject {
         }
     }
 
-    @Override
-    public Rectangle getrectangle() {
-        return new Rectangle(super.getWidth(), super.getHeight());
-    }
-
     public void pressed(KeyCode keyCode) {
         switch (keyCode) {
             case UP:

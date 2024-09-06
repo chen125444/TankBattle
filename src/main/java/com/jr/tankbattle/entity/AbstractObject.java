@@ -3,6 +3,7 @@ package com.jr.tankbattle.entity;
 import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.VsGameScene;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
@@ -42,7 +43,10 @@ public abstract class AbstractObject {
     }
 
     //得到矩形
-    public abstract Rectangle getrectangle();
+    public Rectangle2D getRectangle(){
+        return new Rectangle2D(x, y, width, height);
+    }
+
 
     // 构造方法重载，允许不设置图像
     public AbstractObject(int x, int y, int width, int height, GameScene gameScene) {

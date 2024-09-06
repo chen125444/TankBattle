@@ -49,11 +49,7 @@ public class Bullet extends AbstractObject{
             case RIGHT -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png")), super.getX(), super.getY());
         }
     }
-    // 获取子弹的轮廓
-    @Override
-    public Rectangle getrectangle() {
-        return new Rectangle(super.getWidth(),super.getHeight());
-    }
+
     // 实现子弹与其他对象的碰撞检测逻辑
     @Override
     public boolean checkCollision(AbstractObject other) {

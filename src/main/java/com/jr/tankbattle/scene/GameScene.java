@@ -1,6 +1,7 @@
 package com.jr.tankbattle.scene;
 
 import com.jr.tankbattle.Director;
+import com.jr.tankbattle.entity.AiTank;
 import com.jr.tankbattle.entity.Bullet;
 import javafx.fxml.FXML;
 import com.jr.tankbattle.entity.Tank;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class GameScene {
@@ -29,7 +31,7 @@ public class GameScene {
     private boolean running = false;
     private Tank playerTank;
     public List<Bullet> bullets = new ArrayList<>();
-
+    public List<AiTank> aiTanks = new ArrayList<>();
     //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
 
 
@@ -40,7 +42,15 @@ public class GameScene {
         stage.getScene().setOnKeyReleased(this::handleKeyReleased);
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
         running = true;
+        //产生玩家坦克
         playerTank = new Tank(400, 500, 60, 60, 2, new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")),this);
+        //产生人机坦克
+        for(int i=0;i<5;i++){
+            Random random = new Random();
+            int randomX = random.nextInt(60);
+            AiTank aiTank = new AiTank(randomX+150*i,randomX+120*i,60,60,2,new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankL.gif")),this);
+            aiTanks.add(aiTank);
+        }
         //initSprite();
         refresh.start();
     }
@@ -66,6 +76,14 @@ public class GameScene {
             bullet.move();
             bullet.draw();
         }
+        // 绘制人机坦克
+        for(int i = 0; i < aiTanks.size(); i++){
+            AiTank aiTank = aiTanks.get(i);
+            aiTank.move();
+            aiTank.draw();
+            aiTank.collisionBullet(bullets);
+            //aiTank.collisionOther(playerTank);
+        }
     }
 
     // 刷新任务（类似游戏主循环）
@@ -74,6 +92,20 @@ public class GameScene {
         public void handle(long now) {
             if (running) {
                 render();  // 每一帧都调用 render() 以刷新游戏界面
+                //更新人机坦克
+                for(int i = 0; i < aiTanks.size(); i++){
+                    AiTank aiTank = aiTanks.get(i);
+                    if(!aiTank.isAlive()){
+                        aiTanks.remove(i);
+                    }
+                }
+//                //更新子弹
+//                for(int i = 0; i < bullets.size(); i++){
+//                    Bullet bullet = bullets.get(i);
+//                    if(!bullet.isAlive()){
+//                        bullets.remove(i);
+//                    }
+//                }
                 playerTank.move();
             }
         }
