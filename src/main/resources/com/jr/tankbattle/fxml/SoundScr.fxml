@@ -22,8 +22,11 @@
       <Button layoutX="499.0" layoutY="475.0" mnemonicParsing="false" onAction="#Back" prefHeight="51.0" prefWidth="123.0" text="返回" />
       <SplitMenuButton fx:id="bgmChg" layoutX="533.0" layoutY="305.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="160.0" text="请选择bgm">
         <items>
-          <MenuItem mnemonicParsing="false" onAction="#handleBgmChange" text="bgm1" />
+          <MenuItem mnemonicParsing="false" onAction="#handleBgmChange" text="bgm1       " />
           <MenuItem mnemonicParsing="false" onAction="#handleBgmChange" text="bgm2" />
+          <MenuItem mnemonicParsing="false" onAction="#handleBgmChange" text="bgm3" />
+          <MenuItem mnemonicParsing="false" onAction="#handleBgmChange" text="bgm4" />
+          <MenuItem mnemonicParsing="false" onAction="#handleBgmChange" text="bgm5" />
         </items>
       </SplitMenuButton>
       <Slider fx:id="volumeChg" layoutX="503.0" layoutY="199.0" prefHeight="21.0" prefWidth="219.0" />

@@ -13,19 +13,19 @@ public class HomePage {
     public void Single(){
         status = 1;
         System.out.println("single mode");
-        Director.getInstance().toGameScene();
+        GameDlg.getInstance().Show("single");
     }
     @FXML
     public void Double(){
         status = 2;
         System.out.println("double mode");
-        Director.getInstance().toVsGameScene();
+        GameDlg.getInstance().Show("double");
     }
     @FXML
     public void Match(){
         status = 3;
         System.out.println("match mode");
-        Director.getInstance().toOnlineGameScene();
+        GameDlg.getInstance().Show("match");
     }
     //设置功能
     @FXML

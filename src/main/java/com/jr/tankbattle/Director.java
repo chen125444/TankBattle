@@ -1,5 +1,6 @@
 package com.jr.tankbattle;
 
+import com.jr.tankbattle.controller.SoundScr;
 import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.OnlineGameScene;
@@ -38,6 +39,7 @@ public class Director {
         Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
         stage.setTitle("TankBattle");
         stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/logo.png")));
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
 
@@ -83,7 +85,9 @@ public class Director {
             e.printStackTrace();
         }
 
-        Sound.getInstance().BgmChg(1);//播放bgm
+        if(Sound.getInstance().getBgmName()==null) { //第一次载入时播放默认bgm
+            Sound.getInstance().BgmChg(0);//播放bgm
+        }
     }
 
     public void toSetting(){ //跳转设置界面
@@ -151,7 +155,13 @@ public class Director {
 
     public void toSoundSrc(){ //跳转声音界面
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/SoundScr.fxml")));
+            //Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/SoundScr.fxml")));
+
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/com/jr/tankbattle/fxml/SoundScr.fxml"));
+            Parent root = loader.load();
+            SoundScr scr = loader.getController();
+            scr.UpdateBgmText();
+
             stage.getScene().setRoot(root);
         }
         catch (IOException e) {
