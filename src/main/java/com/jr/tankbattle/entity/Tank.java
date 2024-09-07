@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.jr.tankbattle.controller.HomePage.status;
@@ -18,6 +19,7 @@ public class Tank extends AbstractObject {
     private int height;
     //坦克速度
     private int speed;
+    private List<Direction> directions = new ArrayList<>();
 
     public Tank(int x, int y, int width, int height, int speed, Image image, GameScene gameScene) {
         super(x, y, width, height, image, gameScene);
@@ -35,17 +37,16 @@ public class Tank extends AbstractObject {
     @Override
     public void move() {
         // 实现坦克的移动逻辑
-        if (!moving) {
+        if (!moving||directions.contains(direction)) {
             return;
 
         }
-        switch (direction) {
-            case UP -> setY(getY() - speed);
-            case DOWN -> setY(getY() + speed);
-            case RIGHT -> setX(getX() + speed);
-            case LEFT -> setX(getX() - speed);
+            switch (direction) {
+                case UP -> setY(getY() - speed);
+                case DOWN -> setY(getY() + speed);
+                case RIGHT -> setX(getX() + speed);
+                case LEFT -> setX(getX() - speed);
         }
-
     }
 
     public void draw() {
@@ -128,8 +129,30 @@ public class Tank extends AbstractObject {
             Bullet bullet = bullets.get(i);
             if(checkCollision(bullet)) {
                 setAlive(false);
-                bullets.remove(i);
+                bullet.setAlive(false);
             }
+        }
+    }
+    public void collisionPlayer(List<AiTank> aiTanks) {
+        // 实现玩家与Ai坦克的碰撞检测逻辑
+        for(int i = 0; i < aiTanks.size(); i++) {
+            AiTank aiTank = aiTanks.get(i);
+            if(checkCollision(aiTank)) {
+                directions.add(direction);
+                switch (direction) {
+                    case UP -> setY(getY() + speed);
+                    case DOWN -> setY(getY() - speed);
+                    case LEFT -> setX(getX() + speed);
+                    case RIGHT -> setX(getX() - speed);
+                    }
+                switch (aiTank.getDirection()) {
+                    case UP -> setY(getY() - speed);
+                    case DOWN -> setY(getY() + speed);
+                    case LEFT -> setX(getX() - speed);
+                    case RIGHT -> setX(getX() + speed);
+                }
+                }
+            else directions.remove(direction);
         }
     }
 
@@ -139,6 +162,14 @@ public class Tank extends AbstractObject {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public void openFire() {

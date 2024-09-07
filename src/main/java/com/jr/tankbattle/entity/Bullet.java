@@ -26,6 +26,19 @@ public class Bullet extends AbstractObject{
     // 实现子弹的移动逻辑
     @Override
     public void move() {
+        //边界检测
+        if(getX()<=0){
+            setAlive(false);
+        }
+        if(getY()<=0) {
+            setAlive(false);
+        }
+        if(getX()>=1020){
+            setAlive(false);
+        }
+        if(getY()>=660) {
+            setAlive(false);
+        }
         switch (direction){
             case UP -> setY(getY() - speed);
             case DOWN -> setY(getY() + speed);

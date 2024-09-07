@@ -3,6 +3,7 @@ package com.jr.tankbattle.scene;
 import com.jr.tankbattle.Director;
 import com.jr.tankbattle.entity.AiTank;
 import com.jr.tankbattle.entity.Bullet;
+import com.jr.tankbattle.entity.Tree;
 import javafx.fxml.FXML;
 import com.jr.tankbattle.entity.Tank;
 import com.jr.tankbattle.util.Direction;
@@ -32,6 +33,7 @@ public class GameScene {
     private Tank playerTank;
     public List<Bullet> bullets = new ArrayList<>();
     public List<AiTank> aiTanks = new ArrayList<>();
+    public List<Tree> trees = new ArrayList<>();
     //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
 
 
@@ -51,6 +53,14 @@ public class GameScene {
             AiTank aiTank = new AiTank(randomX+150*i,randomX+120*i,60,60,2,new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankL.gif")),this);
             aiTanks.add(aiTank);
         }
+        //产生树丛
+        for(int i=0;i<20;i++){
+            Random random = new Random();
+            int randomX = random.nextInt(1024);
+            int randomY = random.nextInt(720);
+            Tree tree = new Tree(randomX,randomY,60,60,2,new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/grass.png")),this);
+            trees.add(tree);
+        }
         //initSprite();
         refresh.start();
     }
@@ -69,20 +79,53 @@ public class GameScene {
         // 绘制背景
         graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg")), 0,0 );
         // 绘制玩家坦克
-        playerTank.draw();
+        if(playerTank.isAlive()){
+            playerTank.collisionBullet(bullets);
+            playerTank.collisionPlayer(aiTanks);
+            playerTank.move();
+            playerTank.draw();
+        }
+        //更新子弹
+        for(int i = 0; i < bullets.size(); i++){
+            Bullet bullet = bullets.get(i);
+            if(!bullet.isAlive()){
+                bullets.remove(i);
+            }
+        }
         // 绘制子弹
         for(int i = 0; i < bullets.size(); i++){
             Bullet bullet = bullets.get(i);
             bullet.move();
             bullet.draw();
         }
+        //更新人机坦克
+        for(int i = 0; i < aiTanks.size(); i++){
+            AiTank aiTank = aiTanks.get(i);
+            aiTank.collisionBullet(bullets);
+            if(!aiTank.isAlive()){
+                aiTanks.remove(i);
+            }
+        }
         // 绘制人机坦克
         for(int i = 0; i < aiTanks.size(); i++){
             AiTank aiTank = aiTanks.get(i);
+            aiTank.collisionTank(playerTank);
+            aiTank.collisionAi(aiTanks);
             aiTank.move();
             aiTank.draw();
-            aiTank.collisionBullet(bullets);
-            //aiTank.collisionOther(playerTank);
+        }
+        //更新树丛
+        for(int i = 0; i < trees.size(); i++){
+            Tree tree = trees.get(i);
+            if(!tree.isAlive()){
+                trees.remove(i);
+            }
+        }
+        //绘制树丛
+        for(int i = 0; i < trees.size(); i++){
+            Tree tree = trees.get(i);
+            //tree.
+            tree.draw();
         }
     }
 
@@ -92,21 +135,6 @@ public class GameScene {
         public void handle(long now) {
             if (running) {
                 render();  // 每一帧都调用 render() 以刷新游戏界面
-                //更新人机坦克
-                for(int i = 0; i < aiTanks.size(); i++){
-                    AiTank aiTank = aiTanks.get(i);
-                    if(!aiTank.isAlive()){
-                        aiTanks.remove(i);
-                    }
-                }
-//                //更新子弹
-//                for(int i = 0; i < bullets.size(); i++){
-//                    Bullet bullet = bullets.get(i);
-//                    if(!bullet.isAlive()){
-//                        bullets.remove(i);
-//                    }
-//                }
-                playerTank.move();
             }
         }
     };

@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -16,6 +17,7 @@ public class AiTank extends AbstractObject{
     private int height;
     //坦克速度
     private int speed;
+    private List<Direction> directions = new ArrayList<>();
 
     public AiTank(int x, int y, int width, int height, int speed, Image image, GameScene gameScene) {
         super(x, y, width, height, image, gameScene);
@@ -26,7 +28,7 @@ public class AiTank extends AbstractObject{
 
     @Override
     public void move() {
-        if(!moving) {
+        if(!moving||directions.contains(direction)) {
             return;
         }
         //边界检测
@@ -44,7 +46,7 @@ public class AiTank extends AbstractObject{
         }
         // 实现AI坦克的移动逻辑
         Random rand = new Random();
-        int randomX = rand.nextInt(1000);
+        int randomX = rand.nextInt(100);
         switch (randomX) {
             case 1 -> direction = Direction.RIGHT;
             case 2 -> direction = Direction.LEFT;
@@ -82,6 +84,25 @@ public class AiTank extends AbstractObject{
         return getRectangle().intersects(other.getRectangle());
     }
 
+    public void collisionTank(Tank tank) {
+        // 实现Ai坦克与玩家坦克的碰撞检测逻辑
+            if(checkCollision(tank)) {
+                directions.add(direction);
+                switch (direction) {
+                    case UP -> setY(getY() + speed);
+                    case DOWN -> setY(getY() - speed);
+                    case LEFT -> setX(getX() + speed);
+                    case RIGHT -> setX(getX() - speed);
+                }
+                switch (tank.getDirection()) {
+                    case UP -> setY(getY() - speed);
+                    case DOWN -> setY(getY() + speed);
+                    case LEFT -> setX(getX() - speed);
+                    case RIGHT -> setX(getX() + speed);
+                }
+            }
+            else directions.remove(direction);
+    }
 
     public void collisionBullet(List<Bullet> bullets) {
         // 实现坦克与子弹的碰撞检测逻辑
@@ -89,11 +110,34 @@ public class AiTank extends AbstractObject{
             Bullet bullet = bullets.get(i);
             if(checkCollision(bullet)) {
                setAlive(false);
-               bullets.remove(i);
+               bullet.setAlive(false);
             }
         }
     }
 
+    public void collisionAi(List<AiTank> aiTanks) {
+        // 实现坦克之间的碰撞检测逻辑
+        for (int i = 0; i < aiTanks.size(); i++) {
+            AiTank aiTank = aiTanks.get(i);
+            if (aiTank != this) {
+                if (checkCollision(aiTank)) {
+                    directions.add(direction);
+                    switch (direction) {
+                        case UP -> setY(getY() + speed);
+                        case DOWN -> setY(getY() - speed);
+                        case LEFT -> setX(getX() + speed);
+                        case RIGHT -> setX(getX() - speed);
+                    }
+                    switch (aiTank.getDirection()) {
+                        case UP -> setY(getY() - speed);
+                        case DOWN -> setY(getY() + speed);
+                        case LEFT -> setX(getX() - speed);
+                        case RIGHT -> setX(getX() + speed);
+                    }
+                } else directions.remove(direction);
+            }
+        }
+    }
     public void openFire() {
         switch (direction) {
             case UP:
@@ -124,22 +168,5 @@ public Direction getDirection() {
 
 public void setDirection(Direction direction) {
     this.direction = direction;
-}
-
-public void changeDirection(Direction direction) {
-        switch (direction) {
-            case UP :
-                direction = Direction.RIGHT;
-                break;
-            case DOWN :
-                direction = Direction.LEFT;
-                break;
-            case LEFT :
-                direction = Direction.UP;
-                break;
-            case RIGHT :
-                direction = Direction.DOWN;
-                break;
-        }
 }
 }
