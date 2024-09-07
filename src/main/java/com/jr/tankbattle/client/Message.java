@@ -27,6 +27,12 @@ public class Message {
         this.password = password;
     }
 
+    // 设置注销请求
+    public void setLogoutRequest(String username) {
+        this.type = "logout";
+        this.username = username;
+    }
+
     // 设置房间管理请求（如创建房间或加入房间）
     public void setRoomRequest(String type, String roomId) {
         this.type = type;

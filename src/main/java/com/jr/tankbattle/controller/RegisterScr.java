@@ -30,7 +30,7 @@ public class RegisterScr {
 //            boolean registerSuccess = client.register(username, password);
 //            if (registerSuccess) {
             Account.setInfo(username, password);
-            Director.getInstance().toHomePage();
+            Director.getInstance().toLoginScr();//注册成功后跳转至登录页面进行登录
 //            } else {
 //                showAlert(Alert.AlertType.ERROR, "错误", "注册失败: 用户名已存在或其他错误");
 //            }

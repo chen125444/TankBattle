@@ -27,6 +27,13 @@ public class Client {
         return sendMessage(message);
     }
 
+    //登出
+    public boolean logout(String username) throws Exception {
+        Message message = new Message();
+        message.setLogoutRequest(username);
+        return sendMessage(message);
+    }
+
     // 获取在线玩家列表
     public List<String> getOnlinePlayers() throws Exception {
         Message message = new Message();
