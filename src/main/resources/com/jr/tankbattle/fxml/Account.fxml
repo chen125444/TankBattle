@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -14,11 +11,13 @@
             <Font size="25.0" />
          </font>
       </Label>
+      <Label fx:id="uidLabel" layoutX="440.0" layoutY="198.0" prefHeight="58.0" prefWidth="200.0" text=""/>
       <Label layoutX="327.0" layoutY="282.0" prefHeight="58.0" prefWidth="99.0" text="密码">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
+      <Label fx:id="passwordLabel" layoutX="440.0" layoutY="282.0" prefHeight="58.0" prefWidth="200.0" text=""/>
       <Button layoutX="499.0" layoutY="482.0" mnemonicParsing="false" onAction="#Back" prefHeight="51.0" prefWidth="123.0" text="返回" />
    </children>
 </AnchorPane>

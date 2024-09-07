@@ -29,7 +29,8 @@ public class RegisterScr {
         try {
 //            boolean registerSuccess = client.register(username, password);
 //            if (registerSuccess) {
-                Director.getInstance().toHomePage();
+            Account.setInfo(username, password);
+            Director.getInstance().toHomePage();
 //            } else {
 //                showAlert(Alert.AlertType.ERROR, "错误", "注册失败: 用户名已存在或其他错误");
 //            }

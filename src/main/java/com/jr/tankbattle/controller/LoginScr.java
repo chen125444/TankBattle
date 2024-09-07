@@ -29,7 +29,8 @@ public class LoginScr {
         try {
 //            boolean loginSuccess = client.login(username, password);
 //            if (loginSuccess) {
-                Director.getInstance().toHomePage();
+            Account.setInfo(username, password);
+            Director.getInstance().toHomePage();
 //            } else {
 //                showAlert(Alert.AlertType.ERROR, "错误", "登录失败: 用户名或密码错误");
 //            }
