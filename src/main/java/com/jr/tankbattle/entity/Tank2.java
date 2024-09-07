@@ -17,9 +17,13 @@ public class Tank2 extends AbstractObject {
     private int height;
     //坦克速度
     private int speed;
+    private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankD.gif"));
+    private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankL.gif"));
+    private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankR.gif"));
 
-    public Tank2(int x, int y, int width, int height, int speed, Image image, VsGameScene vsGameScene) {
-        super(x, y, width, height, image, vsGameScene);
+    public Tank2(int x, int y, int width, int height, int speed, VsGameScene vsGameScene) {
+        super(x, y, width, height, vsGameScene);
+        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankU.gif")));
         this.speed = speed;
         this.width = width;
         this.height = height;
@@ -46,11 +50,11 @@ public class Tank2 extends AbstractObject {
         switch (direction) {
             case UP -> getVsGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
             case DOWN ->
-                    getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankD.gif")), super.getX(), super.getY());
+                    getVsGameScene().getGraphicsContext().drawImage(getDownImage(), super.getX(), super.getY());
             case LEFT ->
-                    getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankL.gif")), super.getX(), super.getY());
+                    getVsGameScene().getGraphicsContext().drawImage(getLeftImage(), super.getX(), super.getY());
             case RIGHT ->
-                    getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankR.gif")), super.getX(), super.getY());
+                    getVsGameScene().getGraphicsContext().drawImage(getRightImage(), super.getX(), super.getY());
         }
     }
 
@@ -95,7 +99,10 @@ public class Tank2 extends AbstractObject {
 
     public boolean checkCollision(AbstractObject other) {
         // 实现坦克与其他对象的碰撞检测逻辑
-        return getRectangle().intersects(other.getRectangle());
+        if(other.isAlive()){
+            return getRectangle().intersects(other.getRectangle());
+        }
+        return false;
     }
     public void collisionBullet(List<Bullet> bullets) {
         // 实现坦克与子弹的碰撞检测逻辑
@@ -114,6 +121,18 @@ public class Tank2 extends AbstractObject {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public Image getDownImage() {
+        return downImage;
+    }
+
+    public Image getLeftImage() {
+        return leftImage;
+    }
+
+    public Image getRightImage() {
+        return rightImage;
     }
 
     public void openFire() {

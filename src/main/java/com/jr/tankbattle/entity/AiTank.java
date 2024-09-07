@@ -17,10 +17,15 @@ public class AiTank extends AbstractObject{
     private int height;
     //坦克速度
     private int speed;
+    private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankD.gif"));
+    private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankL.gif"));
+    private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankR.gif"));
+
     private List<Direction> directions = new ArrayList<>();
 
-    public AiTank(int x, int y, int width, int height, int speed, Image image, GameScene gameScene) {
-        super(x, y, width, height, image, gameScene);
+    public AiTank(int x, int y, int width, int height, int speed, GameScene gameScene) {
+        super(x, y, width, height, gameScene);
+        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankU.gif")));
         this.speed = 2;
         this.width = 60;
         this.height = 60;
@@ -68,13 +73,13 @@ public class AiTank extends AbstractObject{
     public void draw() {
         // 实现坦克的绘制逻辑
         switch (direction) {
-            case UP -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankU.gif")), super.getX(), super.getY());
+            case UP -> getGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
             case DOWN ->
-                    getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankD.gif")), super.getX(), super.getY());
+                    getGameScene().getGraphicsContext().drawImage(getDownImage(), super.getX(), super.getY());
             case LEFT ->
-                    getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankL.gif")), super.getX(), super.getY());
+                    getGameScene().getGraphicsContext().drawImage(getLeftImage(), super.getX(), super.getY());
             case RIGHT ->
-                    getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankR.gif")), super.getX(), super.getY());
+                    getGameScene().getGraphicsContext().drawImage(getRightImage(), super.getX(), super.getY());
         }
     }
 
@@ -162,11 +167,23 @@ public class AiTank extends AbstractObject{
         }
     }
 
-public Direction getDirection() {
-    return direction;
-}
+    public Direction getDirection() {
+        return direction;
+    }
 
-public void setDirection(Direction direction) {
-    this.direction = direction;
-}
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public Image getLeftImage() {
+        return leftImage;
+    }
+
+    public Image getRightImage() {
+        return rightImage;
+    }
+
+    public Image getDownImage() {
+        return downImage;
+    }
 }

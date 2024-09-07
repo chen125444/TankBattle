@@ -48,27 +48,30 @@ public class Bullet extends AbstractObject{
     }
     // 实现子弹的绘制逻辑
     public void draw() {
-        switch (direction){
-            case UP -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenUp.png")), super.getX(), super.getY());
-            case DOWN -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenDown.png")), super.getX(), super.getY());
-            case LEFT -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenLeft.png")), super.getX(), super.getY());
-            case RIGHT -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png")), super.getX(), super.getY());
+        if(isAlive()){
+            switch (direction){
+                case UP -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenUp.png")), super.getX(), super.getY());
+                case DOWN -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenDown.png")), super.getX(), super.getY());
+                case LEFT -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenLeft.png")), super.getX(), super.getY());
+                case RIGHT -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png")), super.getX(), super.getY());
+            }
         }
     }
     public void draw2() {
-        switch (direction){
-            case UP -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenUp.png")), super.getX(), super.getY());
-            case DOWN -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenDown.png")), super.getX(), super.getY());
-            case LEFT -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenLeft.png")), super.getX(), super.getY());
-            case RIGHT -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png")), super.getX(), super.getY());
+        if(isAlive()){
+            switch (direction){
+                case UP -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenUp.png")), super.getX(), super.getY());
+                case DOWN -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenDown.png")), super.getX(), super.getY());
+                case LEFT -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenLeft.png")), super.getX(), super.getY());
+                case RIGHT -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png")), super.getX(), super.getY());
+            }
         }
     }
 
     // 实现子弹与其他对象的碰撞检测逻辑
     @Override
     public boolean checkCollision(AbstractObject other) {
-        return Math.abs(super.getX() - other.getX()) < Math.min(super.getWidth(), other.getWidth()) ||
-                Math.abs(super.getY() - other.getY()) < Math.min(super.getHeight(), other.getHeight());
+        return getRectangle().intersects(other.getRectangle());
     }
     // 获取子弹的方向
     public Direction getDirection() {

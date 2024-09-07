@@ -45,12 +45,12 @@ public class GameScene {
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
         running = true;
         //产生玩家坦克
-        playerTank = new Tank(400, 500, 60, 60, 2, new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")),this);
+        playerTank = new Tank(400, 500, 60, 60, 2, this);
         //产生人机坦克
         for(int i=0;i<5;i++){
             Random random = new Random();
             int randomX = random.nextInt(60);
-            AiTank aiTank = new AiTank(randomX+150*i,randomX+120*i,60,60,2,new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankL.gif")),this);
+            AiTank aiTank = new AiTank(randomX+150*i,randomX+120*i,60,60,2,this);
             aiTanks.add(aiTank);
         }
         //产生树丛
@@ -58,7 +58,7 @@ public class GameScene {
             Random random = new Random();
             int randomX = random.nextInt(1024);
             int randomY = random.nextInt(720);
-            Tree tree = new Tree(randomX,randomY,60,60,2,new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/grass.png")),this);
+            Tree tree = new Tree(randomX,randomY,60,60,this);
             trees.add(tree);
         }
         //initSprite();

@@ -1,9 +1,6 @@
 package com.jr.tankbattle.scene;
 
-import com.jr.tankbattle.entity.AiTank;
-import com.jr.tankbattle.entity.Bullet;
-import com.jr.tankbattle.entity.Tank;
-import com.jr.tankbattle.entity.Tank2;
+import com.jr.tankbattle.entity.*;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -15,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class VsGameScene {
     @FXML
@@ -27,6 +25,7 @@ public class VsGameScene {
     private Tank2 playerTank2;
     public List<Bullet> bullets = new ArrayList<>();
     public List<Bullet> bullets2 = new ArrayList<>();
+    public List<Tree> trees = new ArrayList<>();
 
     //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
 
@@ -38,9 +37,17 @@ public class VsGameScene {
         stage.getScene().setOnKeyReleased(this::handleKeyReleased);
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
         running = true;
-        playerTank = new Tank(400, 500, 60, 60, 2, new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")),this);
+        playerTank = new Tank(400, 500, 60, 60, 2, this);
         //initSprite();
-        playerTank2 = new Tank2(800, 500, 60, 60, 2, new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankU.gif")),this);
+        playerTank2 = new Tank2(800, 500, 60, 60, 2,this);
+        //产生树丛
+        for(int i=0;i<20;i++){
+            Random random = new Random();
+            int randomX = random.nextInt(1024);
+            int randomY = random.nextInt(720);
+            Tree tree = new Tree(randomX,randomY,60,60,this);
+            trees.add(tree);
+        }
         //initSprite();
         refresh.start();
     }
@@ -81,6 +88,20 @@ public class VsGameScene {
                 bullet2.move();
                 bullet2.draw2();
             }
+        }
+        //更新树丛
+        for(int i = 0; i < trees.size(); i++){
+            Tree tree = trees.get(i);
+            tree.collisionBullet(bullets);
+            tree.collisionBullet(bullets2);
+            if(!tree.isAlive()){
+                trees.remove(i);
+            }
+        }
+        //绘制树丛
+        for(int i = 0; i < trees.size(); i++){
+            Tree tree = trees.get(i);
+            tree.draw2();
         }
 
     }
