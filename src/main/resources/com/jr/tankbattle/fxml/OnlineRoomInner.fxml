@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.scene.OnlineRoomInner">
+    <children>
+        <!-- Room Status Label -->
+        <Label fx:id="lblRoomStatus" layoutX="20.0" layoutY="20.0" text="Room Status: Waiting for players">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+
+        <!-- Players List View -->
+        <ListView fx:id="lvPlayers" layoutX="20.0" layoutY="60.0" prefWidth="300.0" prefHeight="400.0" />
+
+        <!-- Ready Button -->
+        <Button fx:id="btnReady" layoutX="340.0" layoutY="60.0" text="Ready" onAction="#markReady" prefWidth="120.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+
+        <!-- Start Game Button -->
+        <Button fx:id="btnStartGame" layoutX="340.0" layoutY="120.0" text="Start Game" onAction="#startGame" prefWidth="120.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

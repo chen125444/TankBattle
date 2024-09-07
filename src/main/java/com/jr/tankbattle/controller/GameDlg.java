@@ -117,7 +117,7 @@ public class GameDlg extends Dialog {
                     Optional<ButtonType> result = showAndWait();
 
                     if (result.get() == ensureButton) {
-                        Director.getInstance().toOnlineGameScene();
+                        Director.getInstance().toOnlineRoom();
                     }
                     else {
                         hide();

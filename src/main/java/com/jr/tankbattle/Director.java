@@ -4,6 +4,7 @@ import com.jr.tankbattle.controller.SoundScr;
 import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.OnlineGameScene;
+import com.jr.tankbattle.scene.OnlineRoomInner;
 import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Sound;
 import javafx.fxml.FXMLLoader;
@@ -121,11 +122,26 @@ public class Director {
         }
     }
 
-    public void toOnlineGameScene(){ //跳转双人游戏界面
+    public void toOnlineRoom(){ //跳转双人游戏界面
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/OnlineGameScene.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/OnlineRoom.fxml")));
             stage.getScene().setRoot(root);
-            onlineGameScene.init(stage);
+//            onlineGameScene.init(stage);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void toOnlineRoomInner(String roomID){ //跳转双人游戏界面
+        try {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/OnlineRoomInner.fxml")));
+            Parent root = loader.load();
+
+            OnlineRoomInner controller = loader.getController();
+            controller.setRoomId(roomID); // 将 roomId 传递给 OnlineRoomInner 控制器
+
+            stage.getScene().setRoot(root);
         }
         catch (IOException e) {
             e.printStackTrace();

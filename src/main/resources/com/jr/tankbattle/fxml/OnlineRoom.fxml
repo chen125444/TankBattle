@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.scene.OnlineRoom">
+    <children>
+        <!-- Server Status Label -->
+        <Label fx:id="lblServerStatus" layoutX="20.0" layoutY="20.0" text="Server Status: Offline">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+
+        <!-- Room Status Label -->
+        <Label fx:id="lblRoomStatus" layoutX="20.0" layoutY="60.0" text="Room Status: Not in a room">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+
+        <!-- Players List View -->
+        <ListView fx:id="lvPlayers" layoutX="20.0" layoutY="100.0" prefWidth="300.0" prefHeight="400.0" />
+
+        <!-- Room ID Text Field -->
+        <TextField fx:id="txtRoomId" layoutX="340.0" layoutY="100.0" promptText="Enter Room ID" prefWidth="200.0" />
+
+        <!-- Create Room Button -->
+        <Button fx:id="btnCreateRoom" layoutX="560.0" layoutY="100.0" text="Create Room" onAction="#createRoom" prefWidth="120.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+
+        <!-- Join Room Button -->
+        <Button fx:id="btnJoinRoom" layoutX="560.0" layoutY="160.0" text="Join Room" onAction="#joinRoom" prefWidth="120.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+
+        <!-- Back to Home Button -->
+        <Button fx:id="btnBackToHome" layoutX="560.0" layoutY="220.0" text="Back to Home" onAction="#backToHome" prefWidth="120.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>
