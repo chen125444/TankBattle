@@ -168,7 +168,7 @@ public class GameDlg extends Dialog<ButtonType> {
             } else if ("double".equals(type)) {
                 Director.getInstance().toVsGameScene();
             } else if ("match".equals(type)) {
-                Director.getInstance().toOnlineGameScene();
+                Director.getInstance().toOnlineRoom();
             }
             setResult(ButtonType.OK); // 手动设置结果并关闭对话框
             close(); // 关闭窗口
