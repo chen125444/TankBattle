@@ -1,129 +1,186 @@
+/*
 package com.jr.tankbattle.controller;
 
 import com.jr.tankbattle.Director;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.text.FontWeight;
+import javafx.scene.layout.VBox;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.Optional;
 
-import static java.awt.Font.*;
-import static javax.swing.text.StyleConstants.setIcon;
-
 public class GameDlg extends Dialog {
-    private static GameDlg instance=new GameDlg();
+    private static GameDlg instance = new GameDlg();
+
     public static GameDlg getInstance() {
         return instance;
     }
 
     ButtonType ensureButton;
     ButtonType cancelButton;
+    VBox vBox;
+    Label label;
 
-    public GameDlg(){
+    public GameDlg() {
         setTitle("TankBattle");
         Image icon = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/logo.png"));
-        //setIcon(icon);
 
-        VBox vBox = new VBox(10);
-        vBox.setPrefWidth(300); // 设置首选宽度
-        vBox.setPrefHeight(50); // 设置首选高度
-        // 创建一个Label来显示文本
-        Label label = new Label("点击确定开始游戏，否则游戏将不会开始。");
-        // 将Label添加到VBox中
+        vBox = new VBox(10);
+        vBox.setPrefWidth(300);
+        vBox.setPrefHeight(200);
+        vBox.setAlignment(Pos.CENTER); // 设置居中对齐
+
+        // 创建Label并设置文本大小和粗细
+        label = new Label();
+        label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); // 设置字体大小和粗细
+
         vBox.getChildren().add(label);
         getDialogPane().setContent(vBox);
-
-        /* 创建DialogPane
-        DialogPane dialogPane = getDialogPane();
-        // 创建一个VBox来放置内容
-        VBox vBox = new VBox(10);
-        vBox.setPrefWidth(300);
-        vBox.setPrefHeight(100);
-        // 创建一个Label来显示文本
-        Label label = new Label("点击确定开始游戏，否则游戏将不会开始。");
-        // 将Label添加到VBox中
-        vBox.getChildren().add(label);
-        // 创建一个StackPane来设置背景图像
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().add(vBox); // 将VBox添加到StackPane中
-        // 设置背景图像
-        Image image = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/logo.png")); // 替换为你的图片路径
-        stackPane.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-        // 设置DialogPane的内容为StackPane
-        getDialogPane().setContent(stackPane);*/
-
-        // 设置自定义图标
-        ImageView imageView = new ImageView(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/logo.png")));
-        imageView.setFitWidth(70); // 根据需要调整大小
-        imageView.setFitHeight(60);
-        getDialogPane().setGraphic(imageView);
     }
 
     public void Show(String type) {
 
-            // 创建两个按钮，分别代表确定和取消
-            ensureButton = new ButtonType("开始游戏", ButtonBar.ButtonData.OK_DONE);
-            cancelButton = new ButtonType("取消", ButtonBar.ButtonData.CANCEL_CLOSE);
+        // 创建两个按钮，分别代表确定和取消
+        ensureButton = new ButtonType("开始游戏", ButtonBar.ButtonData.OK_DONE);
+        cancelButton = new ButtonType("取消", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            // 设置Dialog的按钮
-            getDialogPane().getButtonTypes().addAll(ensureButton, cancelButton);
 
-            setResultConverter(dialogButton -> {
-                if (dialogButton ==ensureButton) {
-                    return ensureButton;
-                }
-                return cancelButton;
-            });
+        // 设置Dialog的按钮
+        getDialogPane().getButtonTypes().clear(); // 清除之前的按钮
+        getDialogPane().getButtonTypes().addAll(ensureButton, cancelButton);
 
-            if (type == "single"||type=="double"||type=="match") {
-                if(type=="single") {
-                    // 设置头部内容
-                    setHeaderText("你确定要开始单人模式吗？");
-                    // 显示Dialog并等待用户响应
-                    Optional<ButtonType> result = showAndWait();
+        // 获取开始按钮并取消其默认行为
+        Button ensureBtn = (Button) getDialogPane().lookupButton(ensureButton);
+        ensureBtn.setDefaultButton(false);  // 取消默认按钮行为
 
-                    if (result.get() == ensureButton) {
-                        Director.getInstance().toGameScene();
-                    }
-                    else {
-                        hide();
-                        getDialogPane().getButtonTypes().clear();
-                    }
-                }
-                else if (type=="double") {
-                    // 设置头部内容
-                    setHeaderText("你确定要开始双人模式吗？");
-                    // 显示Dialog并等待用户响应
-                    Optional<ButtonType> result = showAndWait();
+        // 根据不同类型设置Label文本内容
+        if ("single".equals(type)) {
+            label.setText("你确定要开始单人模式吗？");
+        } else if ("double".equals(type)) {
+            label.setText("你确定要开始双人模式吗？");
+        } else if ("match".equals(type)) {
+            label.setText("你确定要开始联机模式吗？");
+        }
 
-                    if (result.get() == ensureButton) {
-                        Director.getInstance().toVsGameScene();
-                    }
-                    else {
-                        hide();
-                        getDialogPane().getButtonTypes().clear();
-                    }
-                }
-                else{
-                    // 设置头部内容
-                    setHeaderText("你确定要开始联机模式吗？");
-                    // 显示Dialog并等待用户响应
-                    Optional<ButtonType> result = showAndWait();
+        // 显示Dialog并等待用户响应
+        Optional<ButtonType> result = showAndWait();
 
-                    if (result.get() == ensureButton) {
-                        Director.getInstance().toOnlineRoom();
-                    }
-                    else {
-                        hide();
-                        getDialogPane().getButtonTypes().clear();
-                    }
-                }
+        if (result.isPresent() && result.get() == ensureButton) {
+            if ("single".equals(type)) {
+                Director.getInstance().toGameScene();
+            } else if ("double".equals(type)) {
+                Director.getInstance().toVsGameScene();
+            } else if ("match".equals(type)) {
+                Director.getInstance().toOnlineGameScene();
+            }
+        } else {
+            hide();
+            getDialogPane().getButtonTypes().clear();
         }
     }
 }
+*/
+
+package com.jr.tankbattle.controller;
+
+import com.jr.tankbattle.Director;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+
+import java.util.Optional;
+
+public class GameDlg extends Dialog<ButtonType> {
+    private static GameDlg instance = new GameDlg();
+
+    public static GameDlg getInstance() {
+        return instance;
+    }
+
+    VBox vBox;
+    Label label;
+    Button ensureBtn;
+    Button cancelBtn;
+
+    public GameDlg() {
+        setTitle("TankBattle");
+        Image icon = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/logo.png"));
+        Stage stage = (Stage) getDialogPane().getScene().getWindow();
+        stage.getIcons().add(icon);
+
+        vBox = new VBox(20); // 垂直排列，间距为 20
+        vBox.setPrefWidth(300);
+        vBox.setPrefHeight(200);
+        vBox.setAlignment(Pos.CENTER); // 设置居中对齐
+
+        // 设置背景图片并自适应铺满
+        Image backgroundImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
+        BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, false, true);
+        BackgroundImage background = new BackgroundImage(backgroundImage,
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER, backgroundSize);
+        vBox.setBackground(new Background(background)); // 应用到 vBox
+
+
+        // 创建Label并设置文本大小和粗细
+        label = new Label();
+        label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); // 设置字体大小和粗细
+
+        vBox.getChildren().add(label);
+        getDialogPane().setContent(vBox);
+    }
+
+    public void Show(String type) {
+
+        // 创建两个按钮
+        ensureBtn = new Button("开始游戏");
+        cancelBtn = new Button("取消");
+
+        // 设置按钮大小
+        ensureBtn.setMinWidth(100);
+        cancelBtn.setMinWidth(100);
+
+        // 设置按钮的居中对齐
+        ensureBtn.setDefaultButton(false); // 取消默认行为
+        VBox.setMargin(ensureBtn, new javafx.geometry.Insets(10, 0, 0, 0)); // 为按钮添加边距
+        VBox.setMargin(cancelBtn, new javafx.geometry.Insets(10, 0, 0, 0));
+
+        // 清除Dialog中的按钮，并将新的按钮添加到VBox
+        vBox.getChildren().removeIf(node -> node instanceof Button); // 清除已有按钮
+        vBox.getChildren().addAll(ensureBtn, cancelBtn); // 将按钮添加到VBox
+
+        // 根据不同类型设置Label文本内容
+        if ("single".equals(type)) {
+            label.setText("你确定要开始单人模式吗？");
+        } else if ("double".equals(type)) {
+            label.setText("你确定要开始双人模式吗？");
+        } else if ("match".equals(type)) {
+            label.setText("你确定要开始联机模式吗？");
+        }
+
+        // 设置按钮的事件
+        ensureBtn.setOnAction(event -> {
+            if ("single".equals(type)) {
+                Director.getInstance().toGameScene();
+            } else if ("double".equals(type)) {
+                Director.getInstance().toVsGameScene();
+            } else if ("match".equals(type)) {
+                Director.getInstance().toOnlineGameScene();
+            }
+            setResult(ButtonType.OK); // 手动设置结果并关闭对话框
+            close(); // 关闭窗口
+        });
+
+        cancelBtn.setOnAction(event -> {
+            setResult(ButtonType.CANCEL); // 设置取消结果
+            close(); // 关闭窗口
+        });
+
+        // 显示Dialog并等待用户响应
+        showAndWait();
+    }
+}
+
