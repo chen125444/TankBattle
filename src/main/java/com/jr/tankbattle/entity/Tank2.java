@@ -114,6 +114,18 @@ public class Tank2 extends AbstractObject {
             }
         }
     }
+    //坦克之間的碰撞
+    public void collisionTank(Tank tank){
+        if(checkCollision(tank)){
+            switch (direction) {
+                case UP -> tank.setY(tank.getY() - speed);
+                case DOWN -> tank.setY(tank.getY() + speed);
+                case LEFT -> tank.setX(tank.getX() - speed);
+                case RIGHT -> tank.setX(tank.getX() + speed);
+            }
+        }
+        else return;
+    }
 
     public Direction getDirection() {
         return direction;

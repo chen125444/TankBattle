@@ -72,6 +72,7 @@ public class VsGameScene {
             playerTank.draw2();
             playerTank.move();
             playerTank.collisionBullet(bullets2);
+            playerTank.collisionTank(playerTank2);
             // 绘制子弹
             for(int i = 0; i < bullets.size(); i++){
                 Bullet bullet = bullets.get(i);
@@ -83,6 +84,7 @@ public class VsGameScene {
             playerTank2.draw();
             playerTank2.move();
             playerTank2.collisionBullet(bullets);
+            playerTank2.collisionTank(playerTank);
             for(int i = 0; i < bullets2.size(); i++){
                 Bullet bullet2 = bullets2.get(i);
                 bullet2.move();
