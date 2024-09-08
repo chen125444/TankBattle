@@ -29,7 +29,6 @@ public class RegisterScr {
         try {
 //            boolean registerSuccess = client.register(username, password);
 //            if (registerSuccess) {
-            Account.setInfo(username, password);
             //Director.getInstance().toLoginScr();//注册成功后跳转至登录页面进行登录
             GameDlg.getInstance().Show("register");
 //            } else {

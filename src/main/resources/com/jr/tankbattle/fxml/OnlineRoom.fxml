@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.scene.OnlineRoom">
+<AnchorPane prefHeight="761.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.scene.OnlineRoom">
     <children>
         <!-- Server Status Label -->
         <Label fx:id="lblServerStatus" layoutX="20.0" layoutY="20.0" text="Server Status: Offline">
@@ -20,28 +23,38 @@
             </font>
         </Label>
 
+        <!-- Player Count Label -->
+        <Label fx:id="lblPlayerCount" layoutX="614.0" layoutY="60.0" text="当前在线玩家：">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+
+        <!-- Rooms List View -->
+        <ListView fx:id="lvRooms" layoutX="14.0" layoutY="100.0" prefHeight="400.0" prefWidth="300.0" />
+
         <!-- Players List View -->
-        <ListView fx:id="lvPlayers" layoutX="20.0" layoutY="100.0" prefWidth="300.0" prefHeight="400.0" />
+        <ListView fx:id="lvPlayers" layoutX="614.0" layoutY="100.0" prefHeight="400.0" prefWidth="300.0" />
 
         <!-- Room ID Text Field -->
-        <TextField fx:id="txtRoomId" layoutX="340.0" layoutY="100.0" promptText="Enter Room ID" prefWidth="200.0" />
+        <TextField fx:id="txtRoomId" layoutX="340.0" layoutY="100.0" prefWidth="200.0" promptText="Enter Room ID" />
 
         <!-- Create Room Button -->
-        <Button fx:id="btnCreateRoom" layoutX="560.0" layoutY="100.0" text="Create Room" onAction="#createRoom" prefWidth="120.0">
+        <Button fx:id="btnCreateRoom" layoutX="340.0" layoutY="169.0" onAction="#createRoom" prefHeight="36.0" prefWidth="158.0" text="Create Room">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
 
         <!-- Join Room Button -->
-        <Button fx:id="btnJoinRoom" layoutX="560.0" layoutY="160.0" text="Join Room" onAction="#joinRoom" prefWidth="120.0">
+        <Button fx:id="btnJoinRoom" layoutX="340.0" layoutY="239.0" onAction="#joinRoom" prefHeight="36.0" prefWidth="158.0" text="Join Room">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
 
         <!-- Back to Home Button -->
-        <Button fx:id="btnBackToHome" layoutX="560.0" layoutY="220.0" text="Back to Home" onAction="#backToHome" prefWidth="120.0">
+        <Button fx:id="btnBackToHome" layoutX="340.0" layoutY="311.0" onAction="#backToHome" prefHeight="36.0" prefWidth="158.0" text="Back to Home">
             <font>
                 <Font size="18.0" />
             </font>

@@ -20,7 +20,7 @@ public class LoginScr {
     public void LLogin() {
         String username = txtUid.getText();
         String password = txtPwd.getText();
-//
+
 //        if (username.isEmpty() || password.isEmpty()) {
 //            showAlert(Alert.AlertType.WARNING, "警告", "用户名或密码不能为空");
 //            return;
@@ -29,8 +29,8 @@ public class LoginScr {
         try {
 //            boolean loginSuccess = client.login(username, password);
 //            if (loginSuccess) {
-            Account.setInfo(username, password);
-            Director.getInstance().toHomePage();
+//                Account.setInfo(username, password);
+                Director.getInstance().toHomePage();
 
             //GameDlg.getInstance().Show("loginEr");//登录失败弹窗
 

@@ -37,7 +37,7 @@ public class Client {
     // 获取在线玩家列表
     public List<String> getOnlinePlayers() throws Exception {
         Message message = new Message();
-        message.setRoomRequest("getPlayers", null); // 假设获取玩家列表的请求类型为 "getPlayers"
+        message.setRoomRequest("getOnlinePlayers", null); // 假设获取玩家列表的请求类型为 "getPlayers"
         String response = sendMessageAndGetResponse(message);
         Message responseMessage = gson.fromJson(response, Message.class);
 
@@ -51,6 +51,44 @@ public class Client {
         }
         return players;
     }
+
+    //获取房间列表
+    public List<String> getOnlineRooms() throws Exception {
+        Message message = new Message();
+        message.setRoomRequest("getOnlineRooms", null);  // Request type for online rooms
+        String response = sendMessageAndGetResponse(message);
+        Message responseMessage = gson.fromJson(response, Message.class);
+
+        List<String> rooms = new ArrayList<>();
+        if ("success".equals(responseMessage.status)) {
+            // Parse rooms list
+            String[] roomArray = responseMessage.message.split(",");
+            for (String room : roomArray) {
+                rooms.add(room.trim());
+            }
+        }
+        return rooms;
+    }
+
+    //获取房间玩家人数
+    public int getRoomPlayerCount(String roomId) throws Exception {
+        // 创建请求消息
+        Message request = new Message();
+        request.type = "getRoomPlayerCount";
+        request.roomId = roomId;
+
+        // 发送请求并获取响应
+        String responseJson = sendMessageAndGetResponse(request); // 假设这个方法发送请求并获取响应
+        Message response = gson.fromJson(responseJson, Message.class);
+
+        if ("success".equals(response.status)) {
+            return Integer.parseInt(response.message); // 将返回的字符串解析为 int
+        } else {
+            throw new Exception("无法获取房间人数: " + response.message);
+        }
+    }
+
+
 
     // 创建房间
     public boolean createRoom(String roomId) throws Exception {

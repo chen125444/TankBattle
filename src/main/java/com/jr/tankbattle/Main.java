@@ -10,15 +10,30 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
+    private Client client;
+
     @Override
     public void start(Stage stage) throws IOException {
+        client = new Client();  // Initialize Client instance here
         Director.getInstance().init(stage);
+
+        // Register a shutdown hook to ensure logout is called on program exit
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                if (client != null) {
+                    client.logout(Account.uid);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();  // Log any errors that occur during logout
+            }
+        }));
     }
 
     @Override
     public void stop() throws Exception {
-        Client client=new Client();
-        client.logout(Account.uid);
+        if (client != null) {
+            client.logout(Account.uid);  // Call logout in stop method
+        }
     }
 
     public static void main(String[] args) {

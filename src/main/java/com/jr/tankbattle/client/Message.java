@@ -27,7 +27,7 @@ public class Message {
         this.password = password;
     }
 
-    // 设置注销请求
+    // 设置登出请求
     public void setLogoutRequest(String username) {
         this.type = "logout";
         this.username = username;

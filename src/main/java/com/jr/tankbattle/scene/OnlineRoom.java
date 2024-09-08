@@ -9,6 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -21,9 +22,11 @@ public class OnlineRoom {
     @FXML
     private Label lblRoomStatus;
     @FXML
-    private Label lblPlayerCount; // 显示玩家数量的标签
+    private Label lblPlayerCount;
     @FXML
     private ListView<String> lvPlayers;
+    @FXML
+    private ListView<String> lvRooms;
     @FXML
     private TextField txtRoomId;
 
@@ -33,23 +36,67 @@ public class OnlineRoom {
 
     @FXML
     public void initialize() {
-        // 初始化定时任务
         scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(this::refreshPlayerList, 0, 5, TimeUnit.SECONDS); // 每5秒更新一次
+        scheduler.scheduleAtFixedRate(this::refreshPlayerList, 0, 5, TimeUnit.SECONDS); // 每5秒更新一次玩家列表
+        scheduler.scheduleAtFixedRate(this::refreshRoomList, 0, 10, TimeUnit.SECONDS); // 每10秒更新一次房间列表
     }
 
     @FXML
     public void refreshPlayerList() {
         try {
             List<String> playerList = client.getOnlinePlayers();
+
             javafx.application.Platform.runLater(() -> {
                 lvPlayers.getItems().clear();
                 lvPlayers.getItems().addAll(playerList);
-                lblPlayerCount.setText("玩家数量: " + playerList.size()); // 更新玩家数量
+
                 lblServerStatus.setText("服务器状态: 在线");
             });
         } catch (Exception e) {
             javafx.application.Platform.runLater(() -> showAlert(Alert.AlertType.ERROR, "错误", "无法刷新玩家列表: " + e.getMessage()));
+        }
+    }
+
+    @FXML
+    public void refreshRoomList() {
+        try {
+            List<String> roomIds = client.getOnlineRooms(); // 获取所有房间 ID
+            List<String> roomDisplayInfo = new ArrayList<>();
+
+            for (String roomId : roomIds) {
+                int playerCount = client.getRoomPlayerCount(roomId); // 获取房间的玩家人数
+                roomDisplayInfo.add(roomId + "\t\t" + playerCount + "/4"); // 格式化显示房间 ID 和人数
+            }
+
+            javafx.application.Platform.runLater(() -> {
+                lvRooms.getItems().clear();
+                lvRooms.getItems().addAll(roomDisplayInfo);
+            });
+        } catch (Exception e) {
+            javafx.application.Platform.runLater(() -> showAlert(Alert.AlertType.ERROR, "错误", "无法刷新房间列表: " + e.getMessage()));
+        }
+    }
+
+
+    @FXML
+    public void createRoom() {
+        roomId = txtRoomId.getText();
+        if (roomId.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "警告", "房间ID不能为空。");
+            return;
+        }
+
+        try {
+            boolean success = client.createRoom(roomId);
+            if (success) {
+                showAlert(Alert.AlertType.INFORMATION, "信息", "房间创建成功并已加入房间！");
+                Director.getInstance().toOnlineRoomInner(roomId);
+                lblRoomStatus.setText("房间状态: 在房间 " + roomId + "，当前玩家 0/4");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "错误", "创建房间失败！");
+            }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "错误", "无法创建房间: " + e.getMessage());
         }
     }
 
@@ -65,33 +112,13 @@ public class OnlineRoom {
             boolean success = client.joinRoom(roomId);
             if (success) {
                 showAlert(Alert.AlertType.INFORMATION, "信息", "成功加入房间！");
-                Director.getInstance().toOnlineRoomInner(roomId); // 导航到 OnlineRoomInner
+                Director.getInstance().toOnlineRoomInner(roomId);
+                lblRoomStatus.setText("房间状态: 在房间 " + roomId + "，当前玩家 0/4");
             } else {
                 showAlert(Alert.AlertType.ERROR, "错误", "加入房间失败！");
             }
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "错误", "无法加入房间: " + e.getMessage());
-        }
-    }
-
-    @FXML
-    public void createRoom() {
-        roomId = txtRoomId.getText();
-        if (roomId.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "警告", "房间ID不能为空。");
-            return;
-        }
-
-        try {
-            boolean success = client.createRoom(roomId);
-            if (success) {
-                showAlert(Alert.AlertType.INFORMATION, "信息", "房间创建成功并已加入房间！");
-                Director.getInstance().toOnlineRoomInner(roomId); // 导航到 OnlineRoomInner
-            } else {
-                showAlert(Alert.AlertType.ERROR, "错误", "创建房间失败！");
-            }
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "错误", "无法创建房间: " + e.getMessage());
         }
     }
 
