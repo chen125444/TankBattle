@@ -57,7 +57,7 @@ public class Director {
         }
     }
 
-    public void toLoginScr() throws IOException { //跳转登录界面
+    public void toLoginScr() { //跳转登录界面
       try {
           Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/LoginScr.fxml")));
            stage.getScene().setRoot(root);
@@ -67,7 +67,7 @@ public class Director {
        }
     }
 
-    public void toRegisterScr() throws IOException { //跳转注册界面
+    public void toRegisterScr() { //跳转注册界面
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/RegisterScr.fxml")));
             stage.getScene().setRoot(root);
@@ -77,7 +77,7 @@ public class Director {
         }
     }
 
-    public void toHomePage() throws IOException { //跳转游戏主页面
+    public void toHomePage() { //跳转游戏主页面
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/HomePage.fxml")));
             stage.getScene().setRoot(root);

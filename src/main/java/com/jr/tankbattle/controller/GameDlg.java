@@ -91,6 +91,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class GameDlg extends Dialog<ButtonType> {
@@ -134,50 +135,117 @@ public class GameDlg extends Dialog<ButtonType> {
     }
 
     public void Show(String type) {
+        if(type=="single"||type=="double"||type=="match") {
+            // 创建两个按钮
+            ensureBtn = new Button("开始游戏");
+            cancelBtn = new Button("取消");
 
-        // 创建两个按钮
-        ensureBtn = new Button("开始游戏");
-        cancelBtn = new Button("取消");
+            // 设置按钮大小
+            ensureBtn.setMinWidth(100);
+            cancelBtn.setMinWidth(100);
 
-        // 设置按钮大小
-        ensureBtn.setMinWidth(100);
-        cancelBtn.setMinWidth(100);
+            // 设置按钮的居中对齐
+            ensureBtn.setDefaultButton(false); // 取消默认行为
+            VBox.setMargin(ensureBtn, new javafx.geometry.Insets(10, 0, 0, 0)); // 为按钮添加边距
+            VBox.setMargin(cancelBtn, new javafx.geometry.Insets(10, 0, 0, 0));
 
-        // 设置按钮的居中对齐
-        ensureBtn.setDefaultButton(false); // 取消默认行为
-        VBox.setMargin(ensureBtn, new javafx.geometry.Insets(10, 0, 0, 0)); // 为按钮添加边距
-        VBox.setMargin(cancelBtn, new javafx.geometry.Insets(10, 0, 0, 0));
+            // 清除Dialog中的按钮，并将新的按钮添加到VBox
+            vBox.getChildren().removeIf(node -> node instanceof Button); // 清除已有按钮
+            vBox.getChildren().addAll(ensureBtn, cancelBtn); // 将按钮添加到VBox
 
-        // 清除Dialog中的按钮，并将新的按钮添加到VBox
-        vBox.getChildren().removeIf(node -> node instanceof Button); // 清除已有按钮
-        vBox.getChildren().addAll(ensureBtn, cancelBtn); // 将按钮添加到VBox
-
-        // 根据不同类型设置Label文本内容
-        if ("single".equals(type)) {
-            label.setText("你确定要开始单人模式吗？");
-        } else if ("double".equals(type)) {
-            label.setText("你确定要开始双人模式吗？");
-        } else if ("match".equals(type)) {
-            label.setText("你确定要开始联机模式吗？");
-        }
-
-        // 设置按钮的事件
-        ensureBtn.setOnAction(event -> {
+            // 根据不同类型设置Label文本内容
             if ("single".equals(type)) {
-                Director.getInstance().toGameScene();
+                label.setText("你确定要开始单人模式吗？");
             } else if ("double".equals(type)) {
-                Director.getInstance().toVsGameScene();
-            } else if ("match".equals(type)) {
-                Director.getInstance().toOnlineRoom();
+                label.setText("你确定要开始双人模式吗？");
+            } else {
+                label.setText("你确定要开始联机模式吗？");
             }
-            setResult(ButtonType.OK); // 手动设置结果并关闭对话框
-            close(); // 关闭窗口
-        });
 
-        cancelBtn.setOnAction(event -> {
-            setResult(ButtonType.CANCEL); // 设置取消结果
-            close(); // 关闭窗口
-        });
+            // 设置按钮的事件
+            ensureBtn.setOnAction(event -> {
+                if ("single".equals(type)) {
+                    Director.getInstance().toGameScene();
+                } else if ("double".equals(type)) {
+                    Director.getInstance().toVsGameScene();
+                } else {
+                    Director.getInstance().toOnlineRoom();
+                }
+                setResult(ButtonType.OK); // 手动设置结果并关闭对话框
+                close(); // 关闭窗口
+            });
+
+            cancelBtn.setOnAction(event -> {
+                setResult(ButtonType.CANCEL); // 设置取消结果
+                close(); // 关闭窗口
+            });
+        }
+        else if (type=="register") {
+            // 创建两个按钮
+            ensureBtn = new Button("确定");
+            cancelBtn = new Button("返回");
+
+            // 设置按钮大小
+            ensureBtn.setMinWidth(100);
+            cancelBtn.setMinWidth(100);
+
+            // 设置按钮的居中对齐
+            ensureBtn.setDefaultButton(false); // 取消默认行为
+            VBox.setMargin(ensureBtn, new javafx.geometry.Insets(10, 0, 0, 0)); // 为按钮添加边距
+            VBox.setMargin(cancelBtn, new javafx.geometry.Insets(10, 0, 0, 0));
+
+            // 清除Dialog中的按钮，并将新的按钮添加到VBox
+            vBox.getChildren().removeIf(node -> node instanceof Button); // 清除已有按钮
+            vBox.getChildren().addAll(ensureBtn, cancelBtn); // 将按钮添加到VBox
+
+            label.setText("注册成功，请重新登陆");
+
+            // 设置按钮的事件
+            ensureBtn.setOnAction(event -> {
+                Director.getInstance().toLoginScr();
+                setResult(ButtonType.OK); // 手动设置结果并关闭对话框
+                close(); // 关闭窗口
+            });
+
+            cancelBtn.setOnAction(event -> {
+                Director.getInstance().toStartScr();
+                setResult(ButtonType.CANCEL); // 设置取消结果
+                close(); // 关闭窗口
+            });
+        }
+        else if (type == "loginEr") {
+            // 创建两个按钮
+            ensureBtn = new Button("确定");
+            cancelBtn = new Button("返回");
+
+            // 设置按钮大小
+            ensureBtn.setMinWidth(100);
+            cancelBtn.setMinWidth(100);
+
+            // 设置按钮的居中对齐
+            ensureBtn.setDefaultButton(false); // 取消默认行为
+            VBox.setMargin(ensureBtn, new javafx.geometry.Insets(10, 0, 0, 0)); // 为按钮添加边距
+            VBox.setMargin(cancelBtn, new javafx.geometry.Insets(10, 0, 0, 0));
+
+            // 清除Dialog中的按钮，并将新的按钮添加到VBox
+            vBox.getChildren().removeIf(node -> node instanceof Button); // 清除已有按钮
+            vBox.getChildren().addAll(ensureBtn, cancelBtn); // 将按钮添加到VBox
+
+            label.setText("登录失败，请重新登陆");
+
+            // 设置按钮的事件
+            ensureBtn.setOnAction(event -> {
+                Director.getInstance().toLoginScr();
+                setResult(ButtonType.OK); // 手动设置结果并关闭对话框
+                close(); // 关闭窗口
+            });
+
+            cancelBtn.setOnAction(event -> {
+                Director.getInstance().toStartScr();
+                setResult(ButtonType.CANCEL); // 设置取消结果
+                close(); // 关闭窗口
+            });
+        }
 
         // 显示Dialog并等待用户响应
         showAndWait();

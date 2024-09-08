@@ -31,6 +31,9 @@ public class LoginScr {
 //            if (loginSuccess) {
             Account.setInfo(username, password);
             Director.getInstance().toHomePage();
+
+            //GameDlg.getInstance().Show("loginEr");//登录失败弹窗
+
 //            } else {
 //                showAlert(Alert.AlertType.ERROR, "错误", "登录失败: 用户名或密码错误");
 //            }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,14 +9,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.controller.HomePage">
    <children>
+      <ImageView fitHeight="720.0" fitWidth="1080.0">
+         <image>
+            <Image url="@../img/tankbackground4.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="432.0" layoutY="123.0" prefHeight="67.0" prefWidth="146.0" text="单人模式">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font></Label>
+      <ImageView fitHeight="89.0" fitWidth="200.0" layoutX="381.0" layoutY="113.0" onMouseClicked="#Single">
+         <image>
+            <Image url="@../img/ui3.png" />
+         </image>
+      </ImageView>
       <Button layoutX="463.0" layoutY="220.0" mnemonicParsing="false" onAction="#Single" prefHeight="61.0" prefWidth="158.0" text="单人模式" />
       <Button layoutX="463.0" layoutY="338.0" mnemonicParsing="false" onAction="#Double" prefHeight="61.0" prefWidth="158.0" text="双人模式" />
       <Button layoutX="463.0" layoutY="451.0" mnemonicParsing="false" onAction="#Match" prefHeight="61.0" prefWidth="158.0" text="联机模式" />
       <Button layoutX="980.0" layoutY="55.0" mnemonicParsing="false" onAction="#Setting" text="设置" />
       <Button layoutX="891.0" layoutY="55.0" mnemonicParsing="false" onAction="#Store" text="商城" />
       <Button layoutX="800.0" layoutY="55.0" mnemonicParsing="false" onAction="#Equip" text="装备" />
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="990.0" layoutY="108.0" onMouseClicked="#Setting">
+         <image>
+            <Image url="@../img/set3.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
