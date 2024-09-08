@@ -110,7 +110,7 @@ public class Tank2 extends AbstractObject {
             Bullet bullet = bullets.get(i);
             if(checkCollision(bullet)) {
                 setAlive(false);
-                bullets.remove(i);
+                bullet.setAlive(false);
             }
         }
     }
@@ -151,22 +151,22 @@ public class Tank2 extends AbstractObject {
         switch (direction) {
             case UP:
                 Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, getVsGameScene());
-                bullet0.draw2();
+                bullet0.draw();
                 getVsGameScene().bullets2.add(bullet0);
                 break;
             case DOWN:
                 Bullet bullet1 = new Bullet(getX() + width / 2 - 5, getY() + height, 22, 10, Direction.DOWN, 5, getVsGameScene());
-                bullet1.draw2();
+                bullet1.draw();
                 getVsGameScene().bullets2.add(bullet1);
                 break;
             case LEFT:
                 Bullet bullet2 = new Bullet(getX() - 22, getY() + height / 2 - 5, 22, 10, Direction.LEFT, 5, getVsGameScene());
-                bullet2.draw2();
+                bullet2.draw();
                 getVsGameScene().bullets2.add(bullet2);
                 break;
             case RIGHT:
                 Bullet bullet3 = new Bullet(getX() + width, getY() + height / 2 - 5, 22, 10, Direction.RIGHT, 5, getVsGameScene());
-                bullet3.draw2();
+                bullet3.draw();
                 getVsGameScene().bullets2.add(bullet3);
         }
     }

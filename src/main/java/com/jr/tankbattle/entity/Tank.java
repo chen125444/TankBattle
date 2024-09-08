@@ -56,26 +56,24 @@ public class Tank extends AbstractObject {
 
     public void draw() {
         // 实现坦克的绘制逻辑
-        switch (direction) {
-            case UP -> getGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
-            case DOWN ->
-                    getGameScene().getGraphicsContext().drawImage(getDownImage(), super.getX(), super.getY());
-            case LEFT ->
-                    getGameScene().getGraphicsContext().drawImage(getLeftImage(), super.getX(), super.getY());
-            case RIGHT ->
-                    getGameScene().getGraphicsContext().drawImage(getRightImage(), super.getX(), super.getY());
+        if(status == 1) {
+            switch (direction) {
+                case UP -> getGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
+                case DOWN -> getGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
+                case LEFT -> getGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
+                case RIGHT -> getGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
+            }
         }
-    }
-    public void draw2() {
-        // 实现坦克的绘制逻辑
-        switch (direction) {
-            case UP -> getVsGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
-            case DOWN ->
-                    getVsGameScene().getGraphicsContext().drawImage(getDownImage(), super.getX(), super.getY());
-            case LEFT ->
-                    getVsGameScene().getGraphicsContext().drawImage(getLeftImage(), super.getX(), super.getY());
-            case RIGHT ->
-                    getVsGameScene().getGraphicsContext().drawImage(getRightImage(), super.getX(), super.getY());
+        if (status == 2){
+            switch (direction) {
+                case UP -> getVsGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
+                case DOWN ->
+                        getVsGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
+                case LEFT ->
+                        getVsGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
+                case RIGHT ->
+                        getVsGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
+            }
         }
     }
 
@@ -111,12 +109,8 @@ public class Tank extends AbstractObject {
                 moving = false;
                 break;
             case J:
-                if(status == 1){
-                    openFire();
-                }
-                if (status == 2) {
-                    openFire2();
-                }
+                openFire();
+//                System.out.println("fire");
                 break;
             default:
                 break;
@@ -195,18 +189,6 @@ public class Tank extends AbstractObject {
         return direction;
     }
 
-    public Image getDownImage() {
-        return downImage;
-    }
-
-    public Image getLeftImage() {
-        return leftImage;
-    }
-
-    public Image getRightImage() {
-        return rightImage;
-    }
-
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
@@ -220,49 +202,51 @@ public class Tank extends AbstractObject {
     }
 
     public void openFire() {
-        switch (direction) {
-            case UP:
-                Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, getGameScene());
-                bullet0.draw();
-                getGameScene().bullets.add(bullet0);
-                break;
-            case DOWN:
-                Bullet bullet1 = new Bullet(getX() + width / 2 - 5, getY() + height, 22, 10, Direction.DOWN, 5, getGameScene());
-                bullet1.draw();
-                getGameScene().bullets.add(bullet1);
-                break;
-            case LEFT:
-                Bullet bullet2 = new Bullet(getX() - 22, getY() + height / 2 - 5, 22, 10, Direction.LEFT, 5, getGameScene());
-                bullet2.draw();
-                getGameScene().bullets.add(bullet2);
-                break;
-            case RIGHT:
-                Bullet bullet3 = new Bullet(getX() + width, getY() + height / 2 - 5, 22, 10, Direction.RIGHT, 5, getGameScene());
-                bullet3.draw();
-                getGameScene().bullets.add(bullet3);
+        if(status == 1){
+            switch (direction) {
+                case UP:
+                    Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, getGameScene());
+                    bullet0.draw();
+                    getGameScene().bullets.add(bullet0);
+                    break;
+                case DOWN:
+                    Bullet bullet1 = new Bullet(getX() + width / 2 - 5, getY() + height, 22, 10, Direction.DOWN, 5, getGameScene());
+                    bullet1.draw();
+                    getGameScene().bullets.add(bullet1);
+                    break;
+                case LEFT:
+                    Bullet bullet2 = new Bullet(getX() - 22, getY() + height / 2 - 5, 22, 10, Direction.LEFT, 5, getGameScene());
+                    bullet2.draw();
+                    getGameScene().bullets.add(bullet2);
+                    break;
+                case RIGHT:
+                    Bullet bullet3 = new Bullet(getX() + width, getY() + height / 2 - 5, 22, 10, Direction.RIGHT, 5, getGameScene());
+                    bullet3.draw();
+                    getGameScene().bullets.add(bullet3);
+            }
         }
-    }
-    public void openFire2() {
-        switch (direction) {
-            case UP:
-                Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, getVsGameScene());
-                bullet0.draw2();
-                getVsGameScene().bullets.add(bullet0);
-                break;
-            case DOWN:
-                Bullet bullet1 = new Bullet(getX() + width / 2 - 5, getY() + height, 22, 10, Direction.DOWN, 5, getVsGameScene());
-                bullet1.draw2();
-                getVsGameScene().bullets.add(bullet1);
-                break;
-            case LEFT:
-                Bullet bullet2 = new Bullet(getX() - 22, getY() + height / 2 - 5, 22, 10, Direction.LEFT, 5, getVsGameScene());
-                bullet2.draw2();
-                getVsGameScene().bullets.add(bullet2);
-                break;
-            case RIGHT:
-                Bullet bullet3 = new Bullet(getX() + width, getY() + height / 2 - 5, 22, 10, Direction.RIGHT, 5, getVsGameScene());
-                bullet3.draw2();
-                getVsGameScene().bullets.add(bullet3);
+        if(status == 2){
+            switch (direction) {
+                case UP:
+                    Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, getVsGameScene());
+                    bullet0.draw();
+                    getVsGameScene().bullets.add(bullet0);
+                    break;
+                case DOWN:
+                    Bullet bullet1 = new Bullet(getX() + width / 2 - 5, getY() + height, 22, 10, Direction.DOWN, 5, getVsGameScene());
+                    bullet1.draw();
+                    getVsGameScene().bullets.add(bullet1);
+                    break;
+                case LEFT:
+                    Bullet bullet2 = new Bullet(getX() - 22, getY() + height / 2 - 5, 22, 10, Direction.LEFT, 5, getVsGameScene());
+                    bullet2.draw();
+                    getVsGameScene().bullets.add(bullet2);
+                    break;
+                case RIGHT:
+                    Bullet bullet3 = new Bullet(getX() + width, getY() + height / 2 - 5, 22, 10, Direction.RIGHT, 5, getVsGameScene());
+                    bullet3.draw();
+                    getVsGameScene().bullets.add(bullet3);
+            }
         }
     }
 }

@@ -1,20 +1,13 @@
 package com.jr.tankbattle.scene;
-
-import com.jr.tankbattle.Director;
 import com.jr.tankbattle.entity.*;
 import javafx.fxml.FXML;
-import com.jr.tankbattle.util.Direction;
 import javafx.animation.AnimationTimer;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
 import javafx.stage.Stage;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -24,15 +17,13 @@ public class GameScene {
     @FXML
     private Canvas canvas =new Canvas(1080,720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-    //private KeyProcess keyProcess = new KeyProcess();
-    //private Refresh refresh = new Refresh();
     private boolean running = false;
     private Tank playerTank;
     public List<Bullet> bullets = new ArrayList<>();
     public List<AiTank> aiTanks = new ArrayList<>();
     public List<Tree> trees = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
-    //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
+    private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
 
 
     public void init(Stage stage) {
@@ -75,7 +66,7 @@ public class GameScene {
     private void render() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
-        graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg")), 0,0 );
+        graphicsContext.drawImage(backImage, 0,0 );
         // 绘制玩家坦克
         if(playerTank.isAlive()){
             playerTank.collisionBullet(bullets);

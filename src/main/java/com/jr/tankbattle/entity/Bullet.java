@@ -10,10 +10,16 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 
+import static com.jr.tankbattle.controller.HomePage.status;
+
 public class Bullet extends AbstractObject{
     private int speed;//子弹速度
     private Direction direction;//子弹方向
-    //构造函数
+    private Image upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenUp.png"));
+    private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenDown.png"));
+    private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenLeft.png"));
+    private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png"));
+    //构造函数;
     public Bullet(int x, int y, int width, int height, Direction direction,int speed, GameScene gameScene) {
         super(x, y, width, height,gameScene);
 
@@ -50,33 +56,37 @@ public class Bullet extends AbstractObject{
     }
     // 实现子弹的绘制逻辑
     public void draw() {
-        if(isAlive()){
-            switch (direction){
-                case UP -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenUp.png")), super.getX(), super.getY());
-                case DOWN -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenDown.png")), super.getX(), super.getY());
-                case LEFT -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenLeft.png")), super.getX(), super.getY());
-                case RIGHT -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png")), super.getX(), super.getY());
+        if(status == 1){
+            if(isAlive()){
+                switch (direction){
+                    case UP -> getGameScene().getGraphicsContext().drawImage(upImage, super.getX(), super.getY());
+                    case DOWN -> getGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
+                    case LEFT -> getGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
+                    case RIGHT -> getGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
+                }
+            }
+            else {
+                getGameScene().bullets.remove(this);
+                getGameScene().explodes.add(new Explode(getX(), getY(), getGameScene()));
             }
         }
-        else {
-            getGameScene().bullets.remove(this);
-            getGameScene().explodes.add(new Explode(getX(), getY(), getGameScene()));
-        }
-    }
-    public void draw2() {
-        if(isAlive()){
-            switch (direction){
-                case UP -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenUp.png")), super.getX(), super.getY());
-                case DOWN -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenDown.png")), super.getX(), super.getY());
-                case LEFT -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenLeft.png")), super.getX(), super.getY());
-                case RIGHT -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png")), super.getX(), super.getY());
+        if(status == 2){
+            if(isAlive()){
+                switch (direction){
+                    case UP -> getVsGameScene().getGraphicsContext().drawImage(upImage, super.getX(), super.getY());
+                    case DOWN -> getVsGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
+                    case LEFT -> getVsGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
+                    case RIGHT -> getVsGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
+                }
+            }
+            else {
+                getVsGameScene().bullets.remove(this);
+                getVsGameScene().bullets2.remove(this);
+                getVsGameScene().explodes.add(new Explode(getX(), getY(), getVsGameScene()));
             }
         }
-        else {
-            getGameScene().bullets.remove(this);
-            getGameScene().explodes.add(new Explode(getX(), getY(), getGameScene()));
-        }
     }
+
 
     // 实现子弹与其他对象的碰撞检测逻辑
     @Override

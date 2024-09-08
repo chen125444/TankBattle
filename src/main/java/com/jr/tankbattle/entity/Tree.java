@@ -6,15 +6,17 @@ import javafx.scene.image.Image;
 
 import java.util.List;
 
+import static com.jr.tankbattle.controller.HomePage.status;
+
+
 public class Tree extends AbstractObject{
+    private Image treeImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/grass.png"));
     //构造函数
     public Tree(int x, int y, int width, int height, GameScene gameScene) {
         super(x, y, width, height, gameScene);
-        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/grass.png")));
     }
     public Tree(int x, int y, int width, int height, VsGameScene vsGameScene) {
         super(x, y, width, height,vsGameScene);
-        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/grass.png")));
     }
 
 
@@ -26,10 +28,12 @@ public class Tree extends AbstractObject{
 
     // 实现树丛的绘制逻辑
     public void draw() {
-        getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/grass.png")), super.getX(), super.getY());
-    }
-    public void draw2() {
-        getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/grass.png")), super.getX(), super.getY());
+        if(status == 1){
+            getGameScene().getGraphicsContext().drawImage(treeImage, super.getX(), super.getY());
+        }
+        if(status == 2){
+            getVsGameScene().getGraphicsContext().drawImage(treeImage, super.getX(), super.getY());
+        }
     }
 
     // 实现树丛与其他对象的碰撞检测逻辑

@@ -1,8 +1,11 @@
 package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.VsGameScene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
+import static com.jr.tankbattle.controller.HomePage.status;
 
 public class Explode extends AbstractObject {
     private int count = 0;
@@ -17,11 +20,22 @@ public class Explode extends AbstractObject {
     public Explode( int x, int y, GameScene gameScene) {
         super( x, y, 0, 0, gameScene);
     }
+    public Explode( int x, int y, VsGameScene vsGameScene) {
+        super( x, y, 0, 0, vsGameScene);
+    }
 
     public void draw(GraphicsContext graphicsContext) {
-        if(count >= images.length) {
-            getGameScene().explodes.remove(this);
-            return;
+        if(status == 1){
+            if(count >= images.length) {
+                getGameScene().explodes.remove(this);
+                return;
+            }
+        }
+        if(status == 2){
+            if(count >= images.length) {
+                getVsGameScene().explodes.remove(this);
+                return;
+            }
         }
         Image image = images[count];
         double ex = getX() - image.getWidth()/2;
