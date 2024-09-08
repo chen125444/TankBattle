@@ -19,21 +19,21 @@ public class Tank extends AbstractObject {
     private int height;
     //坦克速度
     private int speed;
-    private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankD.gif"));
-    private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankL.gif"));
-    private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankR.gif"));
+    private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1D.png"));
+    private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1L.png"));
+    private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png"));
     private List<Direction> directions = new ArrayList<>();
 
     public Tank(int x, int y, int width, int height, int speed, GameScene gameScene) {
         super(x, y, width, height, gameScene);
-        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")));
+        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1U.png")));
         this.speed = speed;
         this.width = width;
         this.height = height;
     }
     public Tank(int x, int y, int width, int height, int speed, VsGameScene vsGameScene) {
         super(x, y, width, height, vsGameScene);
-        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p1tankU.gif")));
+        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1U.png")));
         this.speed = speed;
         this.width = width;
         this.height = height;
@@ -159,6 +159,22 @@ public class Tank extends AbstractObject {
                     case RIGHT -> setX(getX() + speed);
                 }
                 }
+            else directions.remove(direction);
+        }
+    }
+    public void collisionTrees(List<Tree> trees) {
+        // 实现玩家与树丛的碰撞检测逻辑
+        for(int i = 0; i < trees.size(); i++) {
+            Tree tree = trees.get(i);
+            if(checkCollision(tree)) {
+                directions.add(direction);
+                switch (direction) {
+                    case UP -> setY(getY() + speed);
+                    case DOWN -> setY(getY() - speed);
+                    case LEFT -> setX(getX() + speed);
+                    case RIGHT -> setX(getX() - speed);
+                }
+            }
             else directions.remove(direction);
         }
     }

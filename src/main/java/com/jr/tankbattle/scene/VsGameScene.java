@@ -37,15 +37,15 @@ public class VsGameScene {
         stage.getScene().setOnKeyReleased(this::handleKeyReleased);
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
         running = true;
-        playerTank = new Tank(400, 500, 60, 60, 2, this);
+        playerTank = new Tank(400, 500, 40, 40, 2, this);
         //initSprite();
-        playerTank2 = new Tank2(800, 500, 60, 60, 2,this);
+        playerTank2 = new Tank2(800, 500, 40, 40, 2,this);
         //产生树丛
         for(int i=0;i<20;i++){
             Random random = new Random();
             int randomX = random.nextInt(1024);
             int randomY = random.nextInt(720);
-            Tree tree = new Tree(randomX,randomY,60,60,this);
+            Tree tree = new Tree(randomX,randomY,40,40,this);
             trees.add(tree);
         }
         //initSprite();

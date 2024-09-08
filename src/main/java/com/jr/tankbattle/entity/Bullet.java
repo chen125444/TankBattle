@@ -8,6 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 
+import java.util.List;
+
 public class Bullet extends AbstractObject{
     private int speed;//子弹速度
     private Direction direction;//子弹方向
@@ -56,6 +58,10 @@ public class Bullet extends AbstractObject{
                 case RIGHT -> getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png")), super.getX(), super.getY());
             }
         }
+        else {
+            getGameScene().bullets.remove(this);
+            getGameScene().explodes.add(new Explode(getX(), getY(), getGameScene()));
+        }
     }
     public void draw2() {
         if(isAlive()){
@@ -66,12 +72,29 @@ public class Bullet extends AbstractObject{
                 case RIGHT -> getVsGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bulletGreenRight.png")), super.getX(), super.getY());
             }
         }
+        else {
+            getGameScene().bullets.remove(this);
+            getGameScene().explodes.add(new Explode(getX(), getY(), getGameScene()));
+        }
     }
 
     // 实现子弹与其他对象的碰撞检测逻辑
     @Override
     public boolean checkCollision(AbstractObject other) {
         return getRectangle().intersects(other.getRectangle());
+    }
+
+    public void collisionBullet(List<Bullet> bullets) {
+        // 实现子弹与子弹的碰撞检测逻辑
+        for(int i = 0; i < bullets.size(); i++) {
+            Bullet bullet = bullets.get(i);
+            if(bullet!=this) {
+                if (checkCollision(bullet)) {
+                    setAlive(false);
+                    bullet.setAlive(false);
+                }
+            }
+        }
     }
     // 获取子弹的方向
     public Direction getDirection() {

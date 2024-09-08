@@ -1,11 +1,8 @@
 package com.jr.tankbattle.scene;
 
 import com.jr.tankbattle.Director;
-import com.jr.tankbattle.entity.AiTank;
-import com.jr.tankbattle.entity.Bullet;
-import com.jr.tankbattle.entity.Tree;
+import com.jr.tankbattle.entity.*;
 import javafx.fxml.FXML;
-import com.jr.tankbattle.entity.Tank;
 import com.jr.tankbattle.util.Direction;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
@@ -34,6 +31,7 @@ public class GameScene {
     public List<Bullet> bullets = new ArrayList<>();
     public List<AiTank> aiTanks = new ArrayList<>();
     public List<Tree> trees = new ArrayList<>();
+    public List<Explode> explodes = new ArrayList<>();
     //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
 
 
@@ -45,12 +43,12 @@ public class GameScene {
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
         running = true;
         //产生玩家坦克
-        playerTank = new Tank(400, 500, 60, 60, 2, this);
+        playerTank = new Tank(400, 500, 40, 40, 2, this);
         //产生人机坦克
         for(int i=0;i<5;i++){
             Random random = new Random();
             int randomX = random.nextInt(60);
-            AiTank aiTank = new AiTank(randomX+150*i,randomX+120*i,60,60,2,this);
+            AiTank aiTank = new AiTank(randomX+150*i,randomX+120*i,40,40,2,this);
             aiTanks.add(aiTank);
         }
         //产生树丛
@@ -58,7 +56,7 @@ public class GameScene {
             Random random = new Random();
             int randomX = random.nextInt(1024);
             int randomY = random.nextInt(720);
-            Tree tree = new Tree(randomX,randomY,60,60,this);
+            Tree tree = new Tree(randomX,randomY,40,40,this);
             trees.add(tree);
         }
         //initSprite();
@@ -82,19 +80,15 @@ public class GameScene {
         if(playerTank.isAlive()){
             playerTank.collisionBullet(bullets);
             playerTank.collisionPlayer(aiTanks);
+            playerTank.collisionTrees(trees);
             playerTank.move();
             playerTank.draw();
         }
-        //更新子弹
-        for(int i = 0; i < bullets.size(); i++){
-            Bullet bullet = bullets.get(i);
-            if(!bullet.isAlive()){
-                bullets.remove(i);
-            }
-        }
+
         // 绘制子弹
         for(int i = 0; i < bullets.size(); i++){
             Bullet bullet = bullets.get(i);
+            bullet.collisionBullet(bullets);
             bullet.move();
             bullet.draw();
         }
@@ -124,8 +118,13 @@ public class GameScene {
         //绘制树丛
         for(int i = 0; i < trees.size(); i++){
             Tree tree = trees.get(i);
-            //tree.
+            tree.collisionBullet(bullets);
             tree.draw();
+        }
+        //产生爆炸
+        for (int i = 0; i < explodes.size(); i++) {
+            Explode e = explodes.get(i);
+            e.draw(graphicsContext);
         }
     }
 

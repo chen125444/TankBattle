@@ -17,13 +17,13 @@ public class Tank2 extends AbstractObject {
     private int height;
     //坦克速度
     private int speed;
-    private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankD.gif"));
-    private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankL.gif"));
-    private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankR.gif"));
+    private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2D.png"));
+    private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2L.png"));
+    private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2R.png"));
 
     public Tank2(int x, int y, int width, int height, int speed, VsGameScene vsGameScene) {
         super(x, y, width, height, vsGameScene);
-        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankU.gif")));
+        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2U.png")));
         this.speed = speed;
         this.width = width;
         this.height = height;

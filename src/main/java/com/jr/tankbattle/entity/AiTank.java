@@ -17,18 +17,18 @@ public class AiTank extends AbstractObject{
     private int height;
     //坦克速度
     private int speed;
-    private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankD.gif"));
-    private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankL.gif"));
-    private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankR.gif"));
+    private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3D.png"));
+    private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3L.png"));
+    private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3R.png"));
 
     private List<Direction> directions = new ArrayList<>();
 
     public AiTank(int x, int y, int width, int height, int speed, GameScene gameScene) {
         super(x, y, width, height, gameScene);
-        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/p2tankU.gif")));
+        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3U.png")));
         this.speed = 2;
-        this.width = 60;
-        this.height = 60;
+        this.width = 40;
+        this.height = 40;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class AiTank extends AbstractObject{
             case 2 -> direction = Direction.LEFT;
             case 3 -> direction = Direction.DOWN;
             case 4 -> direction = Direction.UP;
-            //case 5 -> openFire();
+            case 5 -> openFire();
             default -> direction = direction;
         }
         
