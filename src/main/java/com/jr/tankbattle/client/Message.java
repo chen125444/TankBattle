@@ -12,7 +12,8 @@ public class Message {
     public double x; // 用于存储位置 X 坐标
     public double y; // 用于存储位置 Y 坐标
 
-    public Message() {}
+    public Message() {
+    }
 
     // 设置请求类型和用户名、密码
     public void setRegisterRequest(String username, String password) {
@@ -40,8 +41,9 @@ public class Message {
     }
 
     // 设置玩家准备状态请求
-    public void setReadyStatusRequest(String roomId, boolean isReady) {
+    public void setReadyStatusRequest(String username, String roomId, boolean isReady) {
         this.type = "ready";
+        this.username = username;
         this.roomId = roomId;
         this.isReady = isReady;
     }
