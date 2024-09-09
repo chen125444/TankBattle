@@ -1,5 +1,6 @@
 package com.jr.tankbattle.scene;
 import com.jr.tankbattle.entity.*;
+import com.jr.tankbattle.util.MapData;
 import javafx.fxml.FXML;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
@@ -18,10 +19,11 @@ public class GameScene {
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     private boolean running = false;
     private Tank playerTank;
+    private MapData map = new MapData(this);
     public List<Bullet> bullets = new ArrayList<>();
-    public List<AiTank> aiTanks = new ArrayList<>();
     public List<Rock> rocks = new ArrayList<>();
-    public List<Tree> trees = new ArrayList<>();
+    public List<AiTank> aiTanks = map.mapData.get(1).aitanks;
+    public List<Tree> trees = map.mapData.get(1).trees;
     public List<Explode> explodes = new ArrayList<>();
     private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
 
@@ -36,21 +38,6 @@ public class GameScene {
         running = true;
         //产生玩家坦克
         playerTank = new Tank(400, 500, 40, 40, 2, this);
-        //产生人机坦克
-        for(int i=0;i<5;i++){
-            Random random = new Random();
-            int randomX = random.nextInt(60);
-            AiTank aiTank = new AiTank(randomX+150*i,randomX+120*i,40,40,2,this);
-            aiTanks.add(aiTank);
-        }
-        //产生树丛
-        for(int i=0;i<20;i++){
-            Random random = new Random();
-            int randomX = random.nextInt(1024);
-            int randomY = random.nextInt(720);
-            Tree tree = new Tree(randomX,randomY,40,40,this);
-            trees.add(tree);
-        }
         //initSprite();
         refresh.start();
     }
@@ -111,7 +98,7 @@ public class GameScene {
             }
         }
         //绘制石头
-        for(int i = 0; i < trees.size(); i++){
+        for(int i = 0; i < rocks.size(); i++){
             Rock rock = rocks.get(i);
             rock.collisionBullet(bullets);
             rock.draw();
