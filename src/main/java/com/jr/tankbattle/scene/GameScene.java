@@ -95,6 +95,7 @@ public class GameScene {
         for(int i = 0; i < aiTanks.size(); i++){
             AiTank aiTank = aiTanks.get(i);
             aiTank.collisionTank(playerTank);
+            aiTank.collisionTrees(trees);
             aiTank.collisionAi(aiTanks);
             aiTank.move();
             aiTank.draw();
