@@ -102,8 +102,24 @@ public class AiTank extends AbstractObject{
             }
             else directions.remove(direction);
     }
+    public void collisionRocks(List<Rock> rocks) {
+        // 实现AiTank与树丛的碰撞检测逻辑
+        for(int i = 0; i < rocks.size(); i++) {
+            Rock rock = rocks.get(i);
+            if(checkCollision(rock)) {
+                directions.add(direction);
+                switch (direction) {
+                    case UP -> setY(getY() + speed);
+                    case DOWN -> setY(getY() - speed);
+                    case LEFT -> setX(getX() + speed);
+                    case RIGHT -> setX(getX() - speed);
+                }
+            }
+            else directions.remove(direction);
+        }
+    }
     public void collisionTrees(List<Tree> trees) {
-        // 实现玩家与树丛的碰撞检测逻辑
+        // 实现AiTank与树丛的碰撞检测逻辑
         for(int i = 0; i < trees.size(); i++) {
             Tree tree = trees.get(i);
             if(checkCollision(tree)) {

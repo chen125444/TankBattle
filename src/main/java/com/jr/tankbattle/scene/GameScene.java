@@ -20,6 +20,7 @@ public class GameScene {
     private Tank playerTank;
     public List<Bullet> bullets = new ArrayList<>();
     public List<AiTank> aiTanks = new ArrayList<>();
+    public List<Rock> rocks = new ArrayList<>();
     public List<Tree> trees = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
     private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
@@ -71,6 +72,7 @@ public class GameScene {
         if(playerTank.isAlive()){
             playerTank.collisionBullet(bullets);
             playerTank.collisionPlayer(aiTanks);
+            playerTank.collisionRocks(rocks);
             playerTank.collisionTrees(trees);
             playerTank.move();
             playerTank.draw();
@@ -95,10 +97,24 @@ public class GameScene {
         for(int i = 0; i < aiTanks.size(); i++){
             AiTank aiTank = aiTanks.get(i);
             aiTank.collisionTank(playerTank);
+            aiTank.collisionRocks(rocks);
             aiTank.collisionTrees(trees);
             aiTank.collisionAi(aiTanks);
             aiTank.move();
             aiTank.draw();
+        }
+        //更新石头
+        for(int i = 0; i < rocks.size(); i++){
+            Rock rock = rocks.get(i);
+            if(!rock.isAlive()){
+                rocks.remove(i);
+            }
+        }
+        //绘制石头
+        for(int i = 0; i < trees.size(); i++){
+            Rock rock = rocks.get(i);
+            rock.collisionBullet(bullets);
+            rock.draw();
         }
         //更新树丛
         for(int i = 0; i < trees.size(); i++){
