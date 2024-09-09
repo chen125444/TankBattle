@@ -80,6 +80,7 @@
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
+                            <arg>-Dprism.order=sw</arg>
                         </configuration>
                     </execution>
                 </executions>

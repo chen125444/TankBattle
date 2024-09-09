@@ -48,6 +48,9 @@ public class AiTank extends AbstractObject implements Runnable{
 
     @Override
     public void move() {
+
+    }
+    public void aiMove(Tank tank,List<AiTank> aiTanks) {
         if(!moving||directions.contains(direction)) {
             return;
         }
@@ -65,6 +68,49 @@ public class AiTank extends AbstractObject implements Runnable{
             direction = Direction.UP;
         }
         // 实现AI坦克的移动逻辑
+        if(getX()==tank.getX()&&getY()>tank.getY()){
+            direction = Direction.UP;
+            if(canFire){
+                openFire();
+                canFire = false;
+            }
+        }
+        if(getX()==tank.getX()&&getY()<tank.getY()){
+            direction = Direction.DOWN;
+            if(canFire){
+                openFire();
+                canFire = false;
+            }
+        }
+        if(getX()>tank.getX()&&getY()==tank.getY()){
+            direction = Direction.LEFT;
+            if(canFire){
+                openFire();
+                canFire = false;
+            }
+        }
+        if(getX()<tank.getX()&&getY()==tank.getY()){
+            direction = Direction.RIGHT;
+            if(canFire){
+                openFire();
+                canFire = false;
+            }
+        }
+        for (int i=0;i<aiTanks.size();i++){
+            AiTank aiTank = aiTanks.get(i);
+            if(getX()==aiTank.getX()&&getY()>aiTank.getY()){
+                direction = Direction.DOWN;
+            }
+            if(getX()==aiTank.getX()&&getY()<aiTank.getY()){
+                direction = Direction.UP;
+            }
+            if(getX()>aiTank.getX()&&getY()==aiTank.getY()){
+                direction = Direction.RIGHT;
+            }
+            if(getX()<aiTank.getX()&&getY()==aiTank.getY()){
+                direction = Direction.LEFT;
+            }
+        }
         Random rand = new Random();
         int randomX = rand.nextInt(100);
         switch (randomX) {

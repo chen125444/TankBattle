@@ -21,9 +21,9 @@ public class GameScene {
     private Tank playerTank;
     private MapData map = new MapData(this);
     public List<Bullet> bullets = new ArrayList<>();
-    public List<Rock> rocks = new ArrayList<>();
     public List<AiTank> aiTanks = map.mapData.get(1).aiTanks;
     public List<Tree> trees = map.mapData.get(1).trees;
+    public List<Rock> rocks = map.mapData.get(1).rocks;
     public List<Explode> explodes = new ArrayList<>();
     private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
 
@@ -92,7 +92,7 @@ public class GameScene {
             aiTank.collisionRocks(rocks);
             aiTank.collisionTrees(trees);
             aiTank.collisionAi(aiTanks);
-            aiTank.move();
+            aiTank.aiMove(playerTank,aiTanks);
             aiTank.draw();
         }
         //更新石头

@@ -20,8 +20,8 @@ public class Main extends Application {
         // Register a shutdown hook to ensure logout is called on program exit
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-                if (client != null) {
-                    client.logout(Account.uid);
+              if (client != null) {
+                   client.logout(Account.uid);
                 }
             } catch (Exception e) {
                 e.printStackTrace();  // Log any errors that occur during logout
