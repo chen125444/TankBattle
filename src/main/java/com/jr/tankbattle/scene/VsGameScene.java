@@ -92,6 +92,7 @@ public class VsGameScene {
             playerTank2.collisionTank(playerTank);
             for(int i = 0; i < bullets.size(); i++){
                 Bullet bullet = bullets.get(i);
+                bullet.collisionBullet(bullets);
                 bullet.move();
                 bullet.draw();
             }
