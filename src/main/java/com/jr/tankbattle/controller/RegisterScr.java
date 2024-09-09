@@ -21,18 +21,18 @@ public class RegisterScr {
         String username = txtUid.getText();
         String password = txtPwd.getText();
 
-//        if (username.isEmpty() || password.isEmpty()) {
-//            showAlert(Alert.AlertType.WARNING, "警告", "用户名或密码不能为空");
-//            return;
-//        }
+        if (username.isEmpty() || password.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "警告", "用户名或密码不能为空");
+            return;
+        }
 
         try {
-//            boolean registerSuccess = client.register(username, password);
-//            if (registerSuccess) {
+            boolean registerSuccess = client.register(username, password);
+            if (registerSuccess) {
                 GameDlg.getInstance().Show("register");
-//            } else {
-//                showAlert(Alert.AlertType.ERROR, "错误", "注册失败: 用户名已存在或其他错误");
-//            }
+            } else {
+                showAlert(Alert.AlertType.ERROR, "错误", "注册失败: 用户名已存在或其他错误");
+            }
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "错误", "注册失败: " + e.getMessage());
         }

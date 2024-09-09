@@ -73,7 +73,6 @@ public class OnlineRoom {
         }
     }
 
-
     @FXML
     public void createRoom() {
         roomId = txtRoomId.getText();
@@ -85,7 +84,7 @@ public class OnlineRoom {
         try {
             boolean success = client.createRoom(roomId);
             if (success) {
-                showAlert(Alert.AlertType.INFORMATION, "信息", "房间创建成功！");
+//                showAlert(Alert.AlertType.INFORMATION, "信息", "房间创建成功！");
                 Director.getInstance().toOnlineRoomInner(roomId);
             } else {
                 showAlert(Alert.AlertType.ERROR, "错误", "创建房间失败！");
@@ -106,7 +105,7 @@ public class OnlineRoom {
         try {
             boolean success = client.joinRoom(roomId);
             if (success) {
-                showAlert(Alert.AlertType.INFORMATION, "信息", "成功加入房间！");
+//                showAlert(Alert.AlertType.INFORMATION, "信息", "成功加入房间！");
                 Director.getInstance().toOnlineRoomInner(roomId);
             } else {
                 showAlert(Alert.AlertType.ERROR, "错误", "加入房间失败！");
