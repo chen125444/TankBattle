@@ -21,6 +21,7 @@ public class Main extends Application {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 if (client != null) {
+                    //client.logout(Account.uid);
 //                    client.logout(Account.uid);
                 }
             } catch (Exception e) {
@@ -32,6 +33,7 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         if (client != null) {
+            //client.logout(Account.uid);  // Call logout in stop method
 //            client.logout(Account.uid);  // Call logout in stop method
         }
     }

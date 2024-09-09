@@ -141,17 +141,11 @@ public class Tank extends AbstractObject {
             if(checkCollision(aiTank)) {
                 directions.add(direction);
                 switch (direction) {
-                    case UP -> setY(getY() + speed);
-                    case DOWN -> setY(getY() - speed);
-                    case LEFT -> setX(getX() + speed);
-                    case RIGHT -> setX(getX() - speed);
+                    case UP -> aiTank.setY(aiTank.getY() - speed);
+                    case DOWN -> aiTank.setY(aiTank.getY() + speed);
+                    case LEFT -> aiTank.setX(aiTank.getX() - speed);
+                    case RIGHT -> aiTank.setX(aiTank.getX() + speed);
                     }
-                switch (aiTank.getDirection()) {
-                    case UP -> setY(getY() - speed);
-                    case DOWN -> setY(getY() + speed);
-                    case LEFT -> setX(getX() - speed);
-                    case RIGHT -> setX(getX() + speed);
-                }
                 }
             else directions.remove(direction);
         }

@@ -57,7 +57,7 @@ public class AiTank extends AbstractObject{
             case 2 -> direction = Direction.LEFT;
             case 3 -> direction = Direction.DOWN;
             case 4 -> direction = Direction.UP;
-            case 5 -> openFire();
+            //case 5 -> openFire();
             default -> direction = direction;
         }
         
@@ -94,16 +94,10 @@ public class AiTank extends AbstractObject{
             if(checkCollision(tank)) {
                 directions.add(direction);
                 switch (direction) {
-                    case UP -> setY(getY() + speed);
-                    case DOWN -> setY(getY() - speed);
-                    case LEFT -> setX(getX() + speed);
-                    case RIGHT -> setX(getX() - speed);
-                }
-                switch (tank.getDirection()) {
-                    case UP -> setY(getY() - speed);
-                    case DOWN -> setY(getY() + speed);
-                    case LEFT -> setX(getX() - speed);
-                    case RIGHT -> setX(getX() + speed);
+                    case UP -> tank.setY(tank.getY() - speed);
+                    case DOWN -> tank.setY(tank.getY() + speed);
+                    case LEFT -> tank.setX(tank.getX() - speed);
+                    case RIGHT -> tank.setX(tank.getX() + speed);
                 }
             }
             else directions.remove(direction);
@@ -128,16 +122,10 @@ public class AiTank extends AbstractObject{
                 if (checkCollision(aiTank)) {
                     directions.add(direction);
                     switch (direction) {
-                        case UP -> setY(getY() + speed);
-                        case DOWN -> setY(getY() - speed);
-                        case LEFT -> setX(getX() + speed);
-                        case RIGHT -> setX(getX() - speed);
-                    }
-                    switch (aiTank.getDirection()) {
-                        case UP -> setY(getY() - speed);
-                        case DOWN -> setY(getY() + speed);
-                        case LEFT -> setX(getX() - speed);
-                        case RIGHT -> setX(getX() + speed);
+                        case UP -> aiTank.setY(aiTank.getY() - speed);
+                        case DOWN -> aiTank.setY(aiTank.getY() + speed);
+                        case LEFT -> aiTank.setX(aiTank.getX() - speed);
+                        case RIGHT -> aiTank.setX(aiTank.getX() + speed);
                     }
                 } else directions.remove(direction);
             }
