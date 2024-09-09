@@ -115,16 +115,12 @@ public abstract class AbstractObject {
         return vsGameScene;
     }
 
-    public void setVsGameScene(VsGameScene vsGameScene) {
-        this.vsGameScene = vsGameScene;
-    }
-
     public GameScene getGameScene() {
         return gameScene;
     }
 
-    public void setGameScene(GameScene gameScene) {
-        this.gameScene = gameScene;
+    public OnlineGameScene getOnlineGameScene() {
+        return onlineGameScene;
     }
 
     public boolean isAlive() {

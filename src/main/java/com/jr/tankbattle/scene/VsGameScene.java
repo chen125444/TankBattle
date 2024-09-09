@@ -18,8 +18,6 @@ public class VsGameScene {
     @FXML
     private Canvas canvas =new Canvas(1080,720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-    //private KeyProcess keyProcess = new KeyProcess();
-    //private Refresh refresh = new Refresh();
     private boolean running = false;
     private Tank playerTank;
     private Tank2 playerTank2;
@@ -27,8 +25,7 @@ public class VsGameScene {
     public List<Rock> rocks = new ArrayList<>();
     public List<Tree> trees = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
-
-    //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
+    private final Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
 
 
     public void init(Stage stage) {
@@ -53,7 +50,7 @@ public class VsGameScene {
         refresh.start();
         //子弹间隔线程
         new Thread(playerTank).start();
-        new Thread(playerTank).start();
+        new Thread(playerTank2).start();
     }
     // 处理按键按下事件
     private void handleKeyPressed(KeyEvent event) {
@@ -70,7 +67,7 @@ public class VsGameScene {
     private void render() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
-        graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg")), 0,0 );
+        graphicsContext.drawImage(backImage, 0,0 );
         // 绘制玩家坦克
         if(playerTank.isAlive()){
             playerTank.draw();
@@ -107,7 +104,7 @@ public class VsGameScene {
             }
         }
         //绘制石头
-        for(int i = 0; i < trees.size(); i++){
+        for(int i = 0; i < rocks.size(); i++){
             Rock rock = rocks.get(i);
             rock.collisionBullet(bullets);
             rock.draw();
@@ -115,7 +112,6 @@ public class VsGameScene {
         //更新树丛
         for(int i = 0; i < trees.size(); i++){
             Tree tree = trees.get(i);
-            tree.collisionBullet(bullets);
             tree.collisionBullet(bullets);
             if(!tree.isAlive()){
                 trees.remove(i);
@@ -148,10 +144,6 @@ public class VsGameScene {
         return graphicsContext;
     }
 
-    // 设置 GraphicsContext 对象
-    public void setGraphicsContext(GraphicsContext graphicsContext) {
-        this.graphicsContext = graphicsContext;
-    }
 
 
 }

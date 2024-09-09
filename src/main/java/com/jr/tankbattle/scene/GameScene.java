@@ -43,7 +43,7 @@ public class GameScene {
         //子弹间隔线程
         new Thread(playerTank).start();
         for (AiTank aiTank : aiTanks){
-            new Thread(playerTank).start();
+            new Thread(aiTank).start();
         }
     }
     // 处理按键按下事件

@@ -1,6 +1,7 @@
 package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
@@ -21,6 +22,7 @@ public class Tank extends AbstractObject implements Runnable{
 
     //坦克速度
     private int speed;
+    private Image upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1U.png"));
     private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1D.png"));
     private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1L.png"));
     private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png"));
@@ -29,14 +31,21 @@ public class Tank extends AbstractObject implements Runnable{
 
     public Tank(int x, int y, int width, int height, int speed, GameScene gameScene) {
         super(x, y, width, height, gameScene);
-        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1U.png")));
+        super.setImage(upImage);
         this.speed = speed;
         this.width = width;
         this.height = height;
     }
     public Tank(int x, int y, int width, int height, int speed, VsGameScene vsGameScene) {
         super(x, y, width, height, vsGameScene);
-        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1U.png")));
+        super.setImage(upImage);
+        this.speed = speed;
+        this.width = width;
+        this.height = height;
+    }
+    public Tank(int x, int y, int width, int height, int speed, OnlineGameScene onlineGameScene) {
+        super(x, y, width, height, onlineGameScene);
+        super.setImage(upImage);
         this.speed = speed;
         this.width = width;
         this.height = height;
@@ -119,8 +128,6 @@ public class Tank extends AbstractObject implements Runnable{
                     openFire();
                     canFire = false;
                 }
-
-//                System.out.println("fire");
                 break;
             default:
                 break;
@@ -133,7 +140,7 @@ public class Tank extends AbstractObject implements Runnable{
             System.out.print("");
             if(!canFire){
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                     canFire = true;
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);

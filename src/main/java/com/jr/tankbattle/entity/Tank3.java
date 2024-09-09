@@ -13,9 +13,10 @@ import java.util.List;
 
 import static com.jr.tankbattle.controller.HomePage.status;
 
-public class Tank3 extends AbstractObject {
+public class Tank3 extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
     private boolean moving = false;
+    private boolean canFire = true;
     private int width;
     private int height;
     //坦克速度
@@ -70,6 +71,17 @@ public class Tank3 extends AbstractObject {
                         getVsGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
             }
         }
+        if(status == 3){
+            switch (direction) {
+                case UP -> getOnlineGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
+                case DOWN ->
+                        getOnlineGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
+                case LEFT ->
+                        getOnlineGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
+                case RIGHT ->
+                        getOnlineGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
+            }
+        }
     }
 
     public void pressed(KeyCode keyCode) {
@@ -104,14 +116,32 @@ public class Tank3 extends AbstractObject {
                 moving = false;
                 break;
             case J:
-                openFire();
+                if(canFire){
+                    openFire();
+                    canFire = false;
+                }
+
 //                System.out.println("fire");
                 break;
             default:
                 break;
         }
     }
+    @Override
+    public void run() {
+        while (true){
+            System.out.print("");
+            if(!canFire){
+                try {
+                    Thread.sleep(500);
+                    canFire = true;
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
 
+            }
+        }
+    }
     public boolean checkCollision(AbstractObject other) {
         // 实现坦克与其他对象的碰撞检测逻辑
         if (other.isAlive()){

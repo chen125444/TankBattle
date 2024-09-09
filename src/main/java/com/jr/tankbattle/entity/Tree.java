@@ -1,6 +1,7 @@
 package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import javafx.scene.image.Image;
 
@@ -17,6 +18,9 @@ public class Tree extends AbstractObject{
     }
     public Tree(int x, int y, int width, int height, VsGameScene vsGameScene) {
         super(x, y, width, height,vsGameScene);
+    }
+    public Tree(int x, int y, int width, int height, OnlineGameScene onlineGameScene) {
+        super(x, y, width, height,onlineGameScene);
     }
 
 

@@ -36,7 +36,7 @@ public class AiTank extends AbstractObject implements Runnable{
             System.out.print("");
             if(!canFire){
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                     canFire = true;
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);

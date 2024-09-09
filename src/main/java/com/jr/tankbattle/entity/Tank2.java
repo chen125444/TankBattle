@@ -2,6 +2,7 @@ package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
@@ -20,13 +21,21 @@ public class Tank2 extends AbstractObject implements Runnable{
     //坦克速度
     private int speed;
     private List<Direction> directions = new ArrayList<>();
+    private Image upImage = new Image((this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2U.png")));
     private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2D.png"));
     private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2L.png"));
     private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2R.png"));
 
     public Tank2(int x, int y, int width, int height, int speed, VsGameScene vsGameScene) {
         super(x, y, width, height, vsGameScene);
-        super.setImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2U.png")));
+        super.setImage(upImage);
+        this.speed = speed;
+        this.width = width;
+        this.height = height;
+    }
+    public Tank2(int x, int y, int width, int height, int speed, OnlineGameScene onlineGameScene) {
+        super(x, y, width, height, onlineGameScene);
+        super.setImage(upImage);
         this.speed = speed;
         this.width = width;
         this.height = height;
@@ -108,7 +117,7 @@ public class Tank2 extends AbstractObject implements Runnable{
             System.out.print("");
             if(!canFire){
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                     canFire = true;
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
