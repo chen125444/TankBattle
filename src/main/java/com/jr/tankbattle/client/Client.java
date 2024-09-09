@@ -3,6 +3,7 @@ package com.jr.tankbattle.client;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.jr.tankbattle.controller.Account;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -97,6 +98,7 @@ public class Client {
     // 创建房间
     public boolean createRoom(String roomId) throws Exception {
         Message message = new Message();
+        message.username= Account.uid;
         message.setRoomRequest("createRoom", roomId);
         return sendMessage(message);
     }
@@ -104,6 +106,7 @@ public class Client {
     // 加入房间
     public boolean joinRoom(String roomId) throws Exception {
         Message message = new Message();
+        message.username= Account.uid;
         message.setRoomRequest("joinRoom", roomId);
         return sendMessage(message);
     }
