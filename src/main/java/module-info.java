@@ -1,10 +1,10 @@
 module com.jr.tankbattle {
     requires javafx.controls;
     requires javafx.fxml;
-    requires java.desktop;
 
     requires javafx.media;
     requires com.google.gson;
+    requires javafx.graphics;
 
     exports com.jr.tankbattle;
     opens com.jr.tankbattle to javafx.fxml;
