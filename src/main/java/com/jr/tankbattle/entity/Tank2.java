@@ -18,6 +18,7 @@ public class Tank2 extends AbstractObject {
     private int height;
     //坦克速度
     private int speed;
+    private List<Direction> directions = new ArrayList<>();
     private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2D.png"));
     private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2L.png"));
     private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2R.png"));
