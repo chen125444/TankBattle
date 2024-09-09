@@ -81,7 +81,6 @@ public class Bullet extends AbstractObject{
             }
             else {
                 getVsGameScene().bullets.remove(this);
-                getVsGameScene().bullets2.remove(this);
                 getVsGameScene().explodes.add(new Explode(getX(), getY(), getVsGameScene()));
             }
         }

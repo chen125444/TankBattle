@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Tank2 extends AbstractObject {
@@ -114,6 +115,22 @@ public class Tank2 extends AbstractObject {
             }
         }
     }
+    public void collisionTrees(List<Tree> trees) {
+        // 实现玩家与树丛的碰撞检测逻辑
+        for(int i = 0; i < trees.size(); i++) {
+            Tree tree = trees.get(i);
+            if(checkCollision(tree)) {
+                directions.add(direction);
+                switch (direction) {
+                    case UP -> setY(getY() + speed);
+                    case DOWN -> setY(getY() - speed);
+                    case LEFT -> setX(getX() + speed);
+                    case RIGHT -> setX(getX() - speed);
+                }
+            }
+            else directions.remove(direction);
+        }
+    }
     //坦克之間的碰撞
     public void collisionTank(Tank tank){
         if(checkCollision(tank)){
@@ -152,22 +169,22 @@ public class Tank2 extends AbstractObject {
             case UP:
                 Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, getVsGameScene());
                 bullet0.draw();
-                getVsGameScene().bullets2.add(bullet0);
+                getVsGameScene().bullets.add(bullet0);
                 break;
             case DOWN:
                 Bullet bullet1 = new Bullet(getX() + width / 2 - 5, getY() + height, 22, 10, Direction.DOWN, 5, getVsGameScene());
                 bullet1.draw();
-                getVsGameScene().bullets2.add(bullet1);
+                getVsGameScene().bullets.add(bullet1);
                 break;
             case LEFT:
                 Bullet bullet2 = new Bullet(getX() - 22, getY() + height / 2 - 5, 22, 10, Direction.LEFT, 5, getVsGameScene());
                 bullet2.draw();
-                getVsGameScene().bullets2.add(bullet2);
+                getVsGameScene().bullets.add(bullet2);
                 break;
             case RIGHT:
                 Bullet bullet3 = new Bullet(getX() + width, getY() + height / 2 - 5, 22, 10, Direction.RIGHT, 5, getVsGameScene());
                 bullet3.draw();
-                getVsGameScene().bullets2.add(bullet3);
+                getVsGameScene().bullets.add(bullet3);
         }
     }
 }

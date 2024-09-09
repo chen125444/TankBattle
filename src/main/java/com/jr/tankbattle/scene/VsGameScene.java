@@ -24,7 +24,7 @@ public class VsGameScene {
     private Tank playerTank;
     private Tank2 playerTank2;
     public List<Bullet> bullets = new ArrayList<>();
-    public List<Bullet> bullets2 = new ArrayList<>();
+
     public List<Tree> trees = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
 
@@ -73,7 +73,7 @@ public class VsGameScene {
             playerTank.draw();
             playerTank.move();
             playerTank.collisionTrees(trees);
-            playerTank.collisionBullet(bullets2);
+            playerTank.collisionBullet(bullets);
             playerTank.collisionTank(playerTank2);
             // 绘制子弹
             for(int i = 0; i < bullets.size(); i++){
@@ -85,20 +85,20 @@ public class VsGameScene {
         if(playerTank2.isAlive()){
             playerTank2.draw();
             playerTank2.move();
-            playerTank.collisionTrees(trees);
+            playerTank2.collisionTrees(trees);
             playerTank2.collisionBullet(bullets);
             playerTank2.collisionTank(playerTank);
-            for(int i = 0; i < bullets2.size(); i++){
-                Bullet bullet2 = bullets2.get(i);
-                bullet2.move();
-                bullet2.draw();
+            for(int i = 0; i < bullets.size(); i++){
+                Bullet bullet = bullets.get(i);
+                bullet.move();
+                bullet.draw();
             }
         }
         //更新树丛
         for(int i = 0; i < trees.size(); i++){
             Tree tree = trees.get(i);
             tree.collisionBullet(bullets);
-            tree.collisionBullet(bullets2);
+            tree.collisionBullet(bullets);
             if(!tree.isAlive()){
                 trees.remove(i);
             }
