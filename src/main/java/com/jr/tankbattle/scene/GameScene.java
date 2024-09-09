@@ -22,7 +22,7 @@ public class GameScene {
     private MapData map = new MapData(this);
     public List<Bullet> bullets = new ArrayList<>();
     public List<Rock> rocks = new ArrayList<>();
-    public List<AiTank> aiTanks = map.mapData.get(1).aitanks;
+    public List<AiTank> aiTanks = map.mapData.get(1).aiTanks;
     public List<Tree> trees = map.mapData.get(1).trees;
     public List<Explode> explodes = new ArrayList<>();
     private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
