@@ -1,6 +1,7 @@
 package com.jr.tankbattle.util;
 
 import com.jr.tankbattle.entity.AiTank;
+import com.jr.tankbattle.entity.Rock;
 import com.jr.tankbattle.entity.Tank;
 import com.jr.tankbattle.entity.Tree;
 import com.jr.tankbattle.scene.GameScene;

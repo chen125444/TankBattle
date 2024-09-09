@@ -57,7 +57,7 @@ public class AiTank extends AbstractObject{
             case 2 -> direction = Direction.LEFT;
             case 3 -> direction = Direction.DOWN;
             case 4 -> direction = Direction.UP;
-            //case 5 -> openFire();
+            case 5 -> openFire();
             default -> direction = direction;
         }
         

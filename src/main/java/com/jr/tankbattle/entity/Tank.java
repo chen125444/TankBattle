@@ -23,6 +23,7 @@ public class Tank extends AbstractObject {
     private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1L.png"));
     private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png"));
     private List<Direction> directions = new ArrayList<>();
+    private int lives =4;
 
     public Tank(int x, int y, int width, int height, int speed, GameScene gameScene) {
         super(x, y, width, height, gameScene);
@@ -42,9 +43,8 @@ public class Tank extends AbstractObject {
     @Override
     public void move() {
         // 实现坦克的移动逻辑
-        if (!moving||directions.contains(direction)) {
+        if (!moving|| directions.isEmpty()) {
             return;
-
         }
             switch (direction) {
                 case UP -> setY(getY() - speed);
@@ -78,26 +78,26 @@ public class Tank extends AbstractObject {
     }
 
     public void pressed(KeyCode keyCode) {
-        switch (keyCode) {
-            case W:
-                direction = Direction.UP;
-                moving = true;
-                break;
-            case S:
-                direction = Direction.DOWN;
-                moving = true;
-                break;
-            case A:
-                direction = Direction.LEFT;
-                moving = true;
-                break;
-            case D:
-                direction = Direction.RIGHT;
-                moving = true;
-                break;
-            default:
-                break;
-        }
+            switch (keyCode) {
+                case W:
+                    direction = Direction.UP;
+                    moving = true;
+                    break;
+                case S:
+                    direction = Direction.DOWN;
+                    moving = true;
+                    break;
+                case A:
+                    direction = Direction.LEFT;
+                    moving = true;
+                    break;
+                case D:
+                    direction = Direction.RIGHT;
+                    moving = true;
+                    break;
+                default:
+                    break;
+            }
     }
 
     public void released(KeyCode keyCode) {
@@ -129,7 +129,10 @@ public class Tank extends AbstractObject {
         for(int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
             if(checkCollision(bullet)) {
-                setAlive(false);
+                lives--;
+                if(lives == 0) {
+                    setAlive(false);
+                }
                 bullet.setAlive(false);
             }
         }
@@ -179,7 +182,9 @@ public class Tank extends AbstractObject {
                     case RIGHT -> setX(getX() - speed);
                 }
             }
-            else directions.remove(direction);
+            else{
+                directions.remove(direction);
+            }
         }
     }
     //坦克之間的碰撞
