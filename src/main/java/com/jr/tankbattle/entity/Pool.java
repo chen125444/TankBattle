@@ -7,23 +7,23 @@ import java.util.List;
 
 import static com.jr.tankbattle.controller.HomePage.status;
 
-public class Rock extends AbstractObject{
-    private Image rockImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/walls(1).png"));
+public class Pool extends AbstractObject{
+    private Image rockImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/water(1).png"));
     //构造函数
-    public Rock(int x, int y, int width, int height, GameScene gameScene) {
+    public Pool(int x, int y, int width, int height, GameScene gameScene) {
         super(x, y, width, height, gameScene);
     }
-    public Rock(int x, int y, int width, int height, VsGameScene vsGameScene) {
+    public Pool(int x, int y, int width, int height, VsGameScene vsGameScene) {
         super(x, y, width, height, vsGameScene);
     }
 
-    // 实现石头的移动逻辑
+    // 实现水池的移动逻辑
     @Override
     public void move() {
 
     }
 
-    // 实现石头的绘制逻辑
+    // 实现水池的绘制逻辑
     public void draw() {
         if(status == 1){
             getGameScene().getGraphicsContext().drawImage(rockImage, super.getX(), super.getY());
@@ -32,7 +32,7 @@ public class Rock extends AbstractObject{
             getVsGameScene().getGraphicsContext().drawImage(rockImage, super.getX(), super.getY());
         }
     }
-    // 实现石头与其他对象的碰撞检测逻辑
+    // 实现水池与其他对象的碰撞检测逻辑
     @Override
     public boolean checkCollision(AbstractObject other) {
         if(other.isAlive()){
@@ -51,3 +51,4 @@ public class Rock extends AbstractObject{
         }
     }
 }
+

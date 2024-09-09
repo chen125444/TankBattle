@@ -2,6 +2,7 @@ package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
@@ -19,6 +20,7 @@ public abstract class AbstractObject {
     // 界面
     private GameScene gameScene;
     private VsGameScene vsGameScene;
+    private OnlineGameScene onlineGameScene;
     // 对象是否存活
     private boolean alive;
 
@@ -41,6 +43,15 @@ public abstract class AbstractObject {
         this.vsGameScene = vsGameScene;
         this.alive = true;
     }
+    public AbstractObject(int x, int y, int width, int height, Image image, OnlineGameScene onlineGameScene) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.image = image;
+        this.onlineGameScene = onlineGameScene;
+        this.alive = true;
+    }
 
     //得到矩形
     public Rectangle2D getRectangle(){
@@ -54,6 +65,9 @@ public abstract class AbstractObject {
     }
     public AbstractObject(int x, int y, int width, int height, VsGameScene vsGameScene) {
         this(x, y, width, height,null, vsGameScene);
+    }
+    public AbstractObject(int x, int y, int width, int height, OnlineGameScene onlineGameScene) {
+        this(x, y, width, height,null, onlineGameScene);
     }
 
     // Getter 和 Setter 方法
