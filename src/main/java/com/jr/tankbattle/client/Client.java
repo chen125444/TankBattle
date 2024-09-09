@@ -1,12 +1,16 @@
 package com.jr.tankbattle.client;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Client {
     private static final String SERVER_ADDRESS = "47.121.217.200"; // 替换为服务器的 IP 地址
@@ -104,18 +108,65 @@ public class Client {
         return sendMessage(message);
     }
 
-    // 设置玩家准备状态
-    public boolean setReadyStatus(String roomId, boolean isReady) throws Exception {
+    // 获取房间内玩家列表
+    public List<String> getRoomPlayerList(String roomId) throws Exception {
         Message message = new Message();
-        message.setReadyStatusRequest(roomId, isReady);
-        return sendMessage(message);
+        message.setRoomRequest("getRoomPlayerList", roomId);  // Request type for room player list
+        String response = sendMessageAndGetResponse(message);
+        Message responseMessage = gson.fromJson(response, Message.class);
+
+        List<String> players = new ArrayList<>();
+        if ("success".equals(responseMessage.status)) {
+            // Parse players list
+            String[] playerArray = responseMessage.message.split(",");
+            for (String player : playerArray) {
+                players.add(player.trim());
+            }
+        } else {
+            throw new Exception(responseMessage.message);
+        }
+        return players;
     }
 
-    // 启动游戏
-    public boolean startGame() throws Exception {
+    // 获取玩家准备状态
+    public Map<String, Boolean> getPlayerReadyStatus(String roomId) throws Exception {
         Message message = new Message();
-        message.setRoomRequest("startGame", null); // 启动游戏的请求类型假设为 "startGame"
-        return sendMessage(message);
+        message.setRoomRequest("getPlayerReadyStatus", roomId);  // Request type for player ready status
+        String response = sendMessageAndGetResponse(message);
+        Message responseMessage = gson.fromJson(response, Message.class);
+
+        Map<String, Boolean> playerStatus = new HashMap<>();
+        if ("success".equals(responseMessage.status)) {
+            // Parse player status map
+            JsonObject jsonObject = gson.fromJson(responseMessage.message, JsonObject.class);
+            for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+                playerStatus.put(entry.getKey(), entry.getValue().getAsBoolean());
+            }
+        } else {
+            throw new Exception(responseMessage.message);
+        }
+        return playerStatus;
+    }
+
+    // 标记玩家为准备状态
+    public boolean markReady(String username, String roomId) throws Exception {
+        Message message = new Message();
+        message.setReadyStatusRequest(username,roomId,true);  // Request type for marking ready
+
+        String response = sendMessageAndGetResponse(message);
+        Message responseMessage = gson.fromJson(response, Message.class);
+
+        return "success".equals(responseMessage.status);
+    }
+
+    // 开始游戏
+    public boolean startGame(String roomId) throws Exception {
+        Message message = new Message();
+        message.setRoomRequest("startGame", roomId);  // Request type for starting game
+        String response = sendMessageAndGetResponse(message);
+        Message responseMessage = gson.fromJson(response, Message.class);
+
+        return "success".equals(responseMessage.status);
     }
 
     // 发送消息并接收响应

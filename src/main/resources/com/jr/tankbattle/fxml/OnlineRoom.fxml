@@ -17,7 +17,7 @@
         </Label>
 
         <!-- Room Status Label -->
-        <Label fx:id="lblRoomStatus" layoutX="20.0" layoutY="60.0" text="Room Status: Not in a room">
+        <Label fx:id="lblRoomStatus" layoutX="20.0" layoutY="60.0" text="Room Status: ">
             <font>
                 <Font size="18.0" />
             </font>

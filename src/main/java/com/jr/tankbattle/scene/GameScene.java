@@ -8,9 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+
+import java.util.*;
 
 
 public class GameScene {
@@ -25,6 +24,7 @@ public class GameScene {
     public List<Explode> explodes = new ArrayList<>();
     private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
 
+    public Map<Integer,GameScene> gameScenes = new HashMap<>();
 
     public void init(Stage stage) {
         AnchorPane root = new AnchorPane(canvas);
