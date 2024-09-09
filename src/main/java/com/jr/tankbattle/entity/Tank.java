@@ -17,6 +17,7 @@ public class Tank extends AbstractObject {
     private boolean moving = false;
     private int width;
     private int height;
+
     //坦克速度
     private int speed;
     private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1D.png"));
