@@ -29,8 +29,7 @@ public class RegisterScr {
         try {
 //            boolean registerSuccess = client.register(username, password);
 //            if (registerSuccess) {
-            //Director.getInstance().toLoginScr();//注册成功后跳转至登录页面进行登录
-            GameDlg.getInstance().Show("register");
+                GameDlg.getInstance().Show("register");
 //            } else {
 //                showAlert(Alert.AlertType.ERROR, "错误", "注册失败: 用户名已存在或其他错误");
 //            }
