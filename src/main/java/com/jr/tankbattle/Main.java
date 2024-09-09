@@ -32,7 +32,7 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         if (client != null) {
-            //client.logout(Account.uid);  // Call logout in stop method
+//            client.logout(Account.uid);  // Call logout in stop method
         }
     }
 
