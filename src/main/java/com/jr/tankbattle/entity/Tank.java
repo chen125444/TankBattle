@@ -12,9 +12,10 @@ import java.util.List;
 
 import static com.jr.tankbattle.controller.HomePage.status;
 
-public class Tank extends AbstractObject {
+public class Tank extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
     private boolean moving = false;
+    private  boolean canFire = true;
     private int width;
     private int height;
 
@@ -110,11 +111,31 @@ public class Tank extends AbstractObject {
                 moving = false;
                 break;
             case J:
-                openFire();
+                if(canFire){
+                    openFire();
+                    canFire = false;
+                }
+
 //                System.out.println("fire");
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void run() {
+        while (true){
+            System.out.print("");
+            if(!canFire){
+                try {
+                    Thread.sleep(1000);
+                    canFire = true;
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
         }
     }
 

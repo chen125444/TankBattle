@@ -3,16 +3,15 @@ package com.jr.tankbattle.entity;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class AiTank extends AbstractObject{
+public class AiTank extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
     private boolean moving = true;
+    private boolean canFire = true;
     private int width;
     private int height;
     //坦克速度
@@ -29,6 +28,22 @@ public class AiTank extends AbstractObject{
         this.speed = 2;
         this.width = 40;
         this.height = 40;
+    }
+
+    @Override
+    public void run() {
+        while (true){
+            System.out.print("");
+            if(!canFire){
+                try {
+                    Thread.sleep(1000);
+                    canFire = true;
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }
     }
 
     @Override
@@ -53,12 +68,27 @@ public class AiTank extends AbstractObject{
         Random rand = new Random();
         int randomX = rand.nextInt(100);
         switch (randomX) {
-            case 1 -> direction = Direction.RIGHT;
-            case 2 -> direction = Direction.LEFT;
-            case 3 -> direction = Direction.DOWN;
-            case 4 -> direction = Direction.UP;
-            case 5 -> openFire();
-            default -> direction = direction;
+            case 1:
+                direction = Direction.RIGHT;
+                break;
+            case 2:
+                direction = Direction.LEFT;
+                break;
+            case 3:
+                direction = Direction.DOWN;
+                break;
+            case 4:
+                direction = Direction.UP;
+                break;
+            case 5:
+                if(canFire){
+                    openFire();
+                    canFire = false;
+                }
+
+            default:
+                direction = direction;
+                break;
         }
         
         switch (direction) {

@@ -11,9 +11,10 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tank2 extends AbstractObject {
+public class Tank2 extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
     private boolean moving = false;
+    private  boolean canFire = true;
     private int width;
     private int height;
     //坦克速度
@@ -92,10 +93,28 @@ public class Tank2 extends AbstractObject {
                 moving = false;
                 break;
             case ENTER:
-                openFire();
+                if(canFire){
+                    openFire();
+                    canFire = false;
+                }
                 break;
             default:
                 break;
+        }
+    }
+    @Override
+    public void run() {
+        while (true){
+            System.out.print("");
+            if(!canFire){
+                try {
+                    Thread.sleep(1000);
+                    canFire = true;
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
         }
     }
 

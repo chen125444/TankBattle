@@ -51,6 +51,9 @@ public class VsGameScene {
         }
         //initSprite();
         refresh.start();
+        //子弹间隔线程
+        new Thread(playerTank).start();
+        new Thread(playerTank).start();
     }
     // 处理按键按下事件
     private void handleKeyPressed(KeyEvent event) {
