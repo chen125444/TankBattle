@@ -82,18 +82,22 @@ public class Tank extends AbstractObject implements Runnable{
     public void pressed(KeyCode keyCode) {
             switch (keyCode) {
                 case W:
+                    back(direction);
                     direction = Direction.UP;
                     moving = true;
                     break;
                 case S:
+                    back(direction);
                     direction = Direction.DOWN;
                     moving = true;
                     break;
                 case A:
+                    back(direction);
                     direction = Direction.LEFT;
                     moving = true;
                     break;
                 case D:
+                    back(direction);
                     direction = Direction.RIGHT;
                     moving = true;
                     break;
@@ -238,6 +242,14 @@ public class Tank extends AbstractObject implements Runnable{
         this.speed = speed;
     }
 
+    public void back(Direction direction) {
+        switch (direction) {
+            case UP -> setY(getY() + speed);
+            case DOWN -> setY(getY() - speed);
+            case LEFT -> setX(getX() + speed);
+            case RIGHT -> setX(getX() - speed);
+        }
+    }
     public void openFire() {
         if(status == 1){
             switch (direction) {
