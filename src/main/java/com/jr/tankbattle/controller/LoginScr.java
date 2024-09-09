@@ -21,19 +21,19 @@ public class LoginScr {
         String username = txtUid.getText();
         String password = txtPwd.getText();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "警告", "用户名或密码不能为空");
-            return;
-        }
+//        if (username.isEmpty() || password.isEmpty()) {
+//            showAlert(Alert.AlertType.WARNING, "警告", "用户名或密码不能为空");
+//            return;
+//        }
 
         try {
-            boolean loginSuccess = client.login(username, password);
-            if (loginSuccess) {
-                Account.setInfo(username, password);
+//            boolean loginSuccess = client.login(username, password);
+//            if (loginSuccess) {
+//                Account.setInfo(username, password);
                 Director.getInstance().toHomePage();
-            } else {
-                GameDlg.getInstance().Show("loginEr");//登录失败弹窗
-            }
+//            } else {
+//                GameDlg.getInstance().Show("loginEr");//登录失败弹窗
+//            }
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "错误", "登录失败: " + e.getMessage());
         }
