@@ -38,6 +38,9 @@ public class Tree extends AbstractObject{
         if(status == 2){
             getVsGameScene().getGraphicsContext().drawImage(treeImage, super.getX(), super.getY());
         }
+        if(status == 3){
+            getOnlineGameScene().getGraphicsContext().drawImage(treeImage, super.getX(), super.getY());
+        }
     }
 
     // 实现树丛与其他对象的碰撞检测逻辑

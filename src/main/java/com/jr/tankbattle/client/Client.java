@@ -172,6 +172,17 @@ public class Client {
         return "success".equals(responseMessage.status);
     }
 
+    // 离开房间
+    public boolean leaveRoom(String roomId) throws Exception {
+        Message message = new Message();
+        message.username = Account.uid;
+        message.setRoomRequest("leaveRoom", roomId);  // Request type for leaving room
+        String response = sendMessageAndGetResponse(message);
+        Message responseMessage = gson.fromJson(response, Message.class);
+
+        return "success".equals(responseMessage.status);
+    }
+
     // 发送消息并接收响应
     private boolean sendMessage(Message message) throws Exception {
         DatagramSocket socket = new DatagramSocket();

@@ -1,7 +1,6 @@
 package com.jr.tankbattle;
 
 import com.jr.tankbattle.controller.SoundScr;
-import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.OnlineRoomInner;
@@ -20,9 +19,9 @@ public class Director {
     public static final int WIDTH = 1080, HEIGHT = 720;
     private static Director instance = new Director();
     private Stage stage;
-    private GameScene gameScene = new GameScene();
-    private OnlineGameScene onlineGameScene = new OnlineGameScene();
-    private VsGameScene vsGameScene = new VsGameScene();
+    public static GameScene gameScene = new GameScene();
+    public static OnlineGameScene onlineGameScene = new OnlineGameScene();
+    public static VsGameScene vsGameScene = new VsGameScene();
 
 
     private Director() {}
@@ -153,6 +152,17 @@ public class Director {
             Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/VsGameScene.fxml")));
             stage.getScene().setRoot(root);
             vsGameScene.init(stage);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void toOnlineGameScene(){ //跳转联机游戏界面
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/OnlineGameScene.fxml")));
+            stage.getScene().setRoot(root);
+            onlineGameScene.init(stage);
         }
         catch (IOException e) {
             e.printStackTrace();

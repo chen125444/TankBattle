@@ -1,6 +1,7 @@
 package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -17,7 +18,10 @@ public class Explode extends AbstractObject {
             new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/blast5.gif")),
     };
 
-    public Explode( int x, int y, GameScene gameScene) {
+    public Explode(int x, int y, GameScene gameScene) {
+        super( x, y, 0, 0, gameScene);
+    }
+    public Explode(int x, int y, OnlineGameScene gameScene) {
         super( x, y, 0, 0, gameScene);
     }
     public Explode( int x, int y, VsGameScene vsGameScene) {
@@ -34,6 +38,12 @@ public class Explode extends AbstractObject {
         if(status == 2){
             if(count >= images.length) {
                 getVsGameScene().explodes.remove(this);
+                return;
+            }
+        }
+        if(status == 3){
+            if(count >= images.length) {
+                getOnlineGameScene().explodes.remove(this);
                 return;
             }
         }

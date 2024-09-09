@@ -3,6 +3,7 @@ package com.jr.tankbattle.scene;
 import com.jr.tankbattle.client.Client;
 import com.jr.tankbattle.Director;
 import com.jr.tankbattle.controller.Account;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -25,6 +26,9 @@ public class OnlineRoomInner {
     private Button btnReady;
     @FXML
     private Button btnStartGame;
+    @FXML
+    private Button btnLeaveRoom;
+
 
     private Client client = new Client();
     private String roomID;
@@ -34,9 +38,10 @@ public class OnlineRoomInner {
     public void initialize() {
         // Initialization code, if needed
         scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(this::refreshPlayerList, 0, 5, TimeUnit.SECONDS); // Refresh every 5 seconds
-        scheduler.scheduleAtFixedRate(this::updateRoomStatus, 0, 5, TimeUnit.SECONDS); // Refresh every 5 seconds
+        scheduler.scheduleAtFixedRate(() -> Platform.runLater(this::refreshPlayerList), 0, 5, TimeUnit.SECONDS); // Refresh every 5 seconds
+        scheduler.scheduleAtFixedRate(() -> Platform.runLater(this::updateRoomStatus), 0, 5, TimeUnit.SECONDS); // Refresh every 5 seconds
     }
+
 
     public void setRoomId(String roomID) {
         this.roomID = roomID;
@@ -49,18 +54,20 @@ public class OnlineRoomInner {
 
     @FXML
     public void refreshPlayerList() {
-        try {
-            List<String> playerList = client.getRoomPlayerList(roomID);
-            Map<String, Boolean> playerStatus = client.getPlayerReadyStatus(roomID);
-            lvPlayers.getItems().clear();
+        Platform.runLater(() -> {
+            try {
+                List<String> playerList = client.getRoomPlayerList(roomID);
+                Map<String, Boolean> playerStatus = client.getPlayerReadyStatus(roomID);
+                lvPlayers.getItems().clear();
 
-            for (String player : playerList) {
-                String status = playerStatus.getOrDefault(player, false) ? "Ready" : "Not Ready";
-                lvPlayers.getItems().add(player + " - " + status);
+                for (String player : playerList) {
+                    String status = playerStatus.getOrDefault(player, false) ? "Ready" : "Not Ready";
+                    lvPlayers.getItems().add(player + " - " + status);
+                }
+            } catch (Exception e) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Unable to refresh player list: " + e.getMessage());
             }
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Unable to refresh player list: " + e.getMessage());
-        }
+        });
     }
 
     @FXML
@@ -83,7 +90,7 @@ public class OnlineRoomInner {
             boolean success = client.startGame(roomID);
             if (success) {
                 showAlert(Alert.AlertType.INFORMATION, "Information", "Game has started!");
-//                Director.getInstance().toGameScreen(); // Navigate to the game screen
+                Director.getInstance().toOnlineGameScene();
             } else {
                 showAlert(Alert.AlertType.ERROR, "Error", "Unable to start the game!");
             }
@@ -92,21 +99,40 @@ public class OnlineRoomInner {
         }
     }
 
-    private void updateRoomStatus() {
+    @FXML
+    public void leaveRoom() {
         try {
-            Map<String, Boolean> playerStatus = client.getPlayerReadyStatus(roomID);
-            boolean allReady = true;
-            for (Boolean ready : playerStatus.values()) {
-                if (!ready) {
-                    allReady = false;
-                    break;
-                }
+            boolean success = client.leaveRoom(roomID);
+            if (success) {
+                onClose();
+                showAlert(Alert.AlertType.INFORMATION, "Information", "leave!");
+                Director.getInstance().toOnlineRoom();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error", "Unable to leave the game!");
             }
-            lblRoomStatus.setText("Room Status: " + (allReady ? "Ready" : "Waiting for players"));
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Unable to update room status: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Error", "Unable to leave the game: " + e.getMessage());
         }
     }
+
+    private void updateRoomStatus() {
+        Platform.runLater(() -> {
+            try {
+                Map<String, Boolean> playerStatus = client.getPlayerReadyStatus(roomID);
+                boolean allReady = true;
+                for (Boolean ready : playerStatus.values()) {
+                    if (!ready) {
+                        allReady = false;
+                        break;
+                    }
+                }
+                lblRoomStatus.setText("Room Status: " + (allReady ? "Ready" : "Waiting for players"));
+            } catch (Exception e) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Unable to update room status: " + e.getMessage());
+            }
+        });
+    }
+
 
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);

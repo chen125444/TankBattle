@@ -10,7 +10,7 @@
 <AnchorPane prefHeight="542.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.scene.OnlineRoomInner">
     <children>
         <!-- Room Status Label -->
-        <Label fx:id="lblRoomStatus" layoutX="20.0" layoutY="20.0" text="房间成员：">
+        <Label fx:id="lblRoomStatus" layoutX="20.0" layoutY="20.0" text="Room Status：">
             <font>
                 <Font size="18.0" />
             </font>
@@ -20,17 +20,25 @@
         <ListView fx:id="lvPlayers" layoutX="20.0" layoutY="60.0" prefHeight="400.0" prefWidth="300.0" />
 
         <!-- Ready Button -->
-        <Button fx:id="btnReady" layoutX="340.0" layoutY="60.0" onAction="#markReady" prefHeight="36.0" prefWidth="128.0" text="Ready">
+        <Button fx:id="btnReady" layoutX="340.0" layoutY="60.0" onAction="#markReady" prefHeight="36.0" prefWidth="135.0" text="Ready">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
 
         <!-- Start Game Button -->
-        <Button fx:id="btnStartGame" layoutX="340.0" layoutY="120.0" onAction="#startGame" prefHeight="36.0" prefWidth="128.0" text="Start Game">
+        <Button fx:id="btnStartGame" layoutX="340.0" layoutY="120.0" onAction="#startGame" prefHeight="36.0" prefWidth="135.0" text="Start Game">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
+
+        <!-- Leave Room Button -->
+        <Button fx:id="btnLeaveRoom" layoutX="340.0" layoutY="180.0" onAction="#leaveRoom" prefHeight="36.0" prefWidth="135.0" text="Leave Room">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+
     </children>
 </AnchorPane>

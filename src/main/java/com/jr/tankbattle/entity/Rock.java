@@ -1,6 +1,7 @@
 package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import javafx.scene.image.Image;
 import java.util.List;
@@ -16,6 +17,9 @@ public class Rock extends AbstractObject{
     public Rock(int x, int y, int width, int height, VsGameScene vsGameScene) {
         super(x, y, width, height, vsGameScene);
     }
+    public Rock(int x, int y, int width, int height, OnlineGameScene onlineGameScene) {
+        super(x, y, width, height,onlineGameScene);
+    }
 
     // 实现石头的移动逻辑
     @Override
@@ -30,6 +34,9 @@ public class Rock extends AbstractObject{
         }
         if(status == 2){
             getVsGameScene().getGraphicsContext().drawImage(rockImage, super.getX(), super.getY());
+        }
+        if(status == 3){
+            getOnlineGameScene().getGraphicsContext().drawImage(rockImage, super.getX(), super.getY());
         }
     }
     // 实现石头与其他对象的碰撞检测逻辑

@@ -1,6 +1,7 @@
 package com.jr.tankbattle.scene;
 
 import com.jr.tankbattle.entity.*;
+import com.jr.tankbattle.util.MapData;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -21,13 +22,12 @@ public class OnlineGameScene {
     //private KeyProcess keyProcess = new KeyProcess();
     //private Refresh refresh = new Refresh();
     private boolean running = false;
-    private Tank playerTank;
-    private Tank2 playerTank2;
+    private Tank3 playerTank1,playerTank2,playerTank3,playerTank4;
+    private MapData map = new MapData(this);
     public List<Bullet> bullets = new ArrayList<>();
     public List<Rock> rocks = new ArrayList<>();
-    public List<Tree> trees = new ArrayList<>();
+    public List<Tree> trees = map.mapData.get(1).trees;
     public List<Explode> explodes = new ArrayList<>();
-
     //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
 
 
@@ -38,32 +38,24 @@ public class OnlineGameScene {
         stage.getScene().setOnKeyReleased(this::handleKeyReleased);
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
         running = true;
-        playerTank = new Tank(400, 500, 40, 40, 2, this);
+        playerTank1 = new Tank3(400, 500, 40, 40, 2, this);
         //initSprite();
-        playerTank2 = new Tank2(800, 500, 40, 40, 2,this);
-        //产生树丛
-        for(int i=0;i<20;i++){
-            Random random = new Random();
-            int randomX = random.nextInt(1024);
-            int randomY = random.nextInt(720);
-            Tree tree = new Tree(randomX,randomY,40,40,this);
-            trees.add(tree);
-        }
+        playerTank2 = new Tank3(800, 500, 40, 40, 2,this);
         //initSprite();
         refresh.start();
         //子弹间隔线程
-        new Thread(playerTank).start();
+        new Thread(playerTank1).start();
         new Thread(playerTank2).start();
     }
     // 处理按键按下事件
     private void handleKeyPressed(KeyEvent event) {
-        playerTank.pressed(event.getCode());
+        playerTank1.pressed(event.getCode());
         playerTank2.pressed(event.getCode());
     }
     // 处理按键松开事件
     private void handleKeyReleased(KeyEvent event) {
         // 实现坦克停止移动的逻辑
-        playerTank.released(event.getCode());
+        playerTank1.released(event.getCode());
         playerTank2.released(event.getCode());
     }
     // 刷新游戏界面
@@ -72,13 +64,13 @@ public class OnlineGameScene {
         // 绘制背景
         graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg")), 0,0 );
         // 绘制玩家坦克
-        if(playerTank.isAlive()){
-            playerTank.draw();
-            playerTank.move();
-            playerTank.collisionRocks(rocks);
-            playerTank.collisionTrees(trees);
-            playerTank.collisionBullet(bullets);
-            playerTank.collisionTank(playerTank2);
+        if(playerTank1.isAlive()){
+            playerTank1.draw();
+            playerTank1.move();
+            playerTank1.collisionRocks(rocks);
+            playerTank1.collisionTrees(trees);
+            playerTank1.collisionBullet(bullets);
+            playerTank1.collisionTank(playerTank2);
             // 绘制子弹
             for(int i = 0; i < bullets.size(); i++){
                 Bullet bullet = bullets.get(i);
@@ -92,7 +84,7 @@ public class OnlineGameScene {
             playerTank2.collisionRocks(rocks);
             playerTank2.collisionTrees(trees);
             playerTank2.collisionBullet(bullets);
-            playerTank2.collisionTank(playerTank);
+            playerTank2.collisionTank(playerTank1);
             for(int i = 0; i < bullets.size(); i++){
                 Bullet bullet = bullets.get(i);
                 bullet.move();

@@ -2,6 +2,7 @@ package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
@@ -28,6 +29,11 @@ public class Bullet extends AbstractObject{
     }
     public Bullet(int x, int y, int width, int height, Direction direction,int speed, VsGameScene vsGameScene) {
         super(x, y, width, height,vsGameScene);
+        this.speed = speed;
+        this.direction = direction;
+    }
+    public Bullet(int x, int y, int width, int height, Direction direction,int speed, OnlineGameScene onlineGameScene) {
+        super(x, y, width, height,onlineGameScene);
         this.speed = speed;
         this.direction = direction;
     }
@@ -82,6 +88,20 @@ public class Bullet extends AbstractObject{
             else {
                 getVsGameScene().bullets.remove(this);
                 getVsGameScene().explodes.add(new Explode(getX(), getY(), getVsGameScene()));
+            }
+        }
+        if(status == 3){
+            if(isAlive()){
+                switch (direction){
+                    case UP -> getOnlineGameScene().getGraphicsContext().drawImage(upImage, super.getX(), super.getY());
+                    case DOWN -> getOnlineGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
+                    case LEFT -> getOnlineGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
+                    case RIGHT -> getOnlineGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
+                }
+            }
+            else {
+                getOnlineGameScene().bullets.remove(this);
+                getOnlineGameScene().explodes.add(new Explode(getX(), getY(), getOnlineGameScene()));
             }
         }
     }

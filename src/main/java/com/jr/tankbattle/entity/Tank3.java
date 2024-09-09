@@ -13,7 +13,7 @@ import java.util.List;
 
 import static com.jr.tankbattle.controller.HomePage.status;
 
-public class Tank3 extends AbstractObject implements Runnable{
+public class Tank3 extends AbstractObject implements Runnable {
     private Direction direction = Direction.UP;
     private boolean moving = false;
     private boolean canFire = true;
@@ -39,7 +39,7 @@ public class Tank3 extends AbstractObject implements Runnable{
     @Override
     public void move() {
         // 实现坦克的移动逻辑
-        if (!moving||directions.contains(direction)) {
+        if (!moving || directions.contains(direction)) {
             return;
 
         }
@@ -52,37 +52,14 @@ public class Tank3 extends AbstractObject implements Runnable{
     }
 
     public void draw() {
-        // 实现坦克的绘制逻辑
-        if(status == 1) {
-            switch (direction) {
-                case UP -> getGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
-                case DOWN -> getGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
-                case LEFT -> getGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
-                case RIGHT -> getGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
-            }
+        switch (direction) {
+            case UP ->
+                    getOnlineGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
+            case DOWN -> getOnlineGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
+            case LEFT -> getOnlineGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
+            case RIGHT -> getOnlineGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
         }
-        if (status == 2){
-            switch (direction) {
-                case UP -> getVsGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
-                case DOWN ->
-                        getVsGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
-                case LEFT ->
-                        getVsGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
-                case RIGHT ->
-                        getVsGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
-            }
-        }
-        if(status == 3){
-            switch (direction) {
-                case UP -> getOnlineGameScene().getGraphicsContext().drawImage(super.getImage(), super.getX(), super.getY());
-                case DOWN ->
-                        getOnlineGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
-                case LEFT ->
-                        getOnlineGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
-                case RIGHT ->
-                        getOnlineGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
-            }
-        }
+
     }
 
     public void pressed(KeyCode keyCode) {
@@ -121,7 +98,7 @@ public class Tank3 extends AbstractObject implements Runnable{
                 moving = false;
                 break;
             case J:
-                if(canFire){
+                if (canFire) {
                     openFire();
                     canFire = false;
                 }
@@ -132,11 +109,12 @@ public class Tank3 extends AbstractObject implements Runnable{
                 break;
         }
     }
+
     @Override
     public void run() {
-        while (true){
+        while (true) {
             System.out.print("");
-            if(!canFire){
+            if (!canFire) {
                 try {
                     Thread.sleep(500);
                     canFire = true;
@@ -147,18 +125,20 @@ public class Tank3 extends AbstractObject implements Runnable{
             }
         }
     }
+
     public boolean checkCollision(AbstractObject other) {
         // 实现坦克与其他对象的碰撞检测逻辑
-        if (other.isAlive()){
+        if (other.isAlive()) {
             return getRectangle().intersects(other.getRectangle());
         }
         return false;
     }
+
     public void collisionBullet(List<Bullet> bullets) {
         // 实现坦克与子弹的碰撞检测逻辑
-        for(int i = 0; i < bullets.size(); i++) {
+        for (int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
-            if(checkCollision(bullet)) {
+            if (checkCollision(bullet)) {
                 lives--;
                 if(lives == 0) {
                     setAlive(false);
@@ -167,27 +147,12 @@ public class Tank3 extends AbstractObject implements Runnable{
             }
         }
     }
-    public void collisionPlayer(List<AiTank> aiTanks) {
-        // 实现玩家与Ai坦克的碰撞检测逻辑
-        for(int i = 0; i < aiTanks.size(); i++) {
-            AiTank aiTank = aiTanks.get(i);
-            if(checkCollision(aiTank)) {
-                directions.add(direction);
-                switch (direction) {
-                    case UP -> aiTank.setY(aiTank.getY() - speed);
-                    case DOWN -> aiTank.setY(aiTank.getY() + speed);
-                    case LEFT -> aiTank.setX(aiTank.getX() - speed);
-                    case RIGHT -> aiTank.setX(aiTank.getX() + speed);
-                }
-            }
-            else directions.remove(direction);
-        }
-    }
-    public void collisionTrees(List<Tree> trees) {
-        // 实现玩家与树丛的碰撞检测逻辑
-        for(int i = 0; i < trees.size(); i++) {
-            Tree tree = trees.get(i);
-            if(checkCollision(tree)) {
+
+    public void collisionRocks(List<Rock> rocks) {
+        // 实现玩家与石头的碰撞检测逻辑
+        for (int i = 0; i < rocks.size(); i++) {
+            Rock rock = rocks.get(i);
+            if (checkCollision(rock)) {
                 directions.add(direction);
                 switch (direction) {
                     case UP -> setY(getY() + speed);
@@ -195,21 +160,36 @@ public class Tank3 extends AbstractObject implements Runnable{
                     case LEFT -> setX(getX() + speed);
                     case RIGHT -> setX(getX() - speed);
                 }
-            }
-            else directions.remove(direction);
+            } else directions.remove(direction);
         }
     }
+
+    public void collisionTrees(List<Tree> trees) {
+        // 实现玩家与树丛的碰撞检测逻辑
+        for (int i = 0; i < trees.size(); i++) {
+            Tree tree = trees.get(i);
+            if (checkCollision(tree)) {
+                directions.add(direction);
+                switch (direction) {
+                    case UP -> setY(getY() + speed);
+                    case DOWN -> setY(getY() - speed);
+                    case LEFT -> setX(getX() + speed);
+                    case RIGHT -> setX(getX() - speed);
+                }
+            } else directions.remove(direction);
+        }
+    }
+
     //坦克之間的碰撞
-    public void collisionTank(Tank2 tank){
-        if(checkCollision(tank)){
+    public void collisionTank(Tank3 tank) {
+        if (checkCollision(tank)) {
             switch (direction) {
                 case UP -> tank.setY(tank.getY() - speed);
                 case DOWN -> tank.setY(tank.getY() + speed);
                 case LEFT -> tank.setX(tank.getX() - speed);
                 case RIGHT -> tank.setX(tank.getX() + speed);
             }
-        }
-        else return;
+        } else return;
     }
 
     public Direction getDirection() {
@@ -238,7 +218,7 @@ public class Tank3 extends AbstractObject implements Runnable{
     }
 
     public void openFire() {
-        if(status == 1){
+        if (status == 1) {
             switch (direction) {
                 case UP:
                     Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, getGameScene());
@@ -261,7 +241,7 @@ public class Tank3 extends AbstractObject implements Runnable{
                     getGameScene().bullets.add(bullet3);
             }
         }
-        if(status == 2){
+        if (status == 2) {
             switch (direction) {
                 case UP:
                     Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, getVsGameScene());

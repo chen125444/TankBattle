@@ -215,6 +215,7 @@ public class Tank extends AbstractObject implements Runnable{
             else directions.remove(direction);
         }
     }
+
     public void collisionTrees(List<Tree> trees) {
         // 实现玩家与树丛的碰撞检测逻辑
         for(int i = 0; i < trees.size(); i++) {
