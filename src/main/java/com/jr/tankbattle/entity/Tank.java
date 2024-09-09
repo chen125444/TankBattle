@@ -43,7 +43,7 @@ public class Tank extends AbstractObject {
     @Override
     public void move() {
         // 实现坦克的移动逻辑
-        if (!moving|| directions.isEmpty()) {
+        if (!moving|| directions.contains(direction)) {
             return;
         }
             switch (direction) {
