@@ -57,6 +57,19 @@ public class Tank extends AbstractObject implements Runnable{
         if (!moving|| directions.contains(direction)) {
             return;
         }
+        //边界检测
+        if(getX()<=0){
+            direction = Direction.RIGHT;
+        }
+        if(getY()<=0) {
+            direction = Direction.DOWN;
+        }
+        if(getX()>=1020){
+            direction = Direction.LEFT;
+        }
+        if(getY()>=660) {
+            direction = Direction.UP;
+        }
             switch (direction) {
                 case UP -> setY(getY() - speed);
                 case DOWN -> setY(getY() + speed);
@@ -91,22 +104,22 @@ public class Tank extends AbstractObject implements Runnable{
     public void pressed(KeyCode keyCode) {
             switch (keyCode) {
                 case W:
-                    back(direction);
+                    if(direction!=Direction.UP)back(direction);
                     direction = Direction.UP;
                     moving = true;
                     break;
                 case S:
-                    back(direction);
+                    if(direction!=Direction.DOWN)back(direction);
                     direction = Direction.DOWN;
                     moving = true;
                     break;
                 case A:
-                    back(direction);
+                    if(direction!=Direction.LEFT)back(direction);
                     direction = Direction.LEFT;
                     moving = true;
                     break;
                 case D:
-                    back(direction);
+                    if(direction!=Direction.RIGHT)back(direction);
                     direction = Direction.RIGHT;
                     moving = true;
                     break;
@@ -257,6 +270,7 @@ public class Tank extends AbstractObject implements Runnable{
             case RIGHT -> setX(getX() - speed);
         }
     }
+
     public void openFire() {
         if(status == 1){
             switch (direction) {

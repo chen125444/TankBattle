@@ -19,6 +19,7 @@ public class Tank3 extends AbstractObject implements Runnable{
     private boolean canFire = true;
     private int width;
     private int height;
+    private int lives =4;
     //坦克速度
     private int speed;
     private Image upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1U.png"));
@@ -87,18 +88,22 @@ public class Tank3 extends AbstractObject implements Runnable{
     public void pressed(KeyCode keyCode) {
         switch (keyCode) {
             case W:
+                if(direction!=Direction.UP)back(direction);
                 direction = Direction.UP;
                 moving = true;
                 break;
             case S:
+                if(direction!=Direction.UP)back(direction);
                 direction = Direction.DOWN;
                 moving = true;
                 break;
             case A:
+                if(direction!=Direction.UP)back(direction);
                 direction = Direction.LEFT;
                 moving = true;
                 break;
             case D:
+                if(direction!=Direction.UP)back(direction);
                 direction = Direction.RIGHT;
                 moving = true;
                 break;
@@ -154,7 +159,10 @@ public class Tank3 extends AbstractObject implements Runnable{
         for(int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
             if(checkCollision(bullet)) {
-                setAlive(false);
+                lives--;
+                if(lives == 0) {
+                    setAlive(false);
+                }
                 bullet.setAlive(false);
             }
         }
@@ -218,6 +226,15 @@ public class Tank3 extends AbstractObject implements Runnable{
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public void back(Direction direction) {
+        switch (direction) {
+            case UP -> setY(getY() + speed);
+            case DOWN -> setY(getY() - speed);
+            case LEFT -> setX(getX() + speed);
+            case RIGHT -> setX(getX() - speed);
+        }
     }
 
     public void openFire() {

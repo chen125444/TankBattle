@@ -68,27 +68,23 @@ public class AiTank extends AbstractObject implements Runnable{
         Random rand = new Random();
         int randomX = rand.nextInt(100);
         switch (randomX) {
-            case 1:
-                direction = Direction.RIGHT;
+            case 1 : if(direction!=Direction.RIGHT)back(direction);
+                     direction = Direction.RIGHT;
                 break;
-            case 2:
-                direction = Direction.LEFT;
+            case 2 : back(direction);
+                if(direction!=Direction.LEFT)back(direction);
+                    direction = Direction.LEFT;
                 break;
-            case 3:
-                direction = Direction.DOWN;
+            case 3 : back(direction);
+                if(direction!=Direction.UP)back(direction);
+                    direction = Direction.UP;
                 break;
-            case 4:
-                direction = Direction.UP;
+            case 4 : back(direction);
+                if(direction!=Direction.DOWN)back(direction);
+                    direction = Direction.DOWN;
                 break;
-            case 5:
-                if(canFire){
-                    openFire();
-                    canFire = false;
-                }
-
-            default:
-                direction = direction;
-                break;
+            //case 5 : openFire();
+            default : direction = direction;
         }
         
         switch (direction) {
@@ -192,6 +188,16 @@ public class AiTank extends AbstractObject implements Runnable{
             }
         }
     }
+
+    public void back(Direction direction) {
+        switch (direction) {
+            case UP -> setY(getY() + speed);
+            case DOWN -> setY(getY() - speed);
+            case LEFT -> setX(getX() + speed);
+            case RIGHT -> setX(getX() - speed);
+        }
+    }
+
     public void openFire() {
         switch (direction) {
             case UP:

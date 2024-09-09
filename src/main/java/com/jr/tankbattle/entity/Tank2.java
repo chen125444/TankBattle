@@ -18,6 +18,7 @@ public class Tank2 extends AbstractObject implements Runnable{
     private  boolean canFire = true;
     private int width;
     private int height;
+    private int lives =4;
     //坦克速度
     private int speed;
     private List<Direction> directions = new ArrayList<>();
@@ -73,18 +74,22 @@ public class Tank2 extends AbstractObject implements Runnable{
     public void pressed(KeyCode keyCode) {
         switch (keyCode) {
             case UP:
+                if(direction!=Direction.UP)back(direction);
                 direction = Direction.UP;
                 moving = true;
                 break;
             case DOWN:
+                if(direction!=Direction.UP)back(direction);
                 direction = Direction.DOWN;
                 moving = true;
                 break;
             case LEFT:
+                if(direction!=Direction.UP)back(direction);
                 direction = Direction.LEFT;
                 moving = true;
                 break;
             case RIGHT:
+                if(direction!=Direction.UP)back(direction);
                 direction = Direction.RIGHT;
                 moving = true;
                 break;
@@ -139,7 +144,10 @@ public class Tank2 extends AbstractObject implements Runnable{
         for(int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
             if(checkCollision(bullet)) {
-                setAlive(false);
+                lives--;
+                if(lives == 0) {
+                    setAlive(false);
+                }
                 bullet.setAlive(false);
             }
         }
@@ -207,6 +215,15 @@ public class Tank2 extends AbstractObject implements Runnable{
 
     public Image getRightImage() {
         return rightImage;
+    }
+
+    public void back(Direction direction) {
+        switch (direction) {
+            case UP -> setY(getY() + speed);
+            case DOWN -> setY(getY() - speed);
+            case LEFT -> setX(getX() + speed);
+            case RIGHT -> setX(getX() - speed);
+        }
     }
 
     public void openFire() {
