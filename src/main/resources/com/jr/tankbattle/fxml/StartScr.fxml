@@ -11,48 +11,33 @@
    <children>
       <ImageView fitHeight="720.0" fitWidth="1080.0">
          <image>
-            <Image url="@../img/tankbackground8.jpg" />
+            <Image url="@../img/bkg3.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="loginBtn" layoutX="774.0" layoutY="224.0" mnemonicParsing="false" onAction="#Login" prefHeight="77.0" prefWidth="201.0" text="登录">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Button>
+      <ImageView fitHeight="431.0" fitWidth="682.0" layoutX="76.0" layoutY="205.0">
+         <image>
+            <Image url="@../img/logo.png" />
+         </image>
+      </ImageView>
 
-      <Button fx:id="registerBtn" layoutX="774.0" layoutY="336.0" mnemonicParsing="false" onAction="#Register" prefHeight="77.0" prefWidth="201.0" text="注册">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Button>
-      <Button fx:id="exitBtn" layoutX="774.0" layoutY="447.0" mnemonicParsing="false" onAction="#Exit" prefHeight="77.0" prefWidth="201.0" text="退出">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Button>
-      <ImageView fitHeight="105.0" fitWidth="227.0" layoutX="757.0" layoutY="210.0" onMouseClicked="#Login">
+      <ImageView fx:id="loginBtn" fitHeight="60.0" fitWidth="170.0" layoutX="790.0" layoutY="270.0" onMouseClicked="#Login">
          <image>
-            <Image url="@../img/ui3.png" />
+            <Image url="@../img/loginBtn.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="105.0" fitWidth="227.0" layoutX="757.0" layoutY="322.0" onMouseClicked="#Register">
+      <ImageView fx:id="registerBtn" fitHeight="60.0" fitWidth="170.0" layoutX="790.0" layoutY="360.0" onMouseClicked="#Register">
          <image>
-            <Image url="@../img/ui3.png" />
+            <Image url="@../img/registerBtn.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="105.0" fitWidth="227.0" layoutX="757.0" layoutY="433.0" onMouseClicked="#Exit">
+      <ImageView fx:id="exitBtn" fitHeight="60.0" fitWidth="170.0" layoutX="790.0" layoutY="450.0" onMouseClicked="#Exit">
          <image>
-            <Image url="@../img/ui3.png" />
+            <Image url="@../img/exitBtn.png" />
          </image>
       </ImageView>
-      <Label layoutX="498.0" layoutY="227.0" prefHeight="71.0" prefWidth="182.0" text="登录">
-         <font>
-            <Font name="System Bold" size="39.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="105.0" fitWidth="227.0" layoutX="427.0" layoutY="210.0" onMouseClicked="#Login">
+      <ImageView fitHeight="107.0" fitWidth="365.0" layoutX="696.0" layoutY="83.0">
          <image>
-            <Image url="@../img/ui3.png" />
+            <Image url="@../img/Tank500.png" />
          </image>
       </ImageView>
    </children>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -9,18 +10,12 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.controller.SoundScr">
    <children>
-      <Label layoutX="343.0" layoutY="178.0" prefHeight="62.0" prefWidth="109.0" text="音量">
-         <font>
-            <Font size="25.0" />
-         </font>
-      </Label>
-      <Label layoutX="343.0" layoutY="292.0" prefHeight="62.0" prefWidth="109.0" text="背景音乐">
-         <font>
-            <Font size="25.0" />
-         </font>
-      </Label>
-      <Button layoutX="499.0" layoutY="475.0" mnemonicParsing="false" onAction="#Back" prefHeight="51.0" prefWidth="123.0" text="返回" />
-      <SplitMenuButton fx:id="bgmChg" layoutX="533.0" layoutY="305.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="160.0" text="请选择bgm">
+       <ImageView fitHeight="720.0" fitWidth="1080.0">
+           <image>
+               <Image url="@../img/bkg3.jpg" />
+           </image>
+       </ImageView>
+      <SplitMenuButton fx:id="bgmChg" layoutX="503.0" layoutY="305.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="160.0" text="请选择bgm">
         <items>
           <MenuItem mnemonicParsing="false" onAction="#handleBgmChange" text="bgm1       " />
           <MenuItem mnemonicParsing="false" onAction="#handleBgmChange" text="bgm2" />
@@ -30,5 +25,20 @@
         </items>
       </SplitMenuButton>
       <Slider fx:id="volumeChg" layoutX="503.0" layoutY="199.0" prefHeight="21.0" prefWidth="219.0" />
+      <ImageView fx:id="backBtn" fitHeight="60.0" fitWidth="150.0" layoutX="465.0" layoutY="471.0" onMouseClicked="#Back">
+         <image>
+            <Image url="@../img/backBtn.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="60.0" fitWidth="66.0" layoutX="371.0" layoutY="293.0">
+         <image>
+            <Image url="@../img/bgm.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="377.0" layoutY="180.0">
+         <image>
+            <Image url="@../img/volume.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

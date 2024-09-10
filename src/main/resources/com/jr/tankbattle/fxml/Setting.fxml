@@ -1,18 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.controller.Setting">
    <children>
-      <Button layoutX="472.0" layoutY="166.0" mnemonicParsing="false" onAction="#Sound" prefHeight="59.0" prefWidth="137.0" text="声音设置" />
-      <Button layoutX="472.0" layoutY="262.0" mnemonicParsing="false" onAction="#Account" prefHeight="59.0" prefWidth="137.0" text="账号信息" />
-      <Button layoutX="472.0" layoutY="360.0" mnemonicParsing="false" onAction="#Help" prefHeight="59.0" prefWidth="137.0" text="游戏帮助" />
-      <Button layoutX="472.0" layoutY="455.0" mnemonicParsing="false" onAction="#Exit" prefHeight="59.0" prefWidth="137.0" text="退出游戏" />
-      <Button layoutX="472.0" layoutY="550.0" mnemonicParsing="false" onAction="#Back" prefHeight="59.0" prefWidth="137.0" text="返回" />
+      <ImageView fitHeight="720.0" fitWidth="1080.0">
+         <image>
+            <Image url="@../img/bkg3.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="accountBtn" fitHeight="60.0" fitWidth="150.0" layoutX="465.0" layoutY="220.0" onMouseClicked="#Account">
+         <image>
+            <Image url="@../img/accountBtn.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="backBtn" fitHeight="60.0" fitWidth="150.0" layoutX="465.0" layoutY="460.0" onMouseClicked="#Back">
+         <image>
+            <Image url="@../img/backBtn.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="helpBtn" fitHeight="60.0" fitWidth="150.0" layoutX="465.0" layoutY="300.0" onMouseClicked="#Help">
+         <image>
+            <Image url="@../img/helpBtn.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="exitBtn" fitHeight="60.0" fitWidth="150.0" layoutX="465.0" layoutY="380.0" onMouseClicked="#Exit">
+         <image>
+            <Image url="@../img/exitGameBtn.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="soundBtn" fitHeight="60.0" fitWidth="150.0" layoutX="465.0" layoutY="140.0" onMouseClicked="#Sound">
+         <image>
+            <Image url="@../img/soundBtn.JPG" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

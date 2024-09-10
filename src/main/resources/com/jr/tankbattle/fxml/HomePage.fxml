@@ -16,24 +16,26 @@
             <Image url="@../img/tankbackground4.png" />
          </image>
       </ImageView>
-      <Label layoutX="432.0" layoutY="123.0" prefHeight="67.0" prefWidth="146.0" text="单人模式">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font></Label>
-      <ImageView fitHeight="89.0" fitWidth="200.0" layoutX="381.0" layoutY="113.0" onMouseClicked="#Single">
-         <image>
-            <Image url="@../img/ui3.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="463.0" layoutY="220.0" mnemonicParsing="false" onAction="#Single" prefHeight="61.0" prefWidth="158.0" text="单人模式" />
-      <Button layoutX="463.0" layoutY="338.0" mnemonicParsing="false" onAction="#Double" prefHeight="61.0" prefWidth="158.0" text="双人模式" />
-      <Button layoutX="463.0" layoutY="451.0" mnemonicParsing="false" onAction="#Match" prefHeight="61.0" prefWidth="158.0" text="联机模式" />
-      <Button layoutX="980.0" layoutY="55.0" mnemonicParsing="false" onAction="#Setting" text="设置" />
       <Button layoutX="891.0" layoutY="55.0" mnemonicParsing="false" onAction="#Store" text="商城" />
       <Button layoutX="800.0" layoutY="55.0" mnemonicParsing="false" onAction="#Equip" text="装备" />
-      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="990.0" layoutY="108.0" onMouseClicked="#Setting">
+      <ImageView fx:id="matchBtn" fitHeight="65.0" fitWidth="185.0" layoutX="448.0" layoutY="428.0" onMouseClicked="#Match">
          <image>
-            <Image url="@../img/set3.png" />
+            <Image url="@../img/match.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="singleBtn" fitHeight="65.0" fitWidth="185.0" layoutX="448.0" layoutY="228.0" onMouseClicked="#Single">
+         <image>
+            <Image url="@../img/single.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="doubleBtn" fitHeight="65.0" fitWidth="185.0" layoutX="448.0" layoutY="328.0" onMouseClicked="#Double">
+         <image>
+            <Image url="@../img/double.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="settingBtn" fitHeight="45.0" fitWidth="45.0" layoutX="981.0" layoutY="51.0" onMouseClicked="#Setting">
+         <image>
+            <Image url="@../img/setting.png" />
          </image>
       </ImageView>
    </children>

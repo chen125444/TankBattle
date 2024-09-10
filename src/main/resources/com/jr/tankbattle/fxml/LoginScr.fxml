@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.controller.LoginScr">
    <children>
        <ImageView fitHeight="720.0" fitWidth="1080.0">
@@ -14,27 +15,37 @@
                <Image url="@../img/tankbackground8.jpg" />
            </image>
        </ImageView>
-      <Button layoutX="379.0" layoutY="571.0" mnemonicParsing="false" onAction="#LLogin" prefHeight="51.0" prefWidth="109.0" text="登录">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Button>
-       <Button layoutX="607.0" layoutY="571.0" mnemonicParsing="false" onAction="#Back" prefHeight="51.0" prefWidth="109.0" text="返回">
-           <font>
-               <Font size="22.0" />
-           </font>
-       </Button>
-      <Label layoutX="317.0" layoutY="243.0" text="账号">
-         <font>
-            <Font size="31.0" />
-         </font>
-      </Label>
-      <Label layoutX="317.0" layoutY="353.0" text="密码">
-         <font>
-            <Font size="31.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtUid" layoutX="458.0" layoutY="245.0" prefHeight="40.0" prefWidth="352.0" />
-      <TextField fx:id="txtPwd" layoutX="458.0" layoutY="355.0" prefHeight="40.0" prefWidth="352.0" />
+      <ImageView fitHeight="477.0" fitWidth="830.0" layoutX="124.0" layoutY="135.0">
+         <image>
+            <Image url="@../img/ui板2.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="txtUid" layoutX="458.0" layoutY="245.0" prefHeight="40.0" prefWidth="320.0" />
+       <PasswordField fx:id="txtPwd" layoutX="458.0" layoutY="355.0" prefHeight="40.0" prefWidth="320.0" />
+      <ImageView fx:id="loginBtn" fitHeight="55.0" fitWidth="150.0" layoutX="330.0" layoutY="445.0" onMouseClicked="#LLogin">
+         <image>
+            <Image url="@../img/loginBtn1.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="backBtn" fitHeight="55.0" fitWidth="150.0" layoutX="594.0" layoutY="445.0" onMouseClicked="#Back">
+         <image>
+            <Image url="@../img/backBtn1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="85.0" fitWidth="345.0" layoutX="368.0" layoutY="70.0">
+         <image>
+            <Image url="@../img/loginScr.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="343.0" layoutY="240.0">
+         <image>
+            <Image url="@../img/uid.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="343.0" layoutY="349.0">
+         <image>
+            <Image url="@../img/pwd.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
