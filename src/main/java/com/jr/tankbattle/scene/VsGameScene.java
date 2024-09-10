@@ -76,12 +76,6 @@ public class VsGameScene {
             playerTank.collisionTrees(trees);
             playerTank.collisionBullet(bullets);
             playerTank.collisionTank(playerTank2);
-            // 绘制子弹
-            for(int i = 0; i < bullets.size(); i++){
-                Bullet bullet = bullets.get(i);
-                bullet.move();
-                bullet.draw();
-            }
         }
         if(playerTank2.isAlive()){
             playerTank2.draw();
@@ -90,12 +84,12 @@ public class VsGameScene {
             playerTank2.collisionTrees(trees);
             playerTank2.collisionBullet(bullets);
             playerTank2.collisionTank(playerTank);
-            for(int i = 0; i < bullets.size(); i++){
-                Bullet bullet = bullets.get(i);
-                bullet.collisionBullet(bullets);
-                bullet.move();
-                bullet.draw();
-            }
+        }
+        for(int i = 0; i < bullets.size(); i++){
+            Bullet bullet = bullets.get(i);
+            bullet.collisionBullet(bullets);
+            bullet.move();
+            bullet.draw();
         }
         //更新石头
         for(int i = 0; i < rocks.size(); i++){

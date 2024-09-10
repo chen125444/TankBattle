@@ -51,6 +51,10 @@ public abstract class AbstractObject {
         this.alive = true;
     }
 
+    public AbstractObject() {
+
+    }
+
     //得到矩形
     public Rectangle2D getRectangle(){
         return new Rectangle2D(x, y, width, height);
