@@ -34,6 +34,24 @@ public class OnlineRoomInner {
     private String roomID;
     private ScheduledExecutorService scheduler;
 
+    private ScheduledExecutorService autoStartScheduler;
+    private boolean isGameStarting = false; // Prevent multiple starts
+
+    //玩家都准备好了自动开始游戏
+    private void startAutoStartTimer() {
+        if (autoStartScheduler != null && !autoStartScheduler.isShutdown()) {
+            autoStartScheduler.shutdownNow();
+        }
+        autoStartScheduler = Executors.newScheduledThreadPool(1);
+        autoStartScheduler.schedule(() -> {
+            Platform.runLater(() -> {
+                if (isGameStarting) {
+                    startGame();
+                }
+            });
+        }, 3, TimeUnit.SECONDS); // Delay of 3 seconds before starting the game
+    }
+
     @FXML
     public void initialize() {
         // Initialization code, if needed
@@ -130,11 +148,22 @@ public class OnlineRoomInner {
                     }
                 }
                 lblRoomStatus.setText("Room Status: " + (allReady ? "Ready" : "Waiting for players"));
+
+                if (allReady && !isGameStarting) {
+                    isGameStarting = true;
+                    startAutoStartTimer(); // Start the auto start timer
+                } else if (!allReady) {
+                    isGameStarting = false; // Reset the flag if not all players are ready
+                    if (autoStartScheduler != null && !autoStartScheduler.isShutdown()) {
+                        autoStartScheduler.shutdownNow(); // Cancel the timer if not all players are ready
+                    }
+                }
             } catch (Exception e) {
                 showAlert(Alert.AlertType.ERROR, "Error", "Unable to update room status: " + e.getMessage());
             }
         });
     }
+
 
     private Map<String, Tank3> assignTanksToPlayers(List<String> playerList) {
         Map<String, Tank3> playerTanks = new HashMap<>();
