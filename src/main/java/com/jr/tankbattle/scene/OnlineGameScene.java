@@ -137,6 +137,8 @@ public class OnlineGameScene {
             playerTank1.collisionRocks(rocks);
             playerTank1.collisionTrees(trees);
             playerTank1.collisionBullet(bullets);
+            playerTank1.collisionPools(pools);
+            playerTank1.collisionIrons(irons);
             if(playerTank2 != null) {
                 playerTank1.collisionTank(playerTank2);
             }
@@ -154,6 +156,8 @@ public class OnlineGameScene {
             playerTank2.collisionRocks(rocks);
             playerTank2.collisionTrees(trees);
             playerTank2.collisionBullet(bullets);
+            playerTank1.collisionPools(pools);
+            playerTank1.collisionIrons(irons);
             if(playerTank1 != null) {
                 playerTank2.collisionTank(playerTank1);
             }
@@ -171,6 +175,8 @@ public class OnlineGameScene {
             playerTank3.collisionRocks(rocks);
             playerTank3.collisionTrees(trees);
             playerTank3.collisionBullet(bullets);
+            playerTank1.collisionPools(pools);
+            playerTank1.collisionIrons(irons);
             if(playerTank1 != null) {
                 playerTank3.collisionTank(playerTank1);
             }
@@ -188,6 +194,8 @@ public class OnlineGameScene {
             playerTank4.collisionRocks(rocks);
             playerTank4.collisionTrees(trees);
             playerTank4.collisionBullet(bullets);
+            playerTank1.collisionPools(pools);
+            playerTank1.collisionIrons(irons);
             if(playerTank1 != null) {
                 playerTank4.collisionTank(playerTank1);
             }

@@ -77,6 +77,7 @@ public class GameScene {
             playerTank.collisionRocks(rocks);
             playerTank.collisionTrees(trees);
             playerTank.collisionSheild(sheilds);
+            playerTank.collisionPools(pools);
             playerTank.collisionIrons(irons);
             playerTank.move();
             playerTank.draw();

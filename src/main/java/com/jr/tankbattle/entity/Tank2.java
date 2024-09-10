@@ -203,6 +203,7 @@ public class Tank2 extends AbstractObject implements Runnable{
             else directions.remove(direction);
         }
     }
+
     public void collisionIrons(List<Iron> irons) {
         // 实现玩家与铁块的碰撞检测逻辑
         for(int i = 0; i < irons.size(); i++) {

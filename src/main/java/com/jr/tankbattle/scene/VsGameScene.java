@@ -80,6 +80,7 @@ public class VsGameScene {
             playerTank.collisionSheild(sheilds);
             playerTank.collisionBullet(bullets);
             playerTank.collisionIrons(irons);
+            playerTank.collisionPools(pools);
             playerTank.collisionTank(playerTank2);
         }
         if(playerTank2.isAlive()){
@@ -90,6 +91,7 @@ public class VsGameScene {
             playerTank2.collisionSheild(sheilds);
             playerTank2.collisionBullet(bullets);
             playerTank2.collisionIrons(irons);
+            playerTank2.collisionPools(pools);
             playerTank2.collisionTank(playerTank);
         }
         //更新石头
