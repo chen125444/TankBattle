@@ -179,6 +179,10 @@ public class Tank extends AbstractObject implements Runnable{
             }
         }
     }
+    public void collisionSheild(Sheild sheild){
+        sheild.setMoving(true);
+        lives += 2;
+    }
     public void collisionPlayer(List<AiTank> aiTanks) {
         // 实现玩家与Ai坦克的碰撞检测逻辑
         for(int i = 0; i < aiTanks.size(); i++) {

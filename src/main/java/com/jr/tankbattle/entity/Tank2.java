@@ -160,6 +160,10 @@ public class Tank2 extends AbstractObject implements Runnable{
             }
         }
     }
+    public void collisionSheild(Sheild sheild){
+        sheild.setMoving(true);
+        lives += 2;
+    }
     public void collisionRocks(List<Rock> rocks) {
         // 实现玩家与石头的碰撞检测逻辑
         for(int i = 0; i < rocks.size(); i++) {
