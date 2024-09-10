@@ -187,4 +187,13 @@ public class Director {
             e.printStackTrace();
         }
     }
+
+    public void toMapScr() { //跳转地图选择界面
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/MapScr.fxml")));
+            stage.getScene().setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

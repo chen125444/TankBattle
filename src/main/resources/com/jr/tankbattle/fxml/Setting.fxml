@@ -14,29 +14,34 @@
             <Image url="@../img/bkg3.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="accountBtn" fitHeight="60.0" fitWidth="150.0" layoutX="465.0" layoutY="220.0" onMouseClicked="#Account">
+      <ImageView fx:id="accountBtn" fitHeight="60.0" fitWidth="150.0" layoutX="550.0" layoutY="230.0" onMouseClicked="#Account">
          <image>
             <Image url="@../img/accountBtn.JPG" />
          </image>
       </ImageView>
-      <ImageView fx:id="backBtn" fitHeight="60.0" fitWidth="150.0" layoutX="465.0" layoutY="460.0" onMouseClicked="#Back">
+      <ImageView fx:id="backBtn" fitHeight="60.0" fitWidth="150.0" layoutX="550.0" layoutY="414.0" onMouseClicked="#Back">
          <image>
             <Image url="@../img/backBtn.JPG" />
          </image>
       </ImageView>
-      <ImageView fx:id="helpBtn" fitHeight="60.0" fitWidth="150.0" layoutX="465.0" layoutY="300.0" onMouseClicked="#Help">
+      <ImageView fx:id="helpBtn" fitHeight="60.0" fitWidth="150.0" layoutX="550.0" layoutY="322.0" onMouseClicked="#Help">
          <image>
             <Image url="@../img/helpBtn.JPG" />
          </image>
       </ImageView>
-      <ImageView fx:id="exitBtn" fitHeight="60.0" fitWidth="150.0" layoutX="465.0" layoutY="380.0" onMouseClicked="#Exit">
+      <ImageView fx:id="exitBtn" fitHeight="60.0" fitWidth="150.0" layoutX="345.0" layoutY="414.0" onMouseClicked="#Exit">
          <image>
             <Image url="@../img/exitGameBtn.JPG" />
          </image>
       </ImageView>
-      <ImageView fx:id="soundBtn" fitHeight="60.0" fitWidth="150.0" layoutX="465.0" layoutY="140.0" onMouseClicked="#Sound">
+      <ImageView fx:id="soundBtn" fitHeight="60.0" fitWidth="150.0" layoutX="345.0" layoutY="230.0" onMouseClicked="#Sound">
          <image>
             <Image url="@../img/soundBtn.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="mapBtn" fitHeight="60.0" fitWidth="150.0" layoutX="345.0" layoutY="322.0" onMouseClicked="#Map">
+         <image>
+            <Image url="@../img/mapBtn.png" />
          </image>
       </ImageView>
    </children>

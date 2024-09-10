@@ -1,5 +1,6 @@
 package com.jr.tankbattle.util;
 
+import com.jr.tankbattle.Director;
 import com.jr.tankbattle.entity.*;
 
 import com.jr.tankbattle.scene.GameScene;
@@ -12,6 +13,7 @@ import java.util.Map;
 public class MapData {
     public Map<Integer,TankMap> mapData;
     private TankMap map1,map2,map3,map4;
+
     public MapData(GameScene scene) {
 
         mapData = new HashMap<>(); // 初始化 mapData

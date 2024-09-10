@@ -5,6 +5,7 @@ import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,18 +23,35 @@ public class GameDlg extends Dialog<ButtonType> {
     Label label;
     Button ensureBtn=new Button();
     Button cancelBtn=new Button();
-
+    private boolean flag = false;
     public GameDlg() {
         setTitle("TankBattle");
         Image icon = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/logo1.png"));
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
         stage.getIcons().add(icon);
 
+        // 设置DialogPane背景颜色
+        DialogPane dialogPane =getDialogPane();
+        dialogPane.setBackground(new Background(new BackgroundFill(
+                Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+
         // 设置按钮大小
         ensureBtn.setMinWidth(80);
         ensureBtn.setMinHeight(30);
         cancelBtn.setMinWidth(80);
         cancelBtn.setMinHeight(30);
+
+        // 设置按钮颜色
+        ensureBtn.setStyle("-fx-background-color: #cd9d62; " + // 背景颜色
+                "-fx-text-fill: white; " + // 字体颜色
+                "-fx-border-color: #a47c47; " + // 边框颜色
+                "-fx-border-width: 2px;"); // 边框宽度
+
+        cancelBtn.setStyle("-fx-background-color: #cd9d62; " + // 背景颜色
+                "-fx-text-fill: white; " + // 字体颜色
+                "-fx-border-color: #a47c47; " + // 边框颜色
+                "-fx-border-width: 2px;"); // 边框宽度
 
         // 设置按钮的居中对齐
         ensureBtn.setDefaultButton(false); // 取消默认行为
@@ -46,7 +64,8 @@ public class GameDlg extends Dialog<ButtonType> {
         vBox.setAlignment(Pos.CENTER); // 设置居中对齐
 
         // 设置背景图片并自适应铺满
-        Image backgroundImage = new Image(getClass().getResource("/com/jr/tankbattle/img/ui板2.png").toExternalForm());
+        //Image backgroundImage = new Image(getClass().getResource("/com/jr/tankbattle/img/ui板2.png").toExternalForm());
+        Image backgroundImage = new Image(getClass().getResource("/com/jr/tankbattle/img/ui板5.png").toExternalForm());
         BackgroundSize backgroundSize = new BackgroundSize(1, 1, true, true, false, false);
 
         BackgroundImage background = new BackgroundImage(backgroundImage,
@@ -65,7 +84,11 @@ public class GameDlg extends Dialog<ButtonType> {
 
         // 创建Label并设置文本大小和粗细
         label = new Label();
-        label.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;"); // 设置字体大小和粗细
+        // 设置字体大小、粗细、颜色和字体类型
+        label.setStyle("-fx-font-size: 18px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-text-fill: #ffffff; " + // 深金黄色字体颜色
+                "-fx-font-family: 'Arial';"); // 设置字体类型为 Arial
         VBox.setMargin(label, new javafx.geometry.Insets(20, 0, 0, 0));
 
         vBox.getChildren().add(label);
@@ -83,11 +106,11 @@ public class GameDlg extends Dialog<ButtonType> {
 
             // 根据不同类型设置Label文本内容
             if ("single".equals(type)) {
-                label.setText("你确定要开始单人模式吗？");
+                label.setText("你确定要开始“单人模式”吗？");
             } else if ("double".equals(type)) {
-                label.setText("你确定要开始双人模式吗？");
+                label.setText("你确定要开始“双人模式”吗？");
             } else {
-                label.setText("你确定要开始联机模式吗？");
+                label.setText("你确定要开始“联机模式”吗？");
             }
 
             // 设置按钮的事件
@@ -228,7 +251,8 @@ public class GameDlg extends Dialog<ButtonType> {
             // 设置按钮的事件
             ensureBtn.setOnAction(event -> {
                 //Director.getInstance().toRegisterScr();
-                setResult(ButtonType.OK); // 手动设置结果并关闭对话框
+                setResult(ButtonType.OK); // 手动设置结果并关闭对话框\
+                flag = true ;
                 close(); // 关闭窗口
             });
 
@@ -240,7 +264,7 @@ public class GameDlg extends Dialog<ButtonType> {
         }
 
 
-        else if(type=="gameOverSingle"){ //单人模式游戏失败
+        else if(type=="gameLoseSingle"){ //单人模式游戏失败
             ensureBtn.setText("重新开始");
             cancelBtn.setText("退出游戏");
 
@@ -252,7 +276,7 @@ public class GameDlg extends Dialog<ButtonType> {
 
             // 设置按钮的事件
             ensureBtn.setOnAction(event -> {
-                //Director.getInstance().toRegisterScr();
+                Director.getInstance().toGameScene();
                 setResult(ButtonType.OK); // 手动设置结果并关闭对话框
                 close(); // 关闭窗口
             });
@@ -266,18 +290,18 @@ public class GameDlg extends Dialog<ButtonType> {
 
 
         else if(type=="gameWinSingle"){ //单人模式游戏胜利
-            ensureBtn.setText("重新开始");
-            cancelBtn.setText("退出游戏");
+            ensureBtn.setText("再来一局");
+            cancelBtn.setText("返回");
 
             // 清除Dialog中的按钮，并将新的按钮添加到VBox
             vBox.getChildren().removeIf(node -> node instanceof Button); // 清除已有按钮
             vBox.getChildren().addAll(ensureBtn, cancelBtn); // 将按钮添加到VBox
 
-            label.setText("作战失败,游戏结束！");
+            label.setText("恭喜你，游戏胜利！");
 
             // 设置按钮的事件
             ensureBtn.setOnAction(event -> {
-                //Director.getInstance().toRegisterScr();
+                Director.getInstance().toGameScene();
                 setResult(ButtonType.OK); // 手动设置结果并关闭对话框
                 close(); // 关闭窗口
             });
@@ -315,6 +339,9 @@ public class GameDlg extends Dialog<ButtonType> {
 
         // 显示Dialog并等待用户响应
         showAndWait();
+    }
+    public boolean isFlag(){
+        return flag;
     }
 }
 

@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
-<AnchorPane prefHeight="761.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.scene.OnlineRoom">
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.scene.OnlineRoom">
     <children>
+        <ImageView fitHeight="720.0" fitWidth="1080.0">
+            <image>
+                <Image url="@../img/bkg3.jpg" />
+            </image>
+        </ImageView>
         <!-- Server Status Label -->
         <Label fx:id="lblServerStatus" layoutX="20.0" layoutY="20.0" text="Server Status: Offline">
             <font>
@@ -17,16 +25,16 @@
         </Label>
 
         <!-- Room Status Label -->
-        <Label fx:id="lblRoomStatus" layoutX="20.0" layoutY="60.0" text="Room Status: ">
+        <Label fx:id="lblRoomStatus" layoutX="14.0" layoutY="53.0" prefHeight="47.0" prefWidth="145.0" text="房间列表：">
             <font>
-                <Font size="18.0" />
+                <Font name="System Bold" size="20.0" />
             </font>
         </Label>
 
         <!-- Player Count Label -->
-        <Label fx:id="lblPlayerCount" layoutX="614.0" layoutY="60.0" text="当前在线玩家：">
+        <Label fx:id="lblPlayerCount" layoutX="614.0" layoutY="48.0" prefHeight="58.0" prefWidth="211.0" text="当前在线玩家：">
             <font>
-                <Font size="18.0" />
+                <Font name="System Bold" size="20.0" />
             </font>
         </Label>
 
@@ -37,24 +45,24 @@
         <ListView fx:id="lvPlayers" layoutX="614.0" layoutY="100.0" prefHeight="400.0" prefWidth="300.0" />
 
         <!-- Room ID Text Field -->
-        <TextField fx:id="txtRoomId" layoutX="340.0" layoutY="100.0" prefWidth="200.0" promptText="Enter Room ID" />
+        <TextField fx:id="txtRoomId" layoutX="340.0" layoutY="100.0" prefWidth="200.0" promptText="请输入房间号" />
 
         <!-- Create Room Button -->
-        <Button fx:id="btnCreateRoom" layoutX="340.0" layoutY="169.0" onAction="#createRoom" prefHeight="36.0" prefWidth="158.0" text="Create Room">
+        <Button fx:id="btnCreateRoom" layoutX="340.0" layoutY="169.0" onAction="#createRoom" prefHeight="36.0" prefWidth="158.0" text="创建房间">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
 
         <!-- Join Room Button -->
-        <Button fx:id="btnJoinRoom" layoutX="340.0" layoutY="239.0" onAction="#joinRoom" prefHeight="36.0" prefWidth="158.0" text="Join Room">
+        <Button fx:id="btnJoinRoom" layoutX="340.0" layoutY="239.0" onAction="#joinRoom" prefHeight="36.0" prefWidth="158.0" text="加入房间">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
 
         <!-- Back to Home Button -->
-        <Button fx:id="btnBackToHome" layoutX="340.0" layoutY="311.0" onAction="#backToHome" prefHeight="36.0" prefWidth="158.0" text="Back to Home">
+        <Button fx:id="btnBackToHome" layoutX="340.0" layoutY="311.0" onAction="#backToHome" prefHeight="36.0" prefWidth="158.0" text="返回">
             <font>
                 <Font size="18.0" />
             </font>

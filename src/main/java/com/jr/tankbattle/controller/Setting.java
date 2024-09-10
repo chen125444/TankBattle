@@ -15,6 +15,7 @@ public class Setting {
     public ImageView helpBtn;
     public ImageView exitBtn;
     public ImageView soundBtn;
+    public ImageView mapBtn;
 
     @FXML
     public void Help(){
@@ -42,6 +43,12 @@ public class Setting {
         Director.getInstance().toAccount();
     }
 
+    @FXML
+    public void Map(){
+        System.out.println("map");
+        Director.getInstance().toMapScr();
+    }
+
 
 
     private double originalWidth;
@@ -63,6 +70,7 @@ public class Setting {
         applyEffects(helpBtn);
         applyEffects(soundBtn);
         applyEffects(exitBtn);
+        applyEffects(mapBtn);
     }
 
     // 抽象出的效果方法，可以应用到任何 ImageView 上

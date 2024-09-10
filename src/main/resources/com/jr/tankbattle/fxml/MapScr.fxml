@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jr.tankbattle.controller.MapScr">
+   <children>
+      <ImageView fitHeight="720.0" fitWidth="1080.0">
+         <image>
+            <Image url="@../img/bkg3.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="map1Btn" fitHeight="60.0" fitWidth="150.0" layoutX="134.0" layoutY="130.0" onMouseClicked="#Map1">
+         <image>
+            <Image url="@../img/map1.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="map2Btn" fitHeight="60.0" fitWidth="150.0" layoutX="134.0" layoutY="230.0" onMouseClicked="#Map2">
+         <image>
+            <Image url="@../img/map2.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="map3Btn" fitHeight="60.0" fitWidth="150.0" layoutX="134.0" layoutY="330.0" onMouseClicked="#Map3">
+         <image>
+            <Image url="@../img/map3.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="map4Btn" fitHeight="60.0" fitWidth="150.0" layoutX="134.0" layoutY="430.0" onMouseClicked="#Map4">
+         <image>
+            <Image url="@../img/map4.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="backBtn" fitHeight="60.0" fitWidth="150.0" layoutX="134.0" layoutY="530.0" onMouseClicked="#Back">
+         <image>
+            <Image url="@../img/backBtn.JPG" />
+         </image>
+      </ImageView>
+
+      <Label layoutX="605.0" layoutY="70.0" prefHeight="51.0" prefWidth="150.0" text="当前地图：">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <!-- 已选择的地图图片 -->
+      <ImageView fx:id="mapImage" fitHeight="500.0" fitWidth="600.0" layoutX="380.0" layoutY="140.0" />
+      <!-- 悬停时显示的地图图片 -->
+      <ImageView fx:id="hoverImage" fitHeight="500.0" fitWidth="600.0" layoutX="380.0" layoutY="140.0" visible="false" />
+
+   </children>
+</AnchorPane>

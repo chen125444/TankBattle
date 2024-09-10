@@ -1,5 +1,6 @@
 package com.jr.tankbattle.entity;
 
+import com.jr.tankbattle.controller.GameDlg;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
