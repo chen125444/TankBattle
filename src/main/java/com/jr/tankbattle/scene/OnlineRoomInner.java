@@ -3,6 +3,7 @@ package com.jr.tankbattle.scene;
 import com.jr.tankbattle.client.Client;
 import com.jr.tankbattle.Director;
 import com.jr.tankbattle.controller.Account;
+import com.jr.tankbattle.entity.Tank3;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -10,8 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -89,8 +89,11 @@ public class OnlineRoomInner {
         try {
             boolean success = client.startGame(roomID);
             if (success) {
+                // 分配坦克给每个玩家
+                List<String> playerList = client.getRoomPlayerList(roomID);
+                Map<String, Tank3> playerTanks = assignTanksToPlayers(playerList);
                 showAlert(Alert.AlertType.INFORMATION, "Information", "Game has started!");
-                Director.getInstance().toOnlineGameScene();
+                Director.getInstance().toOnlineGameScene(playerTanks);
             } else {
                 showAlert(Alert.AlertType.ERROR, "Error", "Unable to start the game!");
             }
@@ -133,7 +136,21 @@ public class OnlineRoomInner {
         });
     }
 
+    private Map<String, Tank3> assignTanksToPlayers(List<String> playerList) {
+        Map<String, Tank3> playerTanks = new HashMap<>();
+        List<Tank3.TankType> tankTypes = new ArrayList<>(List.of(Tank3.TankType.values()));
+        Collections.shuffle(tankTypes); // 打乱坦克类型的顺序
 
+        for (int i = 0; i < playerList.size(); i++) {
+            String player = playerList.get(i);
+            Tank3.TankType tankType = tankTypes.get(i); // 获取打乱后的坦克类型
+            Tank3 tank = new Tank3();
+            tank.setTankType(tankType);
+            tank.setPlayerId(player);
+            playerTanks.put(player, tank);
+        }
+        return playerTanks;
+    }
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

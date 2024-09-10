@@ -1,5 +1,6 @@
 package com.jr.tankbattle.entity;
 
+import com.jr.tankbattle.controller.Account;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
@@ -22,6 +23,18 @@ public class Tank3 extends AbstractObject implements Runnable {
     private int lives =4;
     //坦克速度
     private int speed;
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
+
+    private String playerId;
+
+    public void setTankType(TankType tankType) {
+        this.tankType = tankType;
+    }
+
+    private TankType tankType;
     private Image upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1U.png"));
     private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1D.png"));
     private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1L.png"));
@@ -35,13 +48,59 @@ public class Tank3 extends AbstractObject implements Runnable {
         this.width = width;
         this.height = height;
     }
+    public Tank3(int x, int y, int width, int height, int speed, OnlineGameScene onlineGameScene,TankType tankType,String playerId) {
+        super(x, y, width, height, onlineGameScene);
+        super.setImage(upImage);
+        this.speed = speed;
+        this.width = width;
+        this.height = height;
+        this.tankType = tankType;
+        this.playerId = playerId;
+    }
+
+    public Tank3() {
+        super();
+    }
+
+    public enum TankType {
+        TYPE1, TYPE2, TYPE3, TYPE4
+    }
+
+    private void loadImages() {
+        switch (tankType) {
+            case TYPE1:
+                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1U.png"));
+                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1D.png"));
+                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1L.png"));
+                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png"));
+                break;
+            case TYPE2:
+                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2U.png"));
+                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2D.png"));
+                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2L.png"));
+                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2R.png"));
+                break;
+            case TYPE3:
+                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3U.png"));
+                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3D.png"));
+                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3L.png"));
+                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3R.png"));
+                break;
+            case TYPE4:
+                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4U.png"));
+                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4D.png"));
+                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4L.png"));
+                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4R.png"));
+                break;
+        }
+    }
+
 
     @Override
     public void move() {
         // 实现坦克的移动逻辑
         if (!moving || directions.contains(direction)) {
             return;
-
         }
         switch (direction) {
             case UP -> setY(getY() - speed);
@@ -63,6 +122,9 @@ public class Tank3 extends AbstractObject implements Runnable {
     }
 
     public void pressed(KeyCode keyCode) {
+        if (!playerId.equals(Account.uid)) {
+            return; // 不是当前玩家的坦克，不响应键盘事件
+        }
         switch (keyCode) {
             case W:
                 if(direction!=Direction.UP)back(direction);
@@ -90,6 +152,9 @@ public class Tank3 extends AbstractObject implements Runnable {
     }
 
     public void released(KeyCode keyCode) {
+        if (!playerId.equals(Account.uid)) {
+            return; // 不是当前玩家的坦克，不响应键盘事件
+        }
         switch (keyCode) {
             case W:
             case S:
