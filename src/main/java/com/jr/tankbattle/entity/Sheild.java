@@ -1,6 +1,7 @@
 package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
@@ -12,8 +13,11 @@ public class Sheild extends AbstractObject{
     private boolean moving = false;
     private final Image image = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/Sheild(1).png"));
     //构造函数
-    public Sheild(int x, int y, int width, int height, Direction direction, int speed, Image image, GameScene gameScene) {
-        super(x, y, width, height, image, gameScene);
+    public Sheild(int x, int y, int width, int height,  GameScene gameScene) {
+        super(x, y, width, height, gameScene);
+    }
+    public Sheild(int x, int y, int width, int height,  VsGameScene vsGameScene) {
+        super(x, y, width, height, vsGameScene);
     }
 
 
