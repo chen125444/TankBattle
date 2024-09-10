@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.jr.tankbattle.controller.HomePage.status;
 import static java.lang.Math.abs;
+import static java.lang.Math.tan;
 
 public class Tank extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
@@ -309,11 +310,16 @@ public class Tank extends AbstractObject implements Runnable{
     //坦克之間的碰撞
     public void collisionTank(Tank2 tank){
         if(checkCollision(tank) && !tank.edgeDetector()){
-            switch (direction) {
-                case UP -> tank.setY(tank.getY() - speed);
-                case DOWN -> tank.setY(tank.getY() + speed);
-                case LEFT -> tank.setX(tank.getX() - speed);
-                case RIGHT -> tank.setX(tank.getX() + speed);
+            directions.add(direction);
+            int dx = tank.getX()-getX();
+            int dy = tank.getY()-getY();
+            if(abs(dx)>=abs(dy)) {
+                if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                if(dx>0&&dx<=40)setX(getX() + dx - 40);
+            }
+            else {
+                if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                if(dy>0&&dy<40)setY(getY() + dy - 40);
             }
         }
         else return;

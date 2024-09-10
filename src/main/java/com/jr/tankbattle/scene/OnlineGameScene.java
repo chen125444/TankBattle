@@ -28,8 +28,11 @@ public class OnlineGameScene {
 
     private MapData map = new MapData(this);
     public List<Bullet> bullets = new ArrayList<>();
-    public List<Rock> rocks = new ArrayList<>();
+    public List<Rock> rocks = map.mapData.get(1).rocks;
     public List<Tree> trees = map.mapData.get(1).trees;
+    public List<Sheild> sheilds = map.mapData.get(1).sheilds;
+    public List<Pool> pools = new ArrayList<>();
+    public List<Iron> irons = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
 
     public Image backgroundImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
@@ -218,6 +221,45 @@ public class OnlineGameScene {
         for (int i = 0; i < trees.size(); i++) {
             Tree tree = trees.get(i);
             tree.draw();
+        }
+        //更新水池
+        for(int i = 0; i < pools.size(); i++){
+            Pool pool = pools.get(i);
+            if(!pool.isAlive()){
+                pools.remove(i);
+            }
+        }
+        //绘制水池
+        for(int i = 0; i < pools.size(); i++){
+            Pool pool = pools.get(i);
+            pool.draw();
+        }
+        //更新铁块
+        for(int i = 0; i < irons.size(); i++){
+            Iron iron = irons.get(i);
+            if(!iron.isAlive()){
+                irons.remove(i);
+            }
+        }
+        //绘制铁块
+        for(int i = 0; i < irons.size(); i++){
+            Iron iron = irons.get(i);
+            iron.collisionBullet(bullets);
+            iron.draw();
+        }
+        //更新盾牌
+        for(int i = 0; i < sheilds.size(); i++){
+            Sheild sheild = sheilds.get(i);
+            if(!sheild.isAlive()){
+                sheilds.remove(i);
+            }
+        }
+        //绘制盾牌
+        for(int i = 0; i < sheilds.size(); i++){
+            Sheild sheild = sheilds.get(i);
+            sheild.draw();
+//            sheild.draw(playerTank);
+//            sheild.draw(playerTank2);
         }
         //产生爆炸
         for (int i = 0; i < explodes.size(); i++) {

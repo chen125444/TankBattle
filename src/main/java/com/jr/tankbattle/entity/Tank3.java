@@ -12,6 +12,9 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Math.abs;
 
@@ -19,6 +22,8 @@ public class Tank3 extends AbstractObject implements Runnable {
     private Direction direction = Direction.UP;
     private boolean moving = false;
     private boolean canFire = true;
+    //无敌时刻
+    private boolean invincible = false;
     private int width;
     private int height;
     private int lives = 4;
@@ -115,6 +120,17 @@ public class Tank3 extends AbstractObject implements Runnable {
         }
     }
 
+    //边界检测
+    public boolean edgeDetector(){
+        if((getX() <= 0 && direction == Direction.LEFT)
+                ||(getY() <= 0 && direction == Direction.UP)
+                ||(getX() >= 860 && direction == Direction.RIGHT)
+                ||(getY() >= 680 && direction == Direction.DOWN)){
+            return true;
+        }
+        return false;
+    }
+
     public void draw() {
         switch (direction) {
             case UP ->
@@ -204,12 +220,33 @@ public class Tank3 extends AbstractObject implements Runnable {
         // 实现坦克与子弹的碰撞检测逻辑
         for (int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
-            if (checkCollision(bullet)) {
-                lives--;
-                if (lives == 0) {
+            if(checkCollision(bullet)) {
+                bullet.setAlive(false);
+                if(!invincible){
+                    lives--;
+                }
+                if(lives == 0) {
                     setAlive(false);
                 }
-                bullet.setAlive(false);
+            }
+        }
+    }
+
+    public void collisionSheild(List<Sheild> sheilds) {
+        for (Sheild sheild : sheilds) {
+            if (checkCollision(sheild)) {
+                sheild.setMoving(true);
+                invincible = true;
+
+                // 创建一个任务来在5秒后执行
+                ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+                scheduler.schedule(() -> {
+                    sheild.setAlive(false);
+                    invincible = false;
+                }, 5, TimeUnit.SECONDS);
+
+                // 可以关闭调度器以节省资源
+                scheduler.shutdown();
             }
         }
     }
@@ -220,11 +257,15 @@ public class Tank3 extends AbstractObject implements Runnable {
             Rock rock = rocks.get(i);
             if (checkCollision(rock)) {
                 directions.add(direction);
-                switch (direction) {
-                    case UP -> setY(getY() + speed);
-                    case DOWN -> setY(getY() - speed);
-                    case LEFT -> setX(getX() + speed);
-                    case RIGHT -> setX(getX() - speed);
+                int dx = rock.getX()-getX();
+                int dy = rock.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
                 }
             } else directions.remove(direction);
         }
@@ -236,11 +277,15 @@ public class Tank3 extends AbstractObject implements Runnable {
             Tree tree = trees.get(i);
             if (checkCollision(tree)) {
                 directions.add(direction);
-                switch (direction) {
-                    case UP -> setY(getY() + speed);
-                    case DOWN -> setY(getY() - speed);
-                    case LEFT -> setX(getX() + speed);
-                    case RIGHT -> setX(getX() - speed);
+                int dx = tree.getX()-getX();
+                int dy = tree.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
                 }
             } else directions.remove(direction);
         }
@@ -289,11 +334,18 @@ public class Tank3 extends AbstractObject implements Runnable {
     //坦克之間的碰撞
     public void collisionTank(Tank3 tank) {
         if (checkCollision(tank)) {
-            switch (direction) {
-                case UP -> tank.setY(tank.getY() - speed);
-                case DOWN -> tank.setY(tank.getY() + speed);
-                case LEFT -> tank.setX(tank.getX() - speed);
-                case RIGHT -> tank.setX(tank.getX() + speed);
+            if(checkCollision(tank) && !tank.edgeDetector()){
+                directions.add(direction);
+                int dx = tank.getX()-getX();
+                int dy = tank.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
+                }
             }
         } else return;
     }

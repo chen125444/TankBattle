@@ -1,6 +1,7 @@
 package com.jr.tankbattle.scene;
 
 import com.jr.tankbattle.entity.*;
+import com.jr.tankbattle.util.MapData;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -21,11 +22,12 @@ public class VsGameScene {
     private boolean running = false;
     private Tank playerTank;
     private Tank2 playerTank2;
+    private MapData map = new MapData(this);
     public List<Bullet> bullets = new ArrayList<>();
-    public List<Rock> rocks = new ArrayList<>();
-    public List<Tree> trees = new ArrayList<>();
+    public List<Rock> rocks = map.mapData.get(1).rocks;
+    public List<Tree> trees = map.mapData.get(1).trees;
     public List<Explode> explodes = new ArrayList<>();
-    public List<Sheild> sheilds = new ArrayList<>();
+    public List<Sheild> sheilds = map.mapData.get(1).sheilds;
     public List<Pool> pools = new ArrayList<>();
     public List<Iron> irons = new ArrayList<>();
     private final Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
@@ -41,14 +43,6 @@ public class VsGameScene {
         playerTank = new Tank(400, 500, 40, 40, 2, this);
         //initSprite();
         playerTank2 = new Tank2(800, 500, 40, 40, 2,this);
-        //产生树丛
-        for(int i=0;i<20;i++){
-            Random random = new Random();
-            int randomX = random.nextInt(1024);
-            int randomY = random.nextInt(720);
-            Tree tree = new Tree(randomX,randomY,40,40,this);
-            trees.add(tree);
-        }
         //initSprite();
         refresh.start();
         //子弹间隔线程
