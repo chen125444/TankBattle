@@ -5,6 +5,7 @@ import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Direction;
+import com.jr.tankbattle.util.Sound;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
@@ -74,6 +75,7 @@ public class Bullet extends AbstractObject{
             else {
                 getGameScene().bullets.remove(this);
                 getGameScene().explodes.add(new Explode(getX(), getY(), getGameScene()));
+                Sound.getInstance().playAudio(0);
             }
         }
         if(status == 2){
