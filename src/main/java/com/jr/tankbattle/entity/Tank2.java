@@ -15,6 +15,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.Math.abs;
+
 public class Tank2 extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
     private boolean moving = false;
@@ -87,22 +89,18 @@ public class Tank2 extends AbstractObject implements Runnable{
     public void pressed(KeyCode keyCode) {
         switch (keyCode) {
             case UP:
-                if(direction!=Direction.UP)back(direction);
                 direction = Direction.UP;
                 moving = true;
                 break;
             case DOWN:
-                if(direction!=Direction.DOWN)back(direction);
                 direction = Direction.DOWN;
                 moving = true;
                 break;
             case LEFT:
-                if(direction!=Direction.LEFT)back(direction);
                 direction = Direction.LEFT;
                 moving = true;
                 break;
             case RIGHT:
-                if(direction!=Direction.RIGHT)back(direction);
                 direction = Direction.RIGHT;
                 moving = true;
                 break;
@@ -191,11 +189,15 @@ public class Tank2 extends AbstractObject implements Runnable{
             Rock rock = rocks.get(i);
             if(checkCollision(rock)) {
                 directions.add(direction);
-                switch (direction) {
-                    case UP -> setY(getY() + speed);
-                    case DOWN -> setY(getY() - speed);
-                    case LEFT -> setX(getX() + speed);
-                    case RIGHT -> setX(getX() - speed);
+                int dx = rock.getX()-getX();
+                int dy = rock.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
                 }
             }
             else directions.remove(direction);
@@ -207,11 +209,15 @@ public class Tank2 extends AbstractObject implements Runnable{
             Tree tree = trees.get(i);
             if(checkCollision(tree)) {
                 directions.add(direction);
-                switch (direction) {
-                    case UP -> setY(getY() + speed);
-                    case DOWN -> setY(getY() - speed);
-                    case LEFT -> setX(getX() + speed);
-                    case RIGHT -> setX(getX() - speed);
+                int dx = tree.getX()-getX();
+                int dy = tree.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
                 }
             }
             else directions.remove(direction);
@@ -219,7 +225,7 @@ public class Tank2 extends AbstractObject implements Runnable{
     }
     //坦克之間的碰撞
     public void collisionTank(Tank tank){
-        if(checkCollision(tank)){
+        if(checkCollision(tank) && !tank.edgeDetector()){
             switch (direction) {
                 case UP -> tank.setY(tank.getY() - speed);
                 case DOWN -> tank.setY(tank.getY() + speed);
@@ -248,15 +254,6 @@ public class Tank2 extends AbstractObject implements Runnable{
 
     public Image getRightImage() {
         return rightImage;
-    }
-
-    public void back(Direction direction) {
-        switch (direction) {
-            case UP -> setY(getY() + speed);
-            case DOWN -> setY(getY() - speed);
-            case LEFT -> setX(getX() + speed);
-            case RIGHT -> setX(getX() - speed);
-        }
     }
 
     public void openFire() {

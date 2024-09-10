@@ -52,6 +52,7 @@ public class Rock extends AbstractObject{
         for(int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
             if(checkCollision(bullet)) {
+                setAlive(false);
                 bullet.setAlive(false);
             }
         }

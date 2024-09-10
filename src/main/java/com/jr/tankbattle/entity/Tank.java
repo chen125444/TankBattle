@@ -266,7 +266,7 @@ public class Tank extends AbstractObject implements Runnable{
     }
     //坦克之間的碰撞
     public void collisionTank(Tank2 tank){
-        if(checkCollision(tank) || !edgeDetector()){
+        if(checkCollision(tank) && !tank.edgeDetector()){
             switch (direction) {
                 case UP -> tank.setY(tank.getY() - speed);
                 case DOWN -> tank.setY(tank.getY() + speed);
