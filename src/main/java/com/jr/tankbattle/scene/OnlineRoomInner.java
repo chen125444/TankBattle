@@ -3,7 +3,6 @@ package com.jr.tankbattle.scene;
 import com.jr.tankbattle.client.Client;
 import com.jr.tankbattle.Director;
 import com.jr.tankbattle.controller.Account;
-import com.jr.tankbattle.entity.Tank3;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -171,22 +170,6 @@ public class OnlineRoomInner {
         });
     }
 
-
-    private Map<String, Tank3> assignTanksToPlayers(List<String> playerList) {
-        Map<String, Tank3> playerTanks = new HashMap<>();
-        List<Tank3.TankType> tankTypes = new ArrayList<>(List.of(Tank3.TankType.values()));
-        Collections.shuffle(tankTypes); // 打乱坦克类型的顺序
-
-        for (int i = 0; i < playerList.size(); i++) {
-            String player = playerList.get(i);
-            Tank3.TankType tankType = tankTypes.get(i); // 获取打乱后的坦克类型
-            Tank3 tank = new Tank3();
-            tank.setTankType(tankType);
-            tank.setPlayerId(player);
-            playerTanks.put(player, tank);
-        }
-        return playerTanks;
-    }
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

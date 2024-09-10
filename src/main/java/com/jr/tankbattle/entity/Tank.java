@@ -1,13 +1,11 @@
 package com.jr.tankbattle.entity;
 
-import com.jr.tankbattle.controller.GameDlg;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 
 import static com.jr.tankbattle.controller.HomePage.status;
 import static java.lang.Math.abs;
-import static java.lang.Math.tan;
 
 public class Tank extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
