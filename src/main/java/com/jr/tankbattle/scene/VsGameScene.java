@@ -25,6 +25,7 @@ public class VsGameScene {
     public List<Rock> rocks = new ArrayList<>();
     public List<Tree> trees = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
+    public List<Sheild> sheilds = new ArrayList<>();
     private final Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
 
 
@@ -74,6 +75,7 @@ public class VsGameScene {
             playerTank.move();
             playerTank.collisionRocks(rocks);
             playerTank.collisionTrees(trees);
+            playerTank.collisionSheild(sheilds);
             playerTank.collisionBullet(bullets);
             playerTank.collisionTank(playerTank2);
         }
@@ -82,6 +84,7 @@ public class VsGameScene {
             playerTank2.move();
             playerTank2.collisionRocks(rocks);
             playerTank2.collisionTrees(trees);
+            playerTank2.collisionSheild(sheilds);
             playerTank2.collisionBullet(bullets);
             playerTank2.collisionTank(playerTank);
         }
@@ -116,6 +119,21 @@ public class VsGameScene {
         for(int i = 0; i < trees.size(); i++){
             Tree tree = trees.get(i);
             tree.draw();
+        }
+
+        //更新盾牌
+        for(int i = 0; i < sheilds.size(); i++){
+            Sheild sheild = sheilds.get(i);
+            if(!sheild.isAlive()){
+                sheilds.remove(i);
+            }
+        }
+        //绘制盾牌
+        for(int i = 0; i < sheilds.size(); i++){
+            Sheild sheild = sheilds.get(i);
+            sheild.draw();
+            sheild.draw(playerTank);
+            sheild.draw(playerTank2);
         }
         //产生爆炸
         for (int i = 0; i < explodes.size(); i++) {

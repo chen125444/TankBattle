@@ -11,6 +11,9 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Tank2 extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
@@ -164,16 +167,22 @@ public class Tank2 extends AbstractObject implements Runnable{
             }
         }
     }
-    public void collisionSheild(Sheild sheild){
-        //撞到盾牌
-        sheild.setMoving(true);
-        invincible = true;
-        try {
-            Thread.sleep(5000);
-            sheild.setAlive(false);
-            invincible = false;
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    public void collisionSheild(List<Sheild> sheilds) {
+        for (Sheild sheild : sheilds) {
+            if (checkCollision(sheild)) {
+                sheild.setMoving(true);
+                invincible = true;
+
+                // 创建一个任务来在5秒后执行
+                ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+                scheduler.schedule(() -> {
+                    sheild.setAlive(false);
+                    invincible = false;
+                }, 5, TimeUnit.SECONDS);
+
+                // 可以关闭调度器以节省资源
+                scheduler.shutdown();
+            }
         }
     }
     public void collisionRocks(List<Rock> rocks) {
