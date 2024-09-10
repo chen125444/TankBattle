@@ -73,58 +73,53 @@ public class AiTank extends AbstractObject implements Runnable{
                  setY(640);
                  direction = Direction.RIGHT;
              }
-             return;
         }
         // 实现AI坦克的移动逻辑
-        if(getX()==tank.getX()&&getY()>tank.getY()){
+        for (int i=0;i<aiTanks.size();i++){
+            AiTank aiTank = aiTanks.get(i);
+            if(aiTank!=this){
+                if(abs(getX()-aiTank.getX())<40||abs(getY()-aiTank.getY())<40){
+                    canFire = false;
+                }
+            }
+        }
+        if(abs(getX()-tank.getX())<40&&getY()>tank.getY()){
             direction = Direction.UP;
             if(canFire){
                 openFire();
                 canFire = false;
             }
-            return;
         }
-        if(getX()==tank.getX()&&getY()<tank.getY()){
+        if(abs(getX()-tank.getX())<40&&getY()<tank.getY()){
             direction = Direction.DOWN;
             if(canFire){
-                //openFire();
+                openFire();
                 canFire = false;
             }
-            return;
         }
-        if(getX()>tank.getX()&&getY()==tank.getY()){
+        if(getX()>tank.getX()&&abs(getY()-tank.getY())<40){
             direction = Direction.LEFT;
             if(canFire){
-                //openFire();
+                openFire();
                 canFire = false;
             }
-            return;
         }
-        if(getX()<tank.getX()&&getY()==tank.getY()){
+        if(getX()<tank.getX()&&abs(getY()-tank.getY())<40){
             direction = Direction.RIGHT;
             if(canFire){
-                //openFire();
+                openFire();
                 canFire = false;
-            }
-            return;
-        }
-        for (int i=0;i<aiTanks.size();i++){
-            AiTank aiTank = aiTanks.get(i);
-            if(getX()==aiTank.getX()&&getY()>aiTank.getY()){
-                direction = Direction.DOWN;
-            }
-            if(getX()==aiTank.getX()&&getY()<aiTank.getY()){
-                direction = Direction.UP;
-            }
-            if(getX()>aiTank.getX()&&getY()==aiTank.getY()){
-                direction = Direction.RIGHT;
-            }
-            if(getX()<aiTank.getX()&&getY()==aiTank.getY()){
-                direction = Direction.LEFT;
             }
         }
         Random random = new Random();
-        int num = random.nextInt(50);
+        int num = random.nextInt(100);
+        switch (num){
+            case 0 : direction = Direction.UP;break;
+            case 1 : direction = Direction.DOWN;break;
+            case 2 : direction = Direction.LEFT;break;
+            case 3 : direction = Direction.RIGHT;break;
+            default : direction = direction;break;
+        }
         switch (direction) {
             case UP -> setY(getY() - speed);
             case DOWN -> setY(getY() + speed);
