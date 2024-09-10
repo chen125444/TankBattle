@@ -57,23 +57,30 @@ public class Client {
         return players;
     }
 
-    //获取房间列表
+    // 获取房间列表
     public List<String> getOnlineRooms() throws Exception {
         Message message = new Message();
-        message.setRoomRequest("getOnlineRooms", null);  // Request type for online rooms
+        message.setRoomRequest("getOnlineRooms", null);  // 请求房间列表
         String response = sendMessageAndGetResponse(message);
         Message responseMessage = gson.fromJson(response, Message.class);
 
         List<String> rooms = new ArrayList<>();
         if ("success".equals(responseMessage.status)) {
-            // Parse rooms list
-            String[] roomArray = responseMessage.message.split(",");
-            for (String room : roomArray) {
-                rooms.add(room.trim());
+            // 解析房间列表
+            if (responseMessage.message != null && !responseMessage.message.trim().isEmpty()) {
+                String[] roomArray = responseMessage.message.split(",");
+                for (String room : roomArray) {
+                    if (!room.trim().isEmpty()) {
+                        rooms.add(room.trim());
+                    }
+                }
             }
+        } else {
+            throw new Exception("Error retrieving room list: " + responseMessage.message);
         }
         return rooms;
     }
+
 
     //获取房间玩家人数
     public int getRoomPlayerCount(String roomId) throws Exception {
@@ -89,7 +96,8 @@ public class Client {
         if ("success".equals(response.status)) {
             return Integer.parseInt(response.message); // 将返回的字符串解析为 int
         } else {
-            throw new Exception("无法获取房间人数: " + response.message);
+//            throw new Exception("无法获取房间人数: " + response.message);
+            return 0;
         }
     }
 
