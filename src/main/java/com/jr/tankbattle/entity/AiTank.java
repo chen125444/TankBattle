@@ -251,6 +251,26 @@ public class AiTank extends AbstractObject implements Runnable{
             }
         }
     }
+    public void collisionIrons(List<Iron> irons) {
+        // 实现玩家与铁块的碰撞检测逻辑
+        for(int i = 0; i < irons.size(); i++) {
+            Iron iron = irons.get(i);
+            if(checkCollision(iron)) {
+                directions.add(direction);
+                int dx = iron.getX()-getX();
+                int dy = iron.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
+                }
+            }
+            else directions.remove(direction);
+        }
+    }
     public void collisionBullet(List<Bullet> bullets) {
         // 实现坦克与子弹的碰撞检测逻辑
         for(int i = 0; i < bullets.size(); i++) {

@@ -25,6 +25,8 @@ public class GameScene {
     public List<Tree> trees = map.mapData.get(1).trees;
     public List<Rock> rocks = map.mapData.get(1).rocks;
     public List<Sheild> sheilds = map.mapData.get(1).sheilds;
+    public List<Iron> irons = map.mapData.get(1).irons;
+    public List<Pool> pools = map.mapData.get(1).pools;
     public List<Explode> explodes = new ArrayList<>();
     private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
 
@@ -68,6 +70,7 @@ public class GameScene {
             playerTank.collisionRocks(rocks);
             playerTank.collisionTrees(trees);
             playerTank.collisionSheild(sheilds);
+            playerTank.collisionIrons(irons);
             playerTank.move();
             playerTank.draw();
         }
@@ -94,6 +97,7 @@ public class GameScene {
             aiTank.collisionRocks(rocks);
             aiTank.collisionTrees(trees);
             aiTank.collisionAi(aiTanks);
+            aiTank.collisionIrons(irons);
             aiTank.aiMove(playerTank,aiTanks);
             aiTank.draw();
         }
@@ -109,6 +113,31 @@ public class GameScene {
             Rock rock = rocks.get(i);
             rock.collisionBullet(bullets);
             rock.draw();
+        }
+        //更新水池
+        for(int i = 0; i < pools.size(); i++){
+            Pool pool = pools.get(i);
+            if(!pool.isAlive()){
+                pools.remove(i);
+            }
+        }
+        //绘制水池
+        for(int i = 0; i < pools.size(); i++){
+            Pool pool = pools.get(i);
+            pool.draw();
+        }
+        //更新铁块
+        for(int i = 0; i < irons.size(); i++){
+            Iron iron = irons.get(i);
+            if(!iron.isAlive()){
+                irons.remove(i);
+            }
+        }
+        //绘制铁块
+        for(int i = 0; i < irons.size(); i++){
+            Iron iron = irons.get(i);
+            iron.collisionBullet(bullets);
+            iron.draw();
         }
         //更新树丛
         for(int i = 0; i < trees.size(); i++){
