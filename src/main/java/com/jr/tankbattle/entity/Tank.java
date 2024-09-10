@@ -180,16 +180,20 @@ public class Tank extends AbstractObject implements Runnable{
             }
         }
     }
-    public void collisionSheild(Sheild sheild){
+    public void collisionSheild(List<Sheild> sheilds){
         //撞到盾牌
-        sheild.setMoving(true);
-        invincible = true;
-        try {
-            Thread.sleep(5000);
-            sheild.setAlive(false);
-            invincible = false;
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        for (int i = 0; i < sheilds.size(); i++) {
+            if(checkCollision(sheilds.get(i))) {
+                sheilds.get(i).setMoving(true);
+                invincible = true;
+//                try {
+//                    Thread.sleep(5000);
+//                    sheilds.get(i).setAlive(false);
+//                    invincible = false;
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+            }
         }
     }
     public void collisionPlayer(List<AiTank> aiTanks) {
