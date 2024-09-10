@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class VsGameScene {
     @FXML
-    private Canvas canvas =new Canvas(1080,720);
+    private Canvas canvas =new Canvas(900,720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     private boolean running = false;
     private Tank playerTank;

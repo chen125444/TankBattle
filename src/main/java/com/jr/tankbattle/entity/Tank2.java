@@ -45,9 +45,8 @@ public class Tank2 extends AbstractObject implements Runnable{
     @Override
     public void move() {
         // 实现坦克的移动逻辑
-        if (!moving) {
+        if (!moving|| directions.contains(direction)||edgeDetector()) {
             return;
-
         }
         switch (direction) {
             case UP -> setY(getY() - speed);
@@ -57,7 +56,16 @@ public class Tank2 extends AbstractObject implements Runnable{
         }
 
     }
-
+    //边界检测
+    public boolean edgeDetector(){
+        if((getX() <= 0 && direction == Direction.LEFT)
+                ||(getY() <= 0 && direction == Direction.UP)
+                ||(getX() >= 860 && direction == Direction.RIGHT)
+                ||(getY() >= 680 && direction == Direction.DOWN)){
+            return true;
+        }
+        return false;
+    }
     public void draw() {
         // 实现坦克的绘制逻辑
         switch (direction) {
@@ -79,17 +87,17 @@ public class Tank2 extends AbstractObject implements Runnable{
                 moving = true;
                 break;
             case DOWN:
-                if(direction!=Direction.UP)back(direction);
+                if(direction!=Direction.DOWN)back(direction);
                 direction = Direction.DOWN;
                 moving = true;
                 break;
             case LEFT:
-                if(direction!=Direction.UP)back(direction);
+                if(direction!=Direction.LEFT)back(direction);
                 direction = Direction.LEFT;
                 moving = true;
                 break;
             case RIGHT:
-                if(direction!=Direction.UP)back(direction);
+                if(direction!=Direction.RIGHT)back(direction);
                 direction = Direction.RIGHT;
                 moving = true;
                 break;

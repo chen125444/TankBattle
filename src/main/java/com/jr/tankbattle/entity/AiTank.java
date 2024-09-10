@@ -51,21 +51,8 @@ public class AiTank extends AbstractObject implements Runnable{
 
     }
     public void aiMove(Tank tank,List<AiTank> aiTanks) {
-        if(!moving||directions.contains(direction)) {
+        if(!moving||directions.contains(direction)||edgeDetector()) {
             return;
-        }
-        //边界检测
-        if(getX()<=0){
-            direction = Direction.RIGHT;
-        }
-        if(getY()<=0) {
-            direction = Direction.DOWN;
-        }
-        if(getX()>=1020){
-            direction = Direction.LEFT;
-        }
-        if(getY()>=660) {
-            direction = Direction.UP;
         }
         // 实现AI坦克的移动逻辑
         if(getX()==tank.getX()&&getY()>tank.getY()){
@@ -119,20 +106,20 @@ public class AiTank extends AbstractObject implements Runnable{
                 break;
             case 2 : back(direction);
                 if(direction!=Direction.LEFT)back(direction);
-                    direction = Direction.LEFT;
+                direction = Direction.LEFT;
                 break;
             case 3 : back(direction);
                 if(direction!=Direction.UP)back(direction);
-                    direction = Direction.UP;
+                direction = Direction.UP;
                 break;
             case 4 : back(direction);
                 if(direction!=Direction.DOWN)back(direction);
-                    direction = Direction.DOWN;
+                direction = Direction.DOWN;
                 break;
             //case 5 : openFire();
             default : direction = direction;
         }
-        
+
         switch (direction) {
             case UP -> setY(getY() - speed);
             case DOWN -> setY(getY() + speed);
@@ -141,7 +128,16 @@ public class AiTank extends AbstractObject implements Runnable{
         }
 
     }
-
+    //边界检测
+    public boolean edgeDetector(){
+        if((getX() <= 0 && direction == Direction.LEFT)
+                ||(getY() <= 0 && direction == Direction.UP)
+                ||(getX() >= 860 && direction == Direction.RIGHT)
+                ||(getY() >= 680 && direction == Direction.DOWN)){
+            return true;
+        }
+        return false;
+    }
     public void draw() {
         // 实现坦克的绘制逻辑
         switch (direction) {

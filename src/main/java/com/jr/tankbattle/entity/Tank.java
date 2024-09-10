@@ -54,30 +54,26 @@ public class Tank extends AbstractObject implements Runnable{
     @Override
     public void move() {
         // 实现坦克的移动逻辑
-        if (!moving|| directions.contains(direction)) {
+        if (!moving|| directions.contains(direction)||edgeDetector()) {
             return;
         }
-        //边界检测
-        if(getX()<=0){
-            direction = Direction.RIGHT;
-        }
-        if(getY()<=0) {
-            direction = Direction.DOWN;
-        }
-        if(getX()>=1020){
-            direction = Direction.LEFT;
-        }
-        if(getY()>=660) {
-            direction = Direction.UP;
-        }
-            switch (direction) {
-                case UP -> setY(getY() - speed);
-                case DOWN -> setY(getY() + speed);
-                case RIGHT -> setX(getX() + speed);
-                case LEFT -> setX(getX() - speed);
+        switch (direction) {
+            case UP -> setY(getY() - speed);
+            case DOWN -> setY(getY() + speed);
+            case RIGHT -> setX(getX() + speed);
+            case LEFT -> setX(getX() - speed);
         }
     }
-
+    //边界检测
+    public boolean edgeDetector(){
+        if((getX() <= 0 && direction == Direction.LEFT)
+                ||(getY() <= 0 && direction == Direction.UP)
+                ||(getX() >= 860 && direction == Direction.RIGHT)
+                ||(getY() >= 680 && direction == Direction.DOWN)){
+            return true;
+        }
+        return false;
+    }
     public void draw() {
         // 实现坦克的绘制逻辑
         if(status == 1) {
@@ -236,7 +232,7 @@ public class Tank extends AbstractObject implements Runnable{
     }
     //坦克之間的碰撞
     public void collisionTank(Tank2 tank){
-        if(checkCollision(tank)){
+        if(checkCollision(tank) || !edgeDetector()){
             switch (direction) {
                 case UP -> tank.setY(tank.getY() - speed);
                 case DOWN -> tank.setY(tank.getY() + speed);
