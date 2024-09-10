@@ -319,8 +319,18 @@ public class OnlineGameScene {
         for(int i = 0; i < sheilds.size(); i++){
             Sheild sheild = sheilds.get(i);
             sheild.draw();
-//            sheild.draw(playerTank);
-//            sheild.draw(playerTank2);
+            if(playerTank1.checkCollision(sheild) && !sheild.isMoving()){
+                sheild.draw(playerTank1);
+            }
+            if (playerTank2.checkCollision(sheild) && !sheild.isMoving()){
+                sheild.draw(playerTank2);
+            }
+            if(playerTank3.checkCollision(sheild) && !sheild.isMoving()){
+                sheild.draw(playerTank3);
+            }
+            if (playerTank3.checkCollision(sheild) && !sheild.isMoving()){
+                sheild.draw(playerTank3);
+            }
         }
         //产生爆炸
         for (int i = 0; i < explodes.size(); i++) {

@@ -35,8 +35,8 @@ public class Landmine extends AbstractObject {
                 getGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
             else {
-                getGameScene().landmines.remove(this);
                 getGameScene().explodes.add(new Explode(getX(), getY(), getGameScene()));
+                getGameScene().landmines.remove(this);
             }
         }
         if(status == 2){
@@ -44,8 +44,8 @@ public class Landmine extends AbstractObject {
                 getVsGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
             else {
-                getVsGameScene().landmines.remove(this);
                 getVsGameScene().explodes.add(new Explode(getX(), getY(), getVsGameScene()));
+                getVsGameScene().landmines.remove(this);
             }
         }
         if(status == 3){
@@ -53,8 +53,8 @@ public class Landmine extends AbstractObject {
                 getOnlineGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
             else {
-                getOnlineGameScene().landmines.remove(this);
                 getOnlineGameScene().explodes.add(new Explode(getX(), getY(), getOnlineGameScene()));
+                getOnlineGameScene().landmines.remove(this);
             }
         }
     }

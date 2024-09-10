@@ -76,6 +76,21 @@ public class Sheild extends AbstractObject{
             }
         }
     }
+    public void draw(Tank3 tank) {
+        if(moving && alive){
+            super.setX(tank.getX());
+            super.setY(tank.getY());
+            if(status == 1) {
+                getGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
+            }
+            if (status == 2){
+                getVsGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
+            }
+            if (status == 3){
+                getOnlineGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
+            }
+        }
+    }
     public void draw(AiTank tank) {
         if(moving && alive){
             super.setX(tank.getX());

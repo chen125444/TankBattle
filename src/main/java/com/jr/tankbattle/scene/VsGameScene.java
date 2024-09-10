@@ -198,10 +198,10 @@ public class VsGameScene {
         for(int i = 0; i < sheilds.size(); i++){
             Sheild sheild = sheilds.get(i);
             sheild.draw();
-            if(playerTank.checkCollision(sheild)){
+            if(playerTank.checkCollision(sheild) && !sheild.isMoving()){
                 sheild.draw(playerTank);
             }
-            if (playerTank2.checkCollision(sheild)){
+            if (playerTank2.checkCollision(sheild) && !sheild.isMoving()){
                 sheild.draw(playerTank2);
             }
         }

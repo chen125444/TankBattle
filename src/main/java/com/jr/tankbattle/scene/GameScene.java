@@ -184,14 +184,7 @@ public class GameScene {
             tree.draw();
         }
         //更新地雷
-        for(int i = 0; i < landmines.size(); i++){
-            Landmine landmine = landmines.get(i);
-            if(!landmine.isAlive()){
-                landmines.remove(i);
-            }
-        }
-        //绘制地雷
-        for(int i = 0; i < landmines.size(); i++){
+        for(int i = 0; i < landmines.size(); i++) {
             Landmine landmine = landmines.get(i);
             landmine.draw();
         }
@@ -206,11 +199,11 @@ public class GameScene {
         for(int i = 0; i < sheilds.size(); i++){
             Sheild sheild = sheilds.get(i);
             sheild.draw();
-            if(playerTank.checkCollision(sheild)){
+            if(playerTank.checkCollision(sheild) && !sheild.isMoving()){
                 sheild.draw(playerTank);
             }
             for (AiTank aiTank : aiTanks){
-                if(aiTank.checkCollision(sheild)) {
+                if(aiTank.checkCollision(sheild) && !sheild.isMoving()) {
                     sheild.draw(aiTank);
                 }
             }
