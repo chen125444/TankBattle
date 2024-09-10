@@ -121,9 +121,10 @@ public class Director {
 
     public void toOnlineRoom() { //跳转双人游戏界面
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/OnlineRoom.fxml")));
+//            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/OnlineRoom.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/OnlineGameScene.fxml")));
             stage.getScene().setRoot(root);
-//            onlineGameScene.init(stage);
+            onlineGameScene.init(stage);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -157,7 +158,7 @@ public class Director {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/OnlineGameScene.fxml")));
             stage.getScene().setRoot(root);
-            onlineGameScene.init(stage,playerList);
+//            onlineGameScene.init(stage,playerList);
         } catch (IOException e) {
             e.printStackTrace();
         }

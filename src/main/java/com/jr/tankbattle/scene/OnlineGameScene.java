@@ -22,9 +22,9 @@ public class OnlineGameScene {
     private Map<String, Tank3> playerTanks = new HashMap<>();
     private List<String> playerList;
     private Tank3 playerTank1=new Tank3(0,0,40,40,2,this, Tank3.TankType.TYPE1,"1");
-    private Tank3 playerTank2;
-    private Tank3 playerTank3;
-    private Tank3 playerTank4;
+    private Tank3 playerTank2=new Tank3(100,100,40,40,2,this, Tank3.TankType.TYPE2,"2");
+    private Tank3 playerTank3=new Tank3(200,200,40,40,2,this, Tank3.TankType.TYPE3,"3");
+    private Tank3 playerTank4=new Tank3(300,300,40,40,2,this, Tank3.TankType.TYPE4,"4");
 
     private MapData map = new MapData(this);
     public List<Bullet> bullets = new ArrayList<>();
@@ -34,7 +34,11 @@ public class OnlineGameScene {
 
     public Image backgroundImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
 
-    public void init(Stage stage, List<String> playerList) {
+    public void init(Stage stage/*, List<String> playerList*/) {
+        playerTank1.loadImages();
+        playerTank2.loadImages();
+        playerTank3.loadImages();
+        playerTank4.loadImages();
         AnchorPane root = new AnchorPane(canvas);
         stage.getScene().setRoot(root);
         //设置键盘事件
@@ -42,7 +46,7 @@ public class OnlineGameScene {
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
         running = true;
 
-        this.playerList = playerList;
+//        this.playerList = playerList;
         initializePlayerTanks();
 
         refresh.start();
