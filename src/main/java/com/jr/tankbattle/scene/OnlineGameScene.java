@@ -15,14 +15,13 @@ import java.util.*;
 
 public class OnlineGameScene {
     @FXML
-    private Canvas canvas = new Canvas(1080, 720);
+    private Canvas canvas = new Canvas(900, 720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-    //private KeyProcess keyProcess = new KeyProcess();
-    //private Refresh refresh = new Refresh();
+
     private boolean running = false;
-    private Map<String, Tank3> playerTanks=new HashMap<>();
+    private Map<String, Tank3> playerTanks = new HashMap<>();
     private List<String> playerList;
-    private Tank3 playerTank1;
+    private Tank3 playerTank1=new Tank3(0,0,40,40,2,this, Tank3.TankType.TYPE1,"1");
     private Tank3 playerTank2;
     private Tank3 playerTank3;
     private Tank3 playerTank4;
@@ -32,8 +31,8 @@ public class OnlineGameScene {
     public List<Rock> rocks = new ArrayList<>();
     public List<Tree> trees = map.mapData.get(1).trees;
     public List<Explode> explodes = new ArrayList<>();
-    //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
 
+    public Image backgroundImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
 
     public void init(Stage stage, List<String> playerList) {
         AnchorPane root = new AnchorPane(canvas);
@@ -64,36 +63,39 @@ public class OnlineGameScene {
     }
 
     private void initializePlayerTanks() {
-// Assuming tankTypes are predefined or determined somewhere
-        List<Tank3.TankType> tankTypes = new ArrayList<>(List.of(Tank3.TankType.values()));
-
-        // Shuffle the tank types to assign randomly
-        Collections.shuffle(tankTypes);
-
-        // Assign tanks to players based on playerList
-        for (int i = 0; i < playerList.size(); i++) {
-            String playerId = playerList.get(i);
-            Tank3.TankType tankType = tankTypes.get(i % tankTypes.size()); // Assign type cyclically
-            Tank3 tank = new Tank3();
-            tank.setTankType(tankType);
-            tank.setPlayerId(playerId);
-
-            // Set default positions for tanks; this can be customized
-            switch (i) {
-                case 0 -> tank.setPosition(0, 0);
-                case 1 -> tank.setPosition(860, 0);
-                case 2 -> tank.setPosition(0, 680);
-                case 3 -> tank.setPosition(860, 680);
-            }
-
-            tank.loadImages();
-            playerTanks.put(playerId, tank);
-        }
-        // Set the player tank references based on the map
-        if (playerTanks.containsKey(playerList.get(0))) playerTank1 = playerTanks.get(playerList.get(0));
-        if (playerTanks.size() > 1 && playerTanks.containsKey(playerList.get(1))) playerTank2 = playerTanks.get(playerList.get(1));
-        if (playerTanks.size() > 2 && playerTanks.containsKey(playerList.get(2))) playerTank3 = playerTanks.get(playerList.get(2));
-        if (playerTanks.size() > 3 && playerTanks.containsKey(playerList.get(3))) playerTank4 = playerTanks.get(playerList.get(3));
+//// Assuming tankTypes are predefined or determined somewhere
+//        List<Tank3.TankType> tankTypes = new ArrayList<>(List.of(Tank3.TankType.values()));
+//
+//        // Shuffle the tank types to assign randomly
+//        Collections.shuffle(tankTypes);
+//        Collections.shuffle(playerList);
+//        // Assign tanks to players based on playerList
+//        for (int i = 0; i < playerList.size(); i++) {
+//            String playerId = playerList.get(i);
+//            Tank3.TankType tankType = tankTypes.get(i % tankTypes.size()); // Assign type cyclically
+//            Tank3 tank = new Tank3();
+//            tank.setTankType(tankType);
+//            tank.setPlayerId(playerId);
+//
+//            // Set default positions for tanks; this can be customized
+//            switch (i) {
+//                case 0 -> tank.setPosition(0, 0);
+//                case 1 -> tank.setPosition(860, 0);
+//                case 2 -> tank.setPosition(0, 680);
+//                case 3 -> tank.setPosition(860, 680);
+//            }
+//
+//            tank.loadImages();
+//            playerTanks.put(playerId, tank);
+//        }
+//        // Set the player tank references based on the map
+//        if (playerTanks.containsKey(playerList.get(0))) playerTank1 = playerTanks.get(playerList.get(0));
+//        if (playerTanks.size() > 1 && playerTanks.containsKey(playerList.get(1)))
+//            playerTank2 = playerTanks.get(playerList.get(1));
+//        if (playerTanks.size() > 2 && playerTanks.containsKey(playerList.get(2)))
+//            playerTank3 = playerTanks.get(playerList.get(2));
+//        if (playerTanks.size() > 3 && playerTanks.containsKey(playerList.get(3)))
+//            playerTank4 = playerTanks.get(playerList.get(3));
     }
 
     // 处理按键按下事件
@@ -118,7 +120,7 @@ public class OnlineGameScene {
     private void render() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
-        graphicsContext.drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg")), 0, 0);
+        graphicsContext.drawImage(backgroundImage, 0, 0);
         // 绘制玩家坦克
         if (playerTank1 != null && playerTank1.isAlive()) {
             playerTank1.draw();
@@ -126,7 +128,15 @@ public class OnlineGameScene {
             playerTank1.collisionRocks(rocks);
             playerTank1.collisionTrees(trees);
             playerTank1.collisionBullet(bullets);
-            playerTank1.collisionTank(playerTank2);
+            if(playerTank2 != null) {
+                playerTank1.collisionTank(playerTank2);
+            }
+            if(playerTank3 != null) {
+                playerTank1.collisionTank(playerTank3);
+            }
+            if(playerTank4 != null) {
+                playerTank1.collisionTank(playerTank4);
+            }
         }
 
         if (playerTank2 != null && playerTank2.isAlive()) {
@@ -135,7 +145,15 @@ public class OnlineGameScene {
             playerTank2.collisionRocks(rocks);
             playerTank2.collisionTrees(trees);
             playerTank2.collisionBullet(bullets);
-            playerTank2.collisionTank(playerTank1);
+            if(playerTank1 != null) {
+                playerTank2.collisionTank(playerTank1);
+            }
+            if(playerTank3 != null) {
+                playerTank2.collisionTank(playerTank3);
+            }
+            if(playerTank4 != null) {
+                playerTank2.collisionTank(playerTank4);
+            }
         }
 
         if (playerTank3 != null && playerTank3.isAlive()) {
@@ -144,8 +162,15 @@ public class OnlineGameScene {
             playerTank3.collisionRocks(rocks);
             playerTank3.collisionTrees(trees);
             playerTank3.collisionBullet(bullets);
-            playerTank3.collisionTank(playerTank1);
-            playerTank3.collisionTank(playerTank2);
+            if(playerTank1 != null) {
+                playerTank3.collisionTank(playerTank1);
+            }
+            if(playerTank2 != null) {
+                playerTank3.collisionTank(playerTank2);
+            }
+            if(playerTank4 != null) {
+                playerTank3.collisionTank(playerTank4);
+            }
         }
 
         if (playerTank4 != null && playerTank4.isAlive()) {
@@ -154,9 +179,15 @@ public class OnlineGameScene {
             playerTank4.collisionRocks(rocks);
             playerTank4.collisionTrees(trees);
             playerTank4.collisionBullet(bullets);
-            playerTank4.collisionTank(playerTank1);
-            playerTank4.collisionTank(playerTank2);
-            playerTank4.collisionTank(playerTank3);
+            if(playerTank1 != null) {
+                playerTank4.collisionTank(playerTank1);
+            }
+            if(playerTank2 != null) {
+                playerTank4.collisionTank(playerTank2);
+            }
+            if(playerTank3 != null) {
+                playerTank4.collisionTank(playerTank3);
+            }
         }
         //更新石头
         for (int i = 0; i < rocks.size(); i++) {

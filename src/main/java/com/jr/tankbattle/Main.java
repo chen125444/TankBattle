@@ -20,7 +20,7 @@ public class Main extends Application {
         // Register a shutdown hook to ensure logout is called on program exit
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-              if (client != null) {
+              if (client != null&&Account.uid!=null) {
                    client.logout(Account.uid);
                 }
             } catch (Exception e) {
@@ -31,7 +31,7 @@ public class Main extends Application {
 
     @Override
     public void stop() throws Exception {
-        if (client != null) {
+        if (client != null&&Account.uid!=null) {
             client.logout(Account.uid);  // Call logout in stop method
         }
     }
