@@ -6,6 +6,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -51,12 +52,23 @@ public class GameScene {
     }
     // 处理按键按下事件
     private void handleKeyPressed(KeyEvent event) {
-        playerTank.pressed(event.getCode());
+        if(event.getCode() == KeyCode.ESCAPE){
+            if(running){
+                running = false;
+            }else {
+                running = true;
+            }
+        }
+        if(running){
+            playerTank.pressed(event.getCode());
+        }
     }
     // 处理按键松开事件
     private void handleKeyReleased(KeyEvent event) {
         // 实现坦克停止移动的逻辑
-        playerTank.released((event.getCode()));
+        if(running){
+            playerTank.released((event.getCode()));
+        }
     }
     // 刷新游戏界面
     private void render() {
@@ -191,6 +203,5 @@ public class GameScene {
     public void setGraphicsContext(GraphicsContext graphicsContext) {
         this.graphicsContext = graphicsContext;
     }
-
 
 }

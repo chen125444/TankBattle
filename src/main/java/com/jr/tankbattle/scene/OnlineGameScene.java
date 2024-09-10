@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -103,19 +104,31 @@ public class OnlineGameScene {
     // 处理按键按下事件
     private void handleKeyPressed(KeyEvent event) {
         // Adjust according to which player tank is controlled by which keys
-        if (playerTank1 != null) playerTank1.pressed(event.getCode());
-        if (playerTank2 != null) playerTank2.pressed(event.getCode());
-        if (playerTank3 != null) playerTank3.pressed(event.getCode());
-        if (playerTank4 != null) playerTank4.pressed(event.getCode());
+        if(event.getCode() == KeyCode.ESCAPE){
+            if(running){
+                running = false;
+            }else {
+                running = true;
+            }
+        }
+        if(running){
+            if (playerTank1 != null) playerTank1.pressed(event.getCode());
+            if (playerTank2 != null) playerTank2.pressed(event.getCode());
+            if (playerTank3 != null) playerTank3.pressed(event.getCode());
+            if (playerTank4 != null) playerTank4.pressed(event.getCode());
+        }
+
     }
 
     // 处理按键松开事件
     private void handleKeyReleased(KeyEvent event) {
         // 实现坦克停止移动的逻辑
-        if (playerTank1 != null) playerTank1.released(event.getCode());
-        if (playerTank2 != null) playerTank2.released(event.getCode());
-        if (playerTank3 != null) playerTank3.released(event.getCode());
-        if (playerTank4 != null) playerTank4.released(event.getCode());
+        if(running){
+            if (playerTank1 != null) playerTank1.released(event.getCode());
+            if (playerTank2 != null) playerTank2.released(event.getCode());
+            if (playerTank3 != null) playerTank3.released(event.getCode());
+            if (playerTank4 != null) playerTank4.released(event.getCode());
+        }
     }
 
     // 刷新游戏界面
