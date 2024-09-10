@@ -8,10 +8,12 @@ public class Sound {
     private static Sound instance = new Sound();
 
     private MediaPlayer bgmPlayer;
+    private MediaPlayer audioPlayer;
     private double volume=0.5;
     private String bgmName;
 
     private Media[] soundFiles = new Media[10];
+    private Media[] audioFiles = new Media[10];
 
     private int num=-1; //记录正在播放的bgm序号
 
@@ -21,6 +23,9 @@ public class Sound {
         soundFiles[2] = new Media(getClass().getResource("/com/jr/tankbattle/sound/music3.mp3").toExternalForm());
         soundFiles[3] = new Media(getClass().getResource("/com/jr/tankbattle/sound/music4.mp3").toExternalForm());
         soundFiles[4] = new Media(getClass().getResource("/com/jr/tankbattle/sound/music5.mp3").toExternalForm());
+
+        //子弹爆炸
+        audioFiles[0]= new Media(getClass().getResource("/com/jr/tankbattle/sound/playerCrack.mp3").toExternalForm());
     }
 
     public static Sound getInstance() {
@@ -41,6 +46,12 @@ public class Sound {
 
     public String getBgmName() {
         return bgmName;
+    }
+
+    public void playAudio(int num){
+        audioPlayer = new MediaPlayer(audioFiles[num]);
+        audioPlayer.setVolume(0.5);
+        audioPlayer.play();
     }
 
     public void BgmChg(int num) { //bgm切换

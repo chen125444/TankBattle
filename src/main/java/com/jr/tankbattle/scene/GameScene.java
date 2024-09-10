@@ -1,4 +1,5 @@
 package com.jr.tankbattle.scene;
+import com.jr.tankbattle.controller.GameDlg;
 import com.jr.tankbattle.entity.*;
 import com.jr.tankbattle.util.MapData;
 import javafx.fxml.FXML;
@@ -55,12 +56,21 @@ public class GameScene {
     // 处理按键按下事件
     private void handleKeyPressed(KeyEvent event) {
         if(event.getCode() == KeyCode.ESCAPE){
-            if(running){
-                running = false;
-            }else {
-                running = true;
-            }
+           running = false;
+           GameDlg.getInstance().Show("pause");
         }
+        if(GameDlg.getInstance().isFlag()){
+            running = true;
+        }
+        if(!playerTank.isAlive()){
+            running = false;
+            GameDlg.getInstance().Show("gameLoseSingle");
+        }
+        if(aiTanks.isEmpty()){
+            running = false;
+            GameDlg.getInstance().Show("gameWinSingle");
+        }
+
         if(running){
             playerTank.pressed(event.getCode());
         }

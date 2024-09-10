@@ -42,6 +42,7 @@ public class RegisterScr {
             }
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "错误", "注册失败: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

@@ -3,9 +3,7 @@ package com.jr.tankbattle.entity;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
-import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Rectangle;
 
 import static com.jr.tankbattle.controller.HomePage.status;
 
@@ -14,17 +12,15 @@ public class Sheild extends AbstractObject{
     private boolean moving = false;
     private final Image image = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/Sheild(1).png"));
     //构造函数
-    public Sheild(int x, int y, int width, int height,  GameScene gameScene) {
+    public Sheild(int x, int y, int width, int height, GameScene gameScene) {
         super(x, y, width, height, gameScene);
     }
-    public Sheild(int x, int y, int width, int height,  VsGameScene vsGameScene) {
+    public Sheild(int x, int y, int width, int height, VsGameScene vsGameScene) {
         super(x, y, width, height, vsGameScene);
     }
     public Sheild(int x, int y, int width, int height, OnlineGameScene onlineGameScene) {
         super(x, y, width, height, onlineGameScene);
     }
-
-
 
     // 实现盾牌的移动逻辑
     @Override

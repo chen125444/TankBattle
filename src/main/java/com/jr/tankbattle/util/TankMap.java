@@ -1,12 +1,9 @@
 package com.jr.tankbattle.util;
 
 import com.jr.tankbattle.entity.*;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TankMap {
     public List<AiTank> aiTanks = new ArrayList<>();

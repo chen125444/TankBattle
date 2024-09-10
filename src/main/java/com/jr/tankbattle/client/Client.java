@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.jr.tankbattle.controller.Account;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -102,11 +103,10 @@ public class Client {
     }
 
 
-
     // 创建房间
     public boolean createRoom(String roomId) throws Exception {
         Message message = new Message();
-        message.username= Account.uid;
+        message.username = Account.uid;
         message.setRoomRequest("createRoom", roomId);
         return sendMessage(message);
     }
@@ -114,7 +114,7 @@ public class Client {
     // 加入房间
     public boolean joinRoom(String roomId) throws Exception {
         Message message = new Message();
-        message.username= Account.uid;
+        message.username = Account.uid;
         message.setRoomRequest("joinRoom", roomId);
         return sendMessage(message);
     }
@@ -162,7 +162,7 @@ public class Client {
     // 标记玩家为准备状态
     public boolean markReady(String username, String roomId) throws Exception {
         Message message = new Message();
-        message.setReadyStatusRequest(username,roomId,true);  // Request type for marking ready
+        message.setReadyStatusRequest(username, roomId, true);  // Request type for marking ready
 
         String response = sendMessageAndGetResponse(message);
         Message responseMessage = gson.fromJson(response, Message.class);
@@ -232,4 +232,58 @@ public class Client {
         socket.close();
         return jsonResponse;
     }
+
+
+    public static void sendGameInfo(GameInfo gameInfo) throws Exception {
+        // 创建消息对象
+        Message message = new Message();
+        message.type = "gameInfo";
+        message.gameInfo = gameInfo;
+
+        // 序列化消息对象为 JSON 字符串
+        String jsonMessage = gson.toJson(message);
+
+        // 发送 JSON 字符串到服务器
+        try (DatagramSocket socket = new DatagramSocket()) {
+            InetAddress serverAddress = InetAddress.getByName(SERVER_ADDRESS);
+            byte[] sendData = jsonMessage.getBytes();
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, SERVER_PORT);
+            socket.send(sendPacket);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error sending gameInfo: " + e.getMessage());
+        }
+    }
+
+
+    public static GameInfo receiveServerResponse() throws Exception {
+        try (DatagramSocket socket = new DatagramSocket()) {
+            byte[] receiveData = new byte[1024];
+            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+            socket.receive(receivePacket);
+
+            String jsonResponse = new String(receivePacket.getData(), 0, receivePacket.getLength());
+            Message response = gson.fromJson(jsonResponse, Message.class);
+
+            if ("gameInfo".equals(response.type) && "success".equals(response.status)) {
+                // 确保 response.gameInfo 不为 null
+                if (response.gameInfo != null) {
+                    return response.gameInfo;
+                } else {
+                    System.err.println("GameInfo is null in server response.");
+                }
+            } else {
+                System.out.println("Error or unexpected message type: " + response.message);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error receiving server response: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+
+
+
 }
