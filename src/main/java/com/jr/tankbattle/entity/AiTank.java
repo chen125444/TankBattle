@@ -229,6 +229,28 @@ public class AiTank extends AbstractObject implements Runnable{
             else directions.remove(direction);
         }
     }
+    public void collisionPools(List<Pool> pools) {
+        // 实现AiTank与水池的碰撞检测逻辑
+        for(int i = 0; i < pools.size(); i++) {
+            Pool pool = pools.get(i);
+            if(checkCollision(pool)) {
+                directions.add(direction);
+                int dx = pool.getX()-getX();
+                int dy = pool.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
+                }
+            }
+            else{
+                directions.remove(direction);
+            }
+        }
+    }
     public void collisionBullet(List<Bullet> bullets) {
         // 实现坦克与子弹的碰撞检测逻辑
         for(int i = 0; i < bullets.size(); i++) {

@@ -47,15 +47,6 @@ public class Pool extends AbstractObject{
         }
         return false;
     }
-    public void collisionBullet(List<Bullet> bullets) {
-        // 实现与子弹的碰撞检测逻辑
-        for(int i = 0; i < bullets.size(); i++) {
-            Bullet bullet = bullets.get(i);
-            if(checkCollision(bullet)) {
-                setAlive(false);
-                bullet.setAlive(false);
-            }
-        }
-    }
+
 }
 
