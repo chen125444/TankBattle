@@ -20,7 +20,7 @@ public abstract class AbstractObject {
     private VsGameScene vsGameScene;
     private OnlineGameScene onlineGameScene;
     // 对象是否存活
-    private boolean alive;
+    private boolean alive=true;
 
     // 构造方法
     public AbstractObject(int x, int y, int width, int height, Image image, GameScene gameScene) {
@@ -30,7 +30,6 @@ public abstract class AbstractObject {
         this.height = height;
         this.image = image;
         this.gameScene = gameScene;
-        this.alive = true;
     }
     public AbstractObject(int x, int y, int width, int height, Image image, VsGameScene vsGameScene) {
         this.x = x;
@@ -48,7 +47,6 @@ public abstract class AbstractObject {
         this.height = height;
         this.image = image;
         this.onlineGameScene = onlineGameScene;
-        this.alive = true;
     }
 
     public AbstractObject() {
@@ -70,6 +68,9 @@ public abstract class AbstractObject {
     }
     public AbstractObject(int x, int y, int width, int height, OnlineGameScene onlineGameScene) {
         this(x, y, width, height,null, onlineGameScene);
+    }
+    public AbstractObject(OnlineGameScene onlineGameScene) {
+        this.onlineGameScene = onlineGameScene;
     }
 
     // Getter 和 Setter 方法

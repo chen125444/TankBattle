@@ -75,13 +75,7 @@ public class GameScene {
             playerTank.draw();
         }
 
-        // 绘制子弹
-        for(int i = 0; i < bullets.size(); i++){
-            Bullet bullet = bullets.get(i);
-            bullet.collisionBullet(bullets);
-            bullet.move();
-            bullet.draw();
-        }
+
         //更新人机坦克
         for(int i = 0; i < aiTanks.size(); i++){
             AiTank aiTank = aiTanks.get(i);

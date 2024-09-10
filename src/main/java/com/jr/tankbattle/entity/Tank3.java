@@ -30,11 +30,12 @@ public class Tank3 extends AbstractObject implements Runnable {
     //坦克速度
     private int speed;
 
+    private String playerId;
+
     public void setPlayerId(String playerId) {
         this.playerId = playerId;
     }
 
-    private String playerId;
 
     public void setPosition(int x, int y) {
         super.setX(x);
@@ -46,12 +47,22 @@ public class Tank3 extends AbstractObject implements Runnable {
     }
 
     private TankType tankType;
-    private Image upImage, downImage, leftImage, rightImage;
+    private Image upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1U.png")),
+            downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1D.png")),
+            leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1L.png")),
+            rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png"));
     private List<Direction> directions = new ArrayList<>();
 
 
     public Tank3() {
         super();
+    }
+
+    public Tank3(int width,int height,int speed,OnlineGameScene onlineGameScene) {
+        super(onlineGameScene);
+        this.width = width;
+        this.height = height;
+        this.speed=speed;
     }
 
     public Tank3(int x, int y, int width, int height, int speed, OnlineGameScene onlineGameScene) {
@@ -76,40 +87,40 @@ public class Tank3 extends AbstractObject implements Runnable {
         TYPE1, TYPE2, TYPE3, TYPE4
     }
 
-    public void loadImages() {
-        switch (tankType) {
-            case TYPE1:
-                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1U.png"));
-                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1D.png"));
-                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1L.png"));
-                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png"));
-                break;
-            case TYPE2:
-                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2U.png"));
-                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2D.png"));
-                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2L.png"));
-                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2R.png"));
-                break;
-            case TYPE3:
-                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3U.png"));
-                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3D.png"));
-                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3L.png"));
-                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3R.png"));
-                break;
-            case TYPE4:
-                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4U.jpg"));
-                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4D.jpg"));
-                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4L.jpg"));
-                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4R.jpg"));
-                break;
-        }
-    }
+//    public void loadImages() {
+//        switch (tankType) {
+//            case TYPE1:
+//                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1U.png"));
+//                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1D.png"));
+//                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1L.png"));
+//                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png"));
+//                break;
+//            case TYPE2:
+//                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2U.png"));
+//                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2D.png"));
+//                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2L.png"));
+//                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2R.png"));
+//                break;
+//            case TYPE3:
+//                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3U.png"));
+//                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3D.png"));
+//                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3L.png"));
+//                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3R.png"));
+//                break;
+//            case TYPE4:
+//                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4U.jpg"));
+//                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4D.jpg"));
+//                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4L.jpg"));
+//                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4R.jpg"));
+//                break;
+//        }
+//    }
 
 
     @Override
     public void move() {
         // 实现坦克的移动逻辑
-        if (!moving || directions.contains(direction)) {
+        if (!moving || directions.contains(direction) || edgeDetector()) {
             return;
         }
         switch (direction) {
@@ -121,11 +132,11 @@ public class Tank3 extends AbstractObject implements Runnable {
     }
 
     //边界检测
-    public boolean edgeDetector(){
-        if((getX() <= 0 && direction == Direction.LEFT)
-                ||(getY() <= 0 && direction == Direction.UP)
-                ||(getX() >= 860 && direction == Direction.RIGHT)
-                ||(getY() >= 680 && direction == Direction.DOWN)){
+    public boolean edgeDetector() {
+        if ((getX() <= 0 && direction == Direction.LEFT)
+                || (getY() <= 0 && direction == Direction.UP)
+                || (getX() >= 860 && direction == Direction.RIGHT)
+                || (getY() >= 680 && direction == Direction.DOWN)) {
             return true;
         }
         return false;
@@ -133,8 +144,7 @@ public class Tank3 extends AbstractObject implements Runnable {
 
     public void draw() {
         switch (direction) {
-            case UP ->
-                    getOnlineGameScene().getGraphicsContext().drawImage(upImage, super.getX(), super.getY());
+            case UP -> getOnlineGameScene().getGraphicsContext().drawImage(upImage, super.getX(), super.getY());
             case DOWN -> getOnlineGameScene().getGraphicsContext().drawImage(downImage, super.getX(), super.getY());
             case LEFT -> getOnlineGameScene().getGraphicsContext().drawImage(leftImage, super.getX(), super.getY());
             case RIGHT -> getOnlineGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
@@ -150,10 +160,12 @@ public class Tank3 extends AbstractObject implements Runnable {
             case W:
                 direction = Direction.UP;
                 moving = true;
+                System.out.println("w");
                 break;
             case S:
                 direction = Direction.DOWN;
                 moving = true;
+                System.out.println("s");
                 break;
             case A:
                 direction = Direction.LEFT;
@@ -178,6 +190,7 @@ public class Tank3 extends AbstractObject implements Runnable {
             case A:
             case D:
                 moving = false;
+                System.out.println("f");
                 break;
             case J:
                 if (canFire) {
@@ -220,12 +233,12 @@ public class Tank3 extends AbstractObject implements Runnable {
         // 实现坦克与子弹的碰撞检测逻辑
         for (int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
-            if(checkCollision(bullet)) {
+            if (checkCollision(bullet)) {
                 bullet.setAlive(false);
-                if(!invincible){
+                if (!invincible) {
                     lives--;
                 }
-                if(lives == 0) {
+                if (lives == 0) {
                     setAlive(false);
                 }
             }
@@ -257,15 +270,14 @@ public class Tank3 extends AbstractObject implements Runnable {
             Rock rock = rocks.get(i);
             if (checkCollision(rock)) {
                 directions.add(direction);
-                int dx = rock.getX()-getX();
-                int dy = rock.getY()-getY();
-                if(abs(dx)>=abs(dy)) {
-                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
-                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
-                }
-                else {
-                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
-                    if(dy>0&&dy<40)setY(getY() + dy - 40);
+                int dx = rock.getX() - getX();
+                int dy = rock.getY() - getY();
+                if (abs(dx) >= abs(dy)) {
+                    if (dx < 0 && dx >= -40) setX(getX() + dx + 40);
+                    if (dx > 0 && dx <= 40) setX(getX() + dx - 40);
+                } else {
+                    if (dy < 0 && dy > -40) setY(getY() + dy + 40);
+                    if (dy > 0 && dy < 40) setY(getY() + dy - 40);
                 }
             } else directions.remove(direction);
         }
@@ -277,15 +289,14 @@ public class Tank3 extends AbstractObject implements Runnable {
             Tree tree = trees.get(i);
             if (checkCollision(tree)) {
                 directions.add(direction);
-                int dx = tree.getX()-getX();
-                int dy = tree.getY()-getY();
-                if(abs(dx)>=abs(dy)) {
-                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
-                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
-                }
-                else {
-                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
-                    if(dy>0&&dy<40)setY(getY() + dy - 40);
+                int dx = tree.getX() - getX();
+                int dy = tree.getY() - getY();
+                if (abs(dx) >= abs(dy)) {
+                    if (dx < 0 && dx >= -40) setX(getX() + dx + 40);
+                    if (dx > 0 && dx <= 40) setX(getX() + dx - 40);
+                } else {
+                    if (dy < 0 && dy > -40) setY(getY() + dy + 40);
+                    if (dy > 0 && dy < 40) setY(getY() + dy - 40);
                 }
             } else directions.remove(direction);
         }
@@ -333,20 +344,19 @@ public class Tank3 extends AbstractObject implements Runnable {
 
     //坦克之間的碰撞
     public void collisionTank(Tank3 tank) {
-        if (checkCollision(tank)) {
-            if(checkCollision(tank) && !tank.edgeDetector()){
-                directions.add(direction);
-                int dx = tank.getX()-getX();
-                int dy = tank.getY()-getY();
-                if(abs(dx)>=abs(dy)) {
-                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
-                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
-                }
-                else {
-                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
-                    if(dy>0&&dy<40)setY(getY() + dy - 40);
-                }
+
+        if (checkCollision(tank) && !tank.edgeDetector()) {
+            directions.add(direction);
+            int dx = tank.getX() - getX();
+            int dy = tank.getY() - getY();
+            if (abs(dx) >= abs(dy)) {
+                if (dx < 0 && dx >= -40) setX(getX() + dx + 40);
+                if (dx > 0 && dx <= 40) setX(getX() + dx - 40);
+            } else {
+                if (dy < 0 && dy > -40) setY(getY() + dy + 40);
+                if (dy > 0 && dy < 40) setY(getY() + dy - 40);
             }
+
         } else return;
     }
 
