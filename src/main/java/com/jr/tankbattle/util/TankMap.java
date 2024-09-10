@@ -1,9 +1,6 @@
 package com.jr.tankbattle.util;
 
-import com.jr.tankbattle.entity.AiTank;
-import com.jr.tankbattle.entity.Bullet;
-import com.jr.tankbattle.entity.Rock;
-import com.jr.tankbattle.entity.Tree;
+import com.jr.tankbattle.entity.*;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -16,4 +13,5 @@ public class TankMap {
     public List<Bullet> bullets = new ArrayList<>();
     public List<Tree> trees = new ArrayList<>();
     public List<Rock> rocks = new ArrayList<>();
+    public List<Sheild> sheilds = new ArrayList<>();
 }

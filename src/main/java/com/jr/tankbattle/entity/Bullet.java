@@ -47,10 +47,10 @@ public class Bullet extends AbstractObject{
         if(getY()<=0) {
             setAlive(false);
         }
-        if(getX()>=1020){
+        if(getX()>=860){
             setAlive(false);
         }
-        if(getY()>=660) {
+        if(getY()>=680) {
             setAlive(false);
         }
         switch (direction){

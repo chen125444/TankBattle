@@ -1,10 +1,7 @@
 package com.jr.tankbattle.util;
 
-import com.jr.tankbattle.entity.AiTank;
+import com.jr.tankbattle.entity.*;
 
-import com.jr.tankbattle.entity.Rock;
-import com.jr.tankbattle.entity.Tank;
-import com.jr.tankbattle.entity.Tree;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.OnlineGameScene;
 
@@ -46,6 +43,8 @@ public class MapData {
             map1.aiTanks.add(aiTank4);
             AiTank aiTank5 = new AiTank(720, 600, 40, 40, 2, gameScene);
             map1.aiTanks.add(aiTank5);
+            Sheild sheild1 = new Sheild(400,320,40,40,gameScene);
+            map1.sheilds.add(sheild1);
             Tree tree1 = new Tree(80, 40, 40, 40, gameScene);
             map1.trees.add(tree1);
             Tree tree2 = new Tree(120, 40, 40, 40, gameScene);

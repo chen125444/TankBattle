@@ -24,6 +24,7 @@ public class GameScene {
     public List<AiTank> aiTanks = map.mapData.get(1).aiTanks;
     public List<Tree> trees = map.mapData.get(1).trees;
     public List<Rock> rocks = map.mapData.get(1).rocks;
+    public List<Sheild> sheilds = map.mapData.get(1).sheilds;
     public List<Explode> explodes = new ArrayList<>();
     private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
 
@@ -66,6 +67,7 @@ public class GameScene {
             playerTank.collisionPlayer(aiTanks);
             playerTank.collisionRocks(rocks);
             playerTank.collisionTrees(trees);
+            playerTank.collisionSheild(sheilds);
             playerTank.move();
             playerTank.draw();
         }
@@ -120,6 +122,18 @@ public class GameScene {
             Tree tree = trees.get(i);
             tree.collisionBullet(bullets);
             tree.draw();
+        }
+        //更新盾牌
+        for(int i = 0; i < sheilds.size(); i++){
+            Sheild sheild = sheilds.get(i);
+            if(!sheild.isAlive()){
+                sheilds.remove(i);
+            }
+        }
+        //绘制盾牌
+        for(int i = 0; i < sheilds.size(); i++){
+            Sheild sheild = sheilds.get(i);
+            sheild.draw();
         }
         //产生爆炸
         for (int i = 0; i < explodes.size(); i++) {

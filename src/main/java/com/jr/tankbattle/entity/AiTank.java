@@ -53,8 +53,28 @@ public class AiTank extends AbstractObject implements Runnable{
 
     }
     public void aiMove(Tank tank,List<AiTank> aiTanks) {
-        if(!moving||directions.contains(direction)||edgeDetector()) {
+        if(!moving||directions.contains(direction)) {
             return;
+        }
+        while(edgeDetector()){
+            switch(direction){
+                case UP :
+                    direction = Direction.DOWN;
+                    setY(getY()+speed);
+                    break;
+                case DOWN :
+                    direction = Direction.UP;
+                    setY(getY()-speed);
+                    break;
+                case LEFT :
+                    direction = Direction.RIGHT;
+                    setX(getX()+speed);
+                    break;
+                case RIGHT :
+                    direction = Direction.LEFT;
+                    setX(getX()-speed);
+                    break;
+            }
         }
         // 实现AI坦克的移动逻辑
         if(getX()==tank.getX()&&getY()>tank.getY()){
@@ -111,7 +131,7 @@ public class AiTank extends AbstractObject implements Runnable{
                 break;
             case 4 : direction = Direction.DOWN;
                 break;
-            //case 5 : openFire();
+            case 5 : openFire();
             default : direction = direction;
         }
 
