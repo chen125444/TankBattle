@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -152,11 +153,11 @@ public class Director {
         }
     }
 
-    public void toOnlineGameScene(Map<String, Tank3> playerTanks) { //跳转联机游戏界面
+    public void toOnlineGameScene(List<String> playerList) { //跳转联机游戏界面
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/OnlineGameScene.fxml")));
             stage.getScene().setRoot(root);
-            onlineGameScene.init(stage,playerTanks);
+            onlineGameScene.init(stage,playerList);
         } catch (IOException e) {
             e.printStackTrace();
         }

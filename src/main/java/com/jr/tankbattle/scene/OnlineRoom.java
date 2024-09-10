@@ -89,6 +89,7 @@ public class OnlineRoom {
         try {
             boolean success = client.createRoom(roomId);
             if (success) {
+                onClose();
                 showAlert(Alert.AlertType.INFORMATION, "信息", "房间创建成功！");
                 Director.getInstance().toOnlineRoomInner(roomId);
             } else {
@@ -110,6 +111,7 @@ public class OnlineRoom {
         try {
             boolean success = client.joinRoom(roomId);
             if (success) {
+                onClose();
                 showAlert(Alert.AlertType.INFORMATION, "信息", "成功加入房间！");
                 Director.getInstance().toOnlineRoomInner(roomId);
             } else {

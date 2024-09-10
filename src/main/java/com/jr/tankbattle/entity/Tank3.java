@@ -1,5 +1,6 @@
 package com.jr.tankbattle.entity;
 
+import com.jr.tankbattle.Director;
 import com.jr.tankbattle.controller.Account;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.OnlineGameScene;
@@ -31,6 +32,10 @@ public class Tank3 extends AbstractObject implements Runnable {
 
     private String playerId;
 
+    public void setPosition(int x, int y) {
+        super.setX(x);
+        super.setY(y);
+    }
     public void setTankType(TankType tankType) {
         this.tankType = tankType;
     }
@@ -42,6 +47,11 @@ public class Tank3 extends AbstractObject implements Runnable {
     private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png"));
     private List<Direction> directions = new ArrayList<>();
 
+
+
+    public Tank3() {
+        super();
+    }
     public Tank3(int x, int y, int width, int height, int speed, OnlineGameScene onlineGameScene) {
         super(x, y, width, height, onlineGameScene);
         super.setImage(upImage);
@@ -59,22 +69,18 @@ public class Tank3 extends AbstractObject implements Runnable {
         this.playerId = playerId;
     }
 
-    public Tank3() {
-        super();
-    }
-
     public enum TankType {
         TYPE1, TYPE2, TYPE3, TYPE4
     }
 
-    private void loadImages() {
+    public void loadImages() {
         switch (tankType) {
             case TYPE1:
                 upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1U.png"));
                 downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1D.png"));
                 leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1L.png"));
                 rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png"));
-                break;
+                break ;
             case TYPE2:
                 upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2U.png"));
                 downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2D.png"));
@@ -88,10 +94,10 @@ public class Tank3 extends AbstractObject implements Runnable {
                 rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3R.png"));
                 break;
             case TYPE4:
-                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4U.png"));
-                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4D.png"));
-                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4L.png"));
-                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4R.png"));
+                upImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4U.jpg"));
+                downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4D.jpg"));
+                leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4L.jpg"));
+                rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4R.jpg"));
                 break;
         }
     }
@@ -354,22 +360,22 @@ public class Tank3 extends AbstractObject implements Runnable {
         if (status == 3) {
             switch (direction) {
                 case UP:
-                    Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, getOnlineGameScene());
+                    Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, Director.onlineGameScene);
                     bullet0.draw();
                     getOnlineGameScene().bullets.add(bullet0);
                     break;
                 case DOWN:
-                    Bullet bullet1 = new Bullet(getX() + width / 2 - 5, getY() + height, 22, 10, Direction.DOWN, 5, getOnlineGameScene());
+                    Bullet bullet1 = new Bullet(getX() + width / 2 - 5, getY() + height, 22, 10, Direction.DOWN, 5, Director.onlineGameScene);
                     bullet1.draw();
                     getOnlineGameScene().bullets.add(bullet1);
                     break;
                 case LEFT:
-                    Bullet bullet2 = new Bullet(getX() - 22, getY() + height / 2 - 5, 22, 10, Direction.LEFT, 5, getOnlineGameScene());
+                    Bullet bullet2 = new Bullet(getX() - 22, getY() + height / 2 - 5, 22, 10, Direction.LEFT, 5, Director.onlineGameScene);
                     bullet2.draw();
                     getOnlineGameScene().bullets.add(bullet2);
                     break;
                 case RIGHT:
-                    Bullet bullet3 = new Bullet(getX() + width, getY() + height / 2 - 5, 22, 10, Direction.RIGHT, 5, getOnlineGameScene());
+                    Bullet bullet3 = new Bullet(getX() + width, getY() + height / 2 - 5, 22, 10, Direction.RIGHT, 5, Director.onlineGameScene);
                     bullet3.draw();
                     getOnlineGameScene().bullets.add(bullet3);
             }

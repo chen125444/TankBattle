@@ -91,32 +91,39 @@ public class OnlineRoomInner {
     @FXML
     public void markReady() {
         try {
-            boolean success = client.markReady(Account.uid, roomID); // Assuming Account.uid gives the current user ID
+            boolean success = client.markReady(Account.uid, roomID);
             if (success) {
                 showAlert(Alert.AlertType.INFORMATION, "Information", "You are now marked as ready!");
+                // Log successful mark ready
+                System.out.println("Player marked as ready successfully.");
             } else {
                 showAlert(Alert.AlertType.ERROR, "Error", "Failed to mark ready!");
+                // Log failure
+                System.err.println("Failed to mark ready for player " + Account.uid);
             }
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Error", "Unable to mark ready: " + e.getMessage());
+            // Log exception
+            e.printStackTrace();
         }
     }
+
 
     @FXML
     public void startGame() {
         try {
             boolean success = client.startGame(roomID);
             if (success) {
-                // 分配坦克给每个玩家
                 List<String> playerList = client.getRoomPlayerList(roomID);
-                Map<String, Tank3> playerTanks = assignTanksToPlayers(playerList);
+                onClose();
                 showAlert(Alert.AlertType.INFORMATION, "Information", "Game has started!");
-                Director.getInstance().toOnlineGameScene(playerTanks);
+                Director.getInstance().toOnlineGameScene(playerList);
             } else {
                 showAlert(Alert.AlertType.ERROR, "Error", "Unable to start the game!");
             }
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Error", "Unable to start the game: " + e.getMessage());
+        e.printStackTrace();
         }
     }
 
@@ -192,6 +199,9 @@ public class OnlineRoomInner {
     public void onClose() {
         if (scheduler != null && !scheduler.isShutdown()) {
             scheduler.shutdown();
+        }
+        if (autoStartScheduler != null && !autoStartScheduler.isShutdown()) {
+            autoStartScheduler.shutdownNow(); // 停止自动开始的调度程序
         }
     }
 }

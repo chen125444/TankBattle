@@ -26,7 +26,7 @@ public class LoginScr {
     public void LLogin() {
         String username = txtUid.getText();
         String password = txtPwd.getText();
-/*
+
         if (username.isEmpty() || password.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "警告", "用户名或密码不能为空");
             GameDlg.getInstance().Show("loginBlank");
@@ -43,9 +43,9 @@ public class LoginScr {
             }
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "错误", "登录失败: " + e.getMessage());
-        }*/
+        }
 
-       Director.getInstance().toHomePage();
+//       Director.getInstance().toHomePage();
     }
 
 

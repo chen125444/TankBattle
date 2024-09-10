@@ -11,10 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class OnlineGameScene {
     @FXML
@@ -23,7 +20,8 @@ public class OnlineGameScene {
     //private KeyProcess keyProcess = new KeyProcess();
     //private Refresh refresh = new Refresh();
     private boolean running = false;
-    private Map<String, Tank3> playerTanks;
+    private Map<String, Tank3> playerTanks=new HashMap<>();
+    private List<String> playerList;
     private Tank3 playerTank1;
     private Tank3 playerTank2;
     private Tank3 playerTank3;
@@ -37,7 +35,7 @@ public class OnlineGameScene {
     //private Background background = new Background(new Image("com/jr/tankbattle/img/background.jpg"));
 
 
-    public void init(Stage stage, Map<String, Tank3> playerTanks) {
+    public void init(Stage stage, List<String> playerList) {
         AnchorPane root = new AnchorPane(canvas);
         stage.getScene().setRoot(root);
         //设置键盘事件
@@ -45,7 +43,8 @@ public class OnlineGameScene {
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
         running = true;
 
-        this.playerTanks = playerTanks;
+        this.playerList = playerList;
+        initializePlayerTanks();
 
         refresh.start();
         //子弹间隔线程
@@ -65,12 +64,36 @@ public class OnlineGameScene {
     }
 
     private void initializePlayerTanks() {
-        // Assign tanks to variables based on player IDs (you need to adjust player IDs to your setup)
-        List<Tank3> tanks = new ArrayList<>(playerTanks.values());
-        if (tanks.size() > 0) playerTank1 = tanks.get(0);
-        if (tanks.size() > 1) playerTank2 = tanks.get(1);
-        if (tanks.size() > 2) playerTank3 = tanks.get(2);
-        if (tanks.size() > 3) playerTank4 = tanks.get(3);
+// Assuming tankTypes are predefined or determined somewhere
+        List<Tank3.TankType> tankTypes = new ArrayList<>(List.of(Tank3.TankType.values()));
+
+        // Shuffle the tank types to assign randomly
+        Collections.shuffle(tankTypes);
+
+        // Assign tanks to players based on playerList
+        for (int i = 0; i < playerList.size(); i++) {
+            String playerId = playerList.get(i);
+            Tank3.TankType tankType = tankTypes.get(i % tankTypes.size()); // Assign type cyclically
+            Tank3 tank = new Tank3();
+            tank.setTankType(tankType);
+            tank.setPlayerId(playerId);
+
+            // Set default positions for tanks; this can be customized
+            switch (i) {
+                case 0 -> tank.setPosition(0, 0);
+                case 1 -> tank.setPosition(860, 0);
+                case 2 -> tank.setPosition(0, 680);
+                case 3 -> tank.setPosition(860, 680);
+            }
+
+            tank.loadImages();
+            playerTanks.put(playerId, tank);
+        }
+        // Set the player tank references based on the map
+        if (playerTanks.containsKey(playerList.get(0))) playerTank1 = playerTanks.get(playerList.get(0));
+        if (playerTanks.size() > 1 && playerTanks.containsKey(playerList.get(1))) playerTank2 = playerTanks.get(playerList.get(1));
+        if (playerTanks.size() > 2 && playerTanks.containsKey(playerList.get(2))) playerTank3 = playerTanks.get(playerList.get(2));
+        if (playerTanks.size() > 3 && playerTanks.containsKey(playerList.get(3))) playerTank4 = playerTanks.get(playerList.get(3));
     }
 
     // 处理按键按下事件
