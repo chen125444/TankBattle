@@ -29,6 +29,7 @@ public class VsGameScene {
     public List<Tree> trees = map.mapData.get(1).trees;
     public List<Explode> explodes = new ArrayList<>();
     public List<Sheild> sheilds = map.mapData.get(1).sheilds;
+    public List<Heart> hearts = map.mapData.get(1).hearts;
     public List<Landmine> landmines = map.mapData.get(1).landmines;
     public List<Iron> irons = map.mapData.get(1).irons;
     public List<Pool> pools = map.mapData.get(1).pools;
@@ -95,6 +96,7 @@ public class VsGameScene {
             playerTank.collisionIrons(irons);
             playerTank.collisionPools(pools);
             playerTank.collisionLandmines(landmines);
+            playerTank.collisionHeart(hearts);
             playerTank.collisionTank(playerTank2);
         }
         if(playerTank2.isAlive()){
@@ -107,6 +109,7 @@ public class VsGameScene {
             playerTank2.collisionIrons(irons);
             playerTank2.collisionPools(pools);
             playerTank2.collisionLandmines(landmines);
+            playerTank2.collisionHeart(hearts);
             playerTank2.collisionTank(playerTank);
         }
         //更新石头
@@ -159,6 +162,18 @@ public class VsGameScene {
         for(int i = 0; i < trees.size(); i++){
             Tree tree = trees.get(i);
             tree.draw();
+        }
+        //更新桃心
+        for(int i = 0; i < hearts.size(); i++){
+            Heart heart = hearts.get(i);
+            if(!heart.isAlive()){
+                hearts.remove(i);
+            }
+        }
+        //绘制桃心
+        for(int i = 0; i < hearts.size(); i++){
+            Heart heart = hearts.get(i);
+            heart.draw();
         }
         //更新地雷
         for(int i = 0; i < landmines.size(); i++){

@@ -27,6 +27,7 @@ public class GameScene {
     public List<Rock> rocks = map.mapData.get(1).rocks;
     public List<Sheild> sheilds = map.mapData.get(1).sheilds;
     public List<Iron> irons = map.mapData.get(1).irons;
+    public List<Heart> hearts = map.mapData.get(1).hearts;
     public List<Pool> pools = map.mapData.get(1).pools;
     public List<Landmine> landmines = map.mapData.get(1).landmines;
     public List<Explode> explodes = new ArrayList<>();
@@ -92,6 +93,7 @@ public class GameScene {
             playerTank.collisionSheild(sheilds);
             playerTank.collisionPools(pools);
             playerTank.collisionIrons(irons);
+            playerTank.collisionHeart(hearts);
             playerTank.collisionLandmines(landmines);
             playerTank.move();
             playerTank.draw();
@@ -130,6 +132,18 @@ public class GameScene {
             Rock rock = rocks.get(i);
             rock.collisionBullet(bullets);
             rock.draw();
+        }
+        //更新桃心
+        for(int i = 0; i < hearts.size(); i++){
+            Heart heart = hearts.get(i);
+            if(!heart.isAlive()){
+                hearts.remove(i);
+            }
+        }
+        //绘制桃心
+        for(int i = 0; i < hearts.size(); i++){
+            Heart heart = hearts.get(i);
+            heart.draw();
         }
         //更新水池
         for(int i = 0; i < pools.size(); i++){
@@ -194,6 +208,11 @@ public class GameScene {
             sheild.draw();
             if(playerTank.checkCollision(sheild)){
                 sheild.draw(playerTank);
+            }
+            for (AiTank aiTank : aiTanks){
+                if(aiTank.checkCollision(sheild)) {
+                    sheild.draw(aiTank);
+                }
             }
         }
         //产生爆炸

@@ -244,7 +244,16 @@ public class Tank3 extends AbstractObject implements Runnable {
             }
         }
     }
-
+    public void collisionHeart(List<Heart> hearts){
+        // 实现坦克与桃心的碰撞检测逻辑
+        for(int i = 0; i < hearts.size(); i++) {
+            Heart heart = hearts.get(i);
+            if(checkCollision(heart)) {
+                heart.setAlive(false);
+                lives += 2;
+            }
+        }
+    }
     public void collisionSheild(List<Sheild> sheilds) {
         for (Sheild sheild : sheilds) {
             if (checkCollision(sheild) && !sheild.isMoving()) {

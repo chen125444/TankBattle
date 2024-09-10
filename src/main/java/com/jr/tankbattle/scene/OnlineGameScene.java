@@ -34,6 +34,7 @@ public class OnlineGameScene {
     public List<Sheild> sheilds = map.mapData.get(1).sheilds;
     public List<Landmine> landmines = map.mapData.get(1).landmines;
     public List<Iron> irons = map.mapData.get(1).irons;
+    public List<Heart> hearts = map.mapData.get(1).hearts;
     public List<Pool> pools = map.mapData.get(1).pools;
     public List<Explode> explodes = new ArrayList<>();
 
@@ -155,6 +156,7 @@ public class OnlineGameScene {
             playerTank1.collisionIrons(irons);
             playerTank1.collisionLandmines(landmines);
             playerTank1.collisionSheild(sheilds);
+            playerTank1.collisionHeart(hearts);
             if(playerTank2 != null) {
                 playerTank1.collisionTank(playerTank2);
             }
@@ -176,6 +178,7 @@ public class OnlineGameScene {
             playerTank2.collisionIrons(irons);
             playerTank2.collisionLandmines(landmines);
             playerTank2.collisionSheild(sheilds);
+            playerTank2.collisionHeart(hearts);
             if(playerTank1 != null) {
                 playerTank2.collisionTank(playerTank1);
             }
@@ -197,6 +200,7 @@ public class OnlineGameScene {
             playerTank3.collisionIrons(irons);
             playerTank3.collisionLandmines(landmines);
             playerTank3.collisionSheild(sheilds);
+            playerTank3.collisionHeart(hearts);
             if(playerTank1 != null) {
                 playerTank3.collisionTank(playerTank1);
             }
@@ -218,6 +222,7 @@ public class OnlineGameScene {
             playerTank4.collisionIrons(irons);
             playerTank4.collisionLandmines(landmines);
             playerTank4.collisionSheild(sheilds);
+            playerTank4.collisionHeart(hearts);
             if(playerTank1 != null) {
                 playerTank4.collisionTank(playerTank1);
             }
@@ -290,6 +295,18 @@ public class OnlineGameScene {
             Iron iron = irons.get(i);
             iron.collisionBullet(bullets);
             iron.draw();
+        }
+        //更新桃心
+        for(int i = 0; i < hearts.size(); i++){
+            Heart heart = hearts.get(i);
+            if(!heart.isAlive()){
+                hearts.remove(i);
+            }
+        }
+        //绘制桃心
+        for(int i = 0; i < hearts.size(); i++){
+            Heart heart = hearts.get(i);
+            heart.draw();
         }
         //更新盾牌
         for(int i = 0; i < sheilds.size(); i++){
