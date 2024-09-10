@@ -26,15 +26,8 @@
             </font>
         </Button>
 
-        <!-- Start Game Button -->
-        <Button fx:id="btnStartGame" layoutX="340.0" layoutY="120.0" onAction="#startGame" prefHeight="36.0" prefWidth="135.0" text="Start Game">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Button>
-
         <!-- Leave Room Button -->
-        <Button fx:id="btnLeaveRoom" layoutX="340.0" layoutY="180.0" onAction="#leaveRoom" prefHeight="36.0" prefWidth="135.0" text="Leave Room">
+        <Button fx:id="btnLeaveRoom" layoutX="340.0" layoutY="130.0" onAction="#leaveRoom" prefHeight="36.0" prefWidth="135.0" text="Leave Room">
             <font>
                 <Font size="18.0" />
             </font>

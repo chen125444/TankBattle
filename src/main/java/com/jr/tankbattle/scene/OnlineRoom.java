@@ -59,9 +59,13 @@ public class OnlineRoom {
             List<String> roomIds = client.getOnlineRooms(); // 获取所有房间 ID
             List<String> roomDisplayInfo = new ArrayList<>();
 
-            for (String roomId : roomIds) {
-                int playerCount = client.getRoomPlayerCount(roomId); // 获取房间的玩家人数
-                roomDisplayInfo.add(roomId + "\t\t\t\t\t\t" + playerCount + "/4"); // 格式化显示房间 ID 和人数
+            if (roomIds.isEmpty()) {
+                roomDisplayInfo.add("当前没有可用的房间"); // 显示房间列表为空的提示
+            } else {
+                for (String roomId : roomIds) {
+                    int playerCount = client.getRoomPlayerCount(roomId); // 获取房间的玩家人数
+                    roomDisplayInfo.add(roomId + "\t\t\t\t\t\t" + playerCount + "/4"); // 格式化显示房间 ID 和人数
+                }
             }
 
             javafx.application.Platform.runLater(() -> {
@@ -69,9 +73,10 @@ public class OnlineRoom {
                 lvRooms.getItems().addAll(roomDisplayInfo);
             });
         } catch (Exception e) {
-//            javafx.application.Platform.runLater(() -> showAlert(Alert.AlertType.ERROR, "错误", "无法刷新房间列表: " + e.getMessage()));
+            javafx.application.Platform.runLater(() -> showAlert(Alert.AlertType.ERROR, "错误", "无法刷新房间列表: " + e.getMessage()));
         }
     }
+
 
     @FXML
     public void createRoom() {
