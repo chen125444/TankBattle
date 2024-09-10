@@ -10,6 +10,9 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static com.jr.tankbattle.controller.HomePage.status;
 import static java.lang.Math.abs;
@@ -180,19 +183,21 @@ public class Tank extends AbstractObject implements Runnable{
             }
         }
     }
-    public void collisionSheild(List<Sheild> sheilds){
-        //撞到盾牌
-        for (int i = 0; i < sheilds.size(); i++) {
-            if(checkCollision(sheilds.get(i))) {
-                sheilds.get(i).setMoving(true);
+    public void collisionSheild(List<Sheild> sheilds) {
+        for (Sheild sheild : sheilds) {
+            if (checkCollision(sheild)) {
+                sheild.setMoving(true);
                 invincible = true;
-//                try {
-//                    Thread.sleep(5000);
-//                    sheilds.get(i).setAlive(false);
-//                    invincible = false;
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
+
+                // 创建一个任务来在5秒后执行
+                ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+                scheduler.schedule(() -> {
+                    sheild.setAlive(false);
+                    invincible = false;
+                }, 5, TimeUnit.SECONDS);
+
+                // 可以关闭调度器以节省资源
+                scheduler.shutdown();
             }
         }
     }
