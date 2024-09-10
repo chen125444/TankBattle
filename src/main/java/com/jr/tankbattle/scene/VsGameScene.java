@@ -65,6 +65,12 @@ public class VsGameScene {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
         graphicsContext.drawImage(backImage, 0,0 );
+        for(int i = 0; i < bullets.size(); i++){
+            Bullet bullet = bullets.get(i);
+            bullet.collisionBullet(bullets);
+            bullet.draw();
+            bullet.move();
+        }
         // 绘制玩家坦克
         if(playerTank.isAlive()){
             playerTank.draw();
@@ -85,12 +91,6 @@ public class VsGameScene {
             playerTank2.collisionBullet(bullets);
             playerTank2.collisionIrons(irons);
             playerTank2.collisionTank(playerTank);
-        }
-        for(int i = 0; i < bullets.size(); i++){
-            Bullet bullet = bullets.get(i);
-            bullet.collisionBullet(bullets);
-            bullet.move();
-            bullet.draw();
         }
         //更新石头
         for(int i = 0; i < rocks.size(); i++){

@@ -123,6 +123,13 @@ public class OnlineGameScene {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
         graphicsContext.drawImage(backgroundImage, 0, 0);
+        // 绘制子弹
+        for(int i = 0; i < bullets.size(); i++){
+            Bullet bullet = bullets.get(i);
+            bullet.collisionBullet(bullets);
+            bullet.draw();
+            bullet.move();
+        }
         // 绘制玩家坦克
         if (playerTank1 != null && playerTank1.isAlive()) {
             playerTank1.draw();
@@ -190,13 +197,6 @@ public class OnlineGameScene {
             if(playerTank3 != null) {
                 playerTank4.collisionTank(playerTank3);
             }
-        }
-        // 绘制子弹
-        for(int i = 0; i < bullets.size(); i++){
-            Bullet bullet = bullets.get(i);
-            bullet.collisionBullet(bullets);
-            bullet.move();
-            bullet.draw();
         }
         //更新石头
         for (int i = 0; i < rocks.size(); i++) {

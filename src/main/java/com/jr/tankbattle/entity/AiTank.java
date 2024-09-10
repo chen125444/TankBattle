@@ -18,7 +18,6 @@ public class AiTank extends AbstractObject implements Runnable{
     private int height;
     //坦克速度
     private int speed;
-    private boolean impact = false;
     private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3D.png"));
     private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3L.png"));
     private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy3R.png"));
@@ -74,14 +73,16 @@ public class AiTank extends AbstractObject implements Runnable{
                  setY(640);
                  direction = Direction.RIGHT;
              }
+             return;
         }
         // 实现AI坦克的移动逻辑
         if(getX()==tank.getX()&&getY()>tank.getY()){
             direction = Direction.UP;
             if(canFire){
-                //openFire();
+                openFire();
                 canFire = false;
             }
+            return;
         }
         if(getX()==tank.getX()&&getY()<tank.getY()){
             direction = Direction.DOWN;
@@ -89,6 +90,7 @@ public class AiTank extends AbstractObject implements Runnable{
                 //openFire();
                 canFire = false;
             }
+            return;
         }
         if(getX()>tank.getX()&&getY()==tank.getY()){
             direction = Direction.LEFT;
@@ -96,6 +98,7 @@ public class AiTank extends AbstractObject implements Runnable{
                 //openFire();
                 canFire = false;
             }
+            return;
         }
         if(getX()<tank.getX()&&getY()==tank.getY()){
             direction = Direction.RIGHT;
@@ -103,6 +106,7 @@ public class AiTank extends AbstractObject implements Runnable{
                 //openFire();
                 canFire = false;
             }
+            return;
         }
         for (int i=0;i<aiTanks.size();i++){
             AiTank aiTank = aiTanks.get(i);
@@ -121,21 +125,6 @@ public class AiTank extends AbstractObject implements Runnable{
         }
         Random random = new Random();
         int num = random.nextInt(50);
-        switch (num){
-            case 0 -> direction = Direction.UP;
-            case 1 -> direction = Direction.DOWN;
-            case 2 -> direction = Direction.LEFT;
-            case 3 -> direction = Direction.RIGHT;
-        }
-        if(impact){
-            switch (direction) {
-                case UP -> direction = Direction.LEFT;
-                case DOWN -> direction = Direction.RIGHT;
-                case RIGHT ->direction = Direction.UP;
-                case LEFT -> direction = Direction.DOWN;
-            }
-            impact = false;
-        }
         switch (direction) {
             case UP -> setY(getY() - speed);
             case DOWN -> setY(getY() + speed);
@@ -176,7 +165,6 @@ public class AiTank extends AbstractObject implements Runnable{
     public void collisionTank(Tank tank) {
         // 实现Ai坦克与玩家坦克的碰撞检测逻辑
             if(checkCollision(tank)) {
-                impact = true;
                 directions.add(direction);
                 int dx = tank.getX()-getX();
                 int dy = tank.getY()-getY();
@@ -196,7 +184,6 @@ public class AiTank extends AbstractObject implements Runnable{
         for(int i = 0; i < rocks.size(); i++) {
             Rock rock = rocks.get(i);
             if(checkCollision(rock)) {
-                impact = true;
                 directions.add(direction);
                 int dx = rock.getX()-getX();
                 int dy = rock.getY()-getY();
@@ -217,7 +204,6 @@ public class AiTank extends AbstractObject implements Runnable{
         for(int i = 0; i < trees.size(); i++) {
             Tree tree = trees.get(i);
             if(checkCollision(tree)) {
-                impact = true;
                 directions.add(direction);
                 int dx = tree.getX()-getX();
                 int dy = tree.getY()-getY();

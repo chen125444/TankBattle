@@ -63,6 +63,13 @@ public class GameScene {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
         graphicsContext.drawImage(backImage, 0,0 );
+        // 绘制子弹
+        for(int i = 0; i < bullets.size(); i++){
+            Bullet bullet = bullets.get(i);
+            bullet.collisionBullet(bullets);
+            bullet.draw();
+            bullet.move();
+        }
         // 绘制玩家坦克
         if(playerTank.isAlive()){
             playerTank.collisionBullet(bullets);
@@ -74,8 +81,6 @@ public class GameScene {
             playerTank.move();
             playerTank.draw();
         }
-
-
         //更新人机坦克
         for(int i = 0; i < aiTanks.size(); i++){
             AiTank aiTank = aiTanks.get(i);
