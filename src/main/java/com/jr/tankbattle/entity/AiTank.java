@@ -7,6 +7,9 @@ import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Math.abs;
 
@@ -14,6 +17,7 @@ public class AiTank extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
     private boolean moving = true;
     private boolean canFire = true;
+    private boolean invincible = false;
     private int width;
     private int height;
     //坦克速度
@@ -194,6 +198,28 @@ public class AiTank extends AbstractObject implements Runnable{
             else directions.remove(direction);
         }
     }
+    public void collisionLandmines(List<Landmine> landmines) {
+        // 实现AiTank与地雷的碰撞检测逻辑
+        for(int i = 0; i < landmines.size(); i++) {
+            Landmine landmine = landmines.get(i);
+            if(checkCollision(landmine)) {
+                directions.add(direction);
+                int dx = landmine.getX()-getX();
+                int dy = landmine.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
+                }
+            }
+            else{
+                directions.remove(direction);
+            }
+        }
+    }
     public void collisionTrees(List<Tree> trees) {
         // 实现AiTank与树丛的碰撞检测逻辑
         for(int i = 0; i < trees.size(); i++) {
@@ -212,6 +238,22 @@ public class AiTank extends AbstractObject implements Runnable{
                 }
             }
             else directions.remove(direction);
+        }
+    }
+    public void collisionSheild(List<Sheild> sheilds) {
+        for (Sheild sheild : sheilds) {
+            if (checkCollision(sheild) && !sheild.isMoving()) {
+                sheild.setMoving(true);
+                invincible = true;
+                // 创建一个任务来在5秒后执行
+                ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+                scheduler.schedule(() -> {
+                    sheild.setAlive(false);
+                    invincible = false;
+                }, 5, TimeUnit.SECONDS);
+                // 可以关闭调度器以节省资源
+                scheduler.shutdown();
+            }
         }
     }
     public void collisionPools(List<Pool> pools) {
@@ -261,7 +303,9 @@ public class AiTank extends AbstractObject implements Runnable{
         for(int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
             if(checkCollision(bullet)) {
-               setAlive(false);
+                if(!invincible){
+                    setAlive(false);
+                }
                bullet.setAlive(false);
             }
         }

@@ -203,7 +203,28 @@ public class Tank2 extends AbstractObject implements Runnable{
             else directions.remove(direction);
         }
     }
-
+    public void collisionLandmines(List<Landmine> landmines) {
+        // 实现玩家与树丛的碰撞检测逻辑
+        for(int i = 0; i < landmines.size(); i++) {
+            Landmine landmine = landmines.get(i);
+            if(checkCollision(landmine)) {
+                directions.add(direction);
+                int dx = landmine.getX()-getX();
+                int dy = landmine.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
+                }
+            }
+            else{
+                directions.remove(direction);
+            }
+        }
+    }
     public void collisionIrons(List<Iron> irons) {
         // 实现玩家与铁块的碰撞检测逻辑
         for(int i = 0; i < irons.size(); i++) {

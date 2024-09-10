@@ -1,6 +1,7 @@
 package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.scene.GameScene;
+import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
@@ -18,6 +19,9 @@ public class Sheild extends AbstractObject{
     }
     public Sheild(int x, int y, int width, int height,  VsGameScene vsGameScene) {
         super(x, y, width, height, vsGameScene);
+    }
+    public Sheild(int x, int y, int width, int height, OnlineGameScene onlineGameScene) {
+        super(x, y, width, height, onlineGameScene);
     }
 
 
@@ -37,6 +41,9 @@ public class Sheild extends AbstractObject{
             if (status == 2){
                 getVsGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
+            if (status == 3){
+                getOnlineGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
+            }
         }
     }
     public void draw(Tank tank) {
@@ -48,6 +55,9 @@ public class Sheild extends AbstractObject{
             }
             if (status == 2){
                 getVsGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
+            }
+            if (status == 3){
+                getOnlineGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
         }
     }
@@ -61,6 +71,9 @@ public class Sheild extends AbstractObject{
             if (status == 2){
                 getVsGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
+            if (status == 3){
+                getOnlineGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
+            }
         }
     }
     public void draw(AiTank tank) {
@@ -72,6 +85,9 @@ public class Sheild extends AbstractObject{
             }
             if (status == 2){
                 getVsGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
+            }
+            if (status == 3){
+                getOnlineGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
         }
     }

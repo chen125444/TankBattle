@@ -28,6 +28,7 @@ public class GameScene {
     public List<Sheild> sheilds = map.mapData.get(1).sheilds;
     public List<Iron> irons = map.mapData.get(1).irons;
     public List<Pool> pools = map.mapData.get(1).pools;
+    public List<Landmine> landmines = map.mapData.get(1).landmines;
     public List<Explode> explodes = new ArrayList<>();
     private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
 
@@ -91,6 +92,7 @@ public class GameScene {
             playerTank.collisionSheild(sheilds);
             playerTank.collisionPools(pools);
             playerTank.collisionIrons(irons);
+            playerTank.collisionLandmines(landmines);
             playerTank.move();
             playerTank.draw();
         }
@@ -110,6 +112,9 @@ public class GameScene {
             aiTank.collisionTrees(trees);
             aiTank.collisionAi(aiTanks);
             aiTank.collisionIrons(irons);
+            aiTank.collisionLandmines(landmines);
+            aiTank.collisionPools(pools);
+            aiTank.collisionSheild(sheilds);
             aiTank.aiMove(playerTank,aiTanks);
             aiTank.draw();
         }
@@ -163,6 +168,18 @@ public class GameScene {
             Tree tree = trees.get(i);
             tree.collisionBullet(bullets);
             tree.draw();
+        }
+        //更新地雷
+        for(int i = 0; i < landmines.size(); i++){
+            Landmine landmine = landmines.get(i);
+            if(!landmine.isAlive()){
+                landmines.remove(i);
+            }
+        }
+        //绘制地雷
+        for(int i = 0; i < landmines.size(); i++){
+            Landmine landmine = landmines.get(i);
+            landmine.draw();
         }
         //更新盾牌
         for(int i = 0; i < sheilds.size(); i++){

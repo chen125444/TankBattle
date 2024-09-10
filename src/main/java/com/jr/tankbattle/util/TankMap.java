@@ -16,4 +16,5 @@ public class TankMap {
     public List<Sheild> sheilds = new ArrayList<>();
     public List<Pool> pools = new ArrayList<>();
     public List<Iron> irons = new ArrayList<>();
+    public List<Landmine> landmines = new ArrayList<>();
 }

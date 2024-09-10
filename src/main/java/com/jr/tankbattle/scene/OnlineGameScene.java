@@ -32,8 +32,9 @@ public class OnlineGameScene {
     public List<Rock> rocks = map.mapData.get(1).rocks;
     public List<Tree> trees = map.mapData.get(1).trees;
     public List<Sheild> sheilds = map.mapData.get(1).sheilds;
-    public List<Pool> pools = new ArrayList<>();
-    public List<Iron> irons = new ArrayList<>();
+    public List<Landmine> landmines = map.mapData.get(1).landmines;
+    public List<Iron> irons = map.mapData.get(1).irons;
+    public List<Pool> pools = map.mapData.get(1).pools;
     public List<Explode> explodes = new ArrayList<>();
 
     public Image backgroundImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
@@ -152,6 +153,8 @@ public class OnlineGameScene {
             playerTank1.collisionBullet(bullets);
             playerTank1.collisionPools(pools);
             playerTank1.collisionIrons(irons);
+            playerTank1.collisionLandmines(landmines);
+            playerTank1.collisionSheild(sheilds);
             if(playerTank2 != null) {
                 playerTank1.collisionTank(playerTank2);
             }
@@ -169,8 +172,10 @@ public class OnlineGameScene {
             playerTank2.collisionRocks(rocks);
             playerTank2.collisionTrees(trees);
             playerTank2.collisionBullet(bullets);
-            playerTank1.collisionPools(pools);
-            playerTank1.collisionIrons(irons);
+            playerTank2.collisionPools(pools);
+            playerTank2.collisionIrons(irons);
+            playerTank2.collisionLandmines(landmines);
+            playerTank2.collisionSheild(sheilds);
             if(playerTank1 != null) {
                 playerTank2.collisionTank(playerTank1);
             }
@@ -188,8 +193,10 @@ public class OnlineGameScene {
             playerTank3.collisionRocks(rocks);
             playerTank3.collisionTrees(trees);
             playerTank3.collisionBullet(bullets);
-            playerTank1.collisionPools(pools);
-            playerTank1.collisionIrons(irons);
+            playerTank3.collisionPools(pools);
+            playerTank3.collisionIrons(irons);
+            playerTank3.collisionLandmines(landmines);
+            playerTank3.collisionSheild(sheilds);
             if(playerTank1 != null) {
                 playerTank3.collisionTank(playerTank1);
             }
@@ -207,8 +214,10 @@ public class OnlineGameScene {
             playerTank4.collisionRocks(rocks);
             playerTank4.collisionTrees(trees);
             playerTank4.collisionBullet(bullets);
-            playerTank1.collisionPools(pools);
-            playerTank1.collisionIrons(irons);
+            playerTank4.collisionPools(pools);
+            playerTank4.collisionIrons(irons);
+            playerTank4.collisionLandmines(landmines);
+            playerTank4.collisionSheild(sheilds);
             if(playerTank1 != null) {
                 playerTank4.collisionTank(playerTank1);
             }
@@ -244,6 +253,18 @@ public class OnlineGameScene {
         for (int i = 0; i < trees.size(); i++) {
             Tree tree = trees.get(i);
             tree.draw();
+        }
+        //更新地雷
+        for(int i = 0; i < landmines.size(); i++){
+            Landmine landmine = landmines.get(i);
+            if(!landmine.isAlive()){
+                landmines.remove(i);
+            }
+        }
+        //绘制地雷
+        for(int i = 0; i < landmines.size(); i++){
+            Landmine landmine = landmines.get(i);
+            landmine.draw();
         }
         //更新水池
         for(int i = 0; i < pools.size(); i++){
