@@ -16,6 +16,8 @@ public class Tank2 extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
     private boolean moving = false;
     private  boolean canFire = true;
+    //无敌时刻
+    private boolean invincible = false;
     private int width;
     private int height;
     private int lives =4;
@@ -152,7 +154,9 @@ public class Tank2 extends AbstractObject implements Runnable{
         for(int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
             if(checkCollision(bullet)) {
-                lives--;
+                if(!invincible){
+                    lives--;
+                }
                 if(lives == 0) {
                     setAlive(false);
                 }
@@ -161,8 +165,16 @@ public class Tank2 extends AbstractObject implements Runnable{
         }
     }
     public void collisionSheild(Sheild sheild){
+        //撞到盾牌
         sheild.setMoving(true);
-        lives += 2;
+        invincible = true;
+        try {
+            Thread.sleep(5000);
+            sheild.setAlive(false);
+            invincible = false;
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
     public void collisionRocks(List<Rock> rocks) {
         // 实现玩家与石头的碰撞检测逻辑
