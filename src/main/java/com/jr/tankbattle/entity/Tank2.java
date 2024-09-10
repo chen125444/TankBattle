@@ -167,7 +167,7 @@ public class Tank2 extends AbstractObject implements Runnable{
     }
     public void collisionSheild(List<Sheild> sheilds) {
         for (Sheild sheild : sheilds) {
-            if (checkCollision(sheild)) {
+            if (checkCollision(sheild) && !sheild.isMoving()) {
                 sheild.setMoving(true);
                 invincible = true;
 

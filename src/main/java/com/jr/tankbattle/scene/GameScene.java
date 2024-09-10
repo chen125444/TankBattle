@@ -175,7 +175,9 @@ public class GameScene {
         for(int i = 0; i < sheilds.size(); i++){
             Sheild sheild = sheilds.get(i);
             sheild.draw();
-            sheild.draw(playerTank);
+            if(playerTank.checkCollision(sheild)){
+                sheild.draw(playerTank);
+            }
         }
         //产生爆炸
         for (int i = 0; i < explodes.size(); i++) {

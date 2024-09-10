@@ -186,17 +186,15 @@ public class Tank extends AbstractObject implements Runnable{
     }
     public void collisionSheild(List<Sheild> sheilds) {
         for (Sheild sheild : sheilds) {
-            if (checkCollision(sheild)) {
+            if (checkCollision(sheild) && !sheild.isMoving()) {
                 sheild.setMoving(true);
                 invincible = true;
-
                 // 创建一个任务来在5秒后执行
                 ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
                 scheduler.schedule(() -> {
                     sheild.setAlive(false);
                     invincible = false;
                 }, 5, TimeUnit.SECONDS);
-
                 // 可以关闭调度器以节省资源
                 scheduler.shutdown();
             }

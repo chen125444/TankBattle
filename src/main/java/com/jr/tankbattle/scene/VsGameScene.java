@@ -169,8 +169,12 @@ public class VsGameScene {
         for(int i = 0; i < sheilds.size(); i++){
             Sheild sheild = sheilds.get(i);
             sheild.draw();
-            sheild.draw(playerTank);
-            sheild.draw(playerTank2);
+            if(playerTank.checkCollision(sheild)){
+                sheild.draw(playerTank);
+            }
+            if (playerTank2.checkCollision(sheild)){
+                sheild.draw(playerTank2);
+            }
         }
         //产生爆炸
         for (int i = 0; i < explodes.size(); i++) {

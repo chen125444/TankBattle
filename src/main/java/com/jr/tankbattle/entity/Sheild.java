@@ -41,31 +41,37 @@ public class Sheild extends AbstractObject{
     }
     public void draw(Tank tank) {
         if(moving && alive){
+            super.setX(tank.getX());
+            super.setY(tank.getY());
             if(status == 1) {
-                getGameScene().getGraphicsContext().drawImage(image, tank.getX(), tank.getY());
+                getGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
             if (status == 2){
-                getVsGameScene().getGraphicsContext().drawImage(image, tank.getX(), tank.getY());
+                getVsGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
         }
     }
     public void draw(Tank2 tank) {
         if(moving && alive){
+            super.setX(tank.getX());
+            super.setY(tank.getY());
             if(status == 1) {
-                getGameScene().getGraphicsContext().drawImage(image, tank.getX(), tank.getY());
+                getGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
             if (status == 2){
-                getVsGameScene().getGraphicsContext().drawImage(image, tank.getX(), tank.getY());
+                getVsGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
         }
     }
     public void draw(AiTank tank) {
         if(moving && alive){
+            super.setX(tank.getX());
+            super.setY(tank.getY());
             if(status == 1) {
-                getGameScene().getGraphicsContext().drawImage(image, tank.getX(), tank.getY());
+                getGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
             if (status == 2){
-                getVsGameScene().getGraphicsContext().drawImage(image, tank.getX(), tank.getY());
+                getVsGameScene().getGraphicsContext().drawImage(image, super.getX(), super.getY());
             }
         }
     }
@@ -74,7 +80,10 @@ public class Sheild extends AbstractObject{
     // 实现盾牌与其他对象的碰撞检测逻辑
     @Override
     public boolean checkCollision(AbstractObject other) {
-        return getRectangle().intersects(other.getRectangle());
+        if(alive){
+            return getRectangle().intersects(other.getRectangle());
+        }
+        return false;
     }
 
     @Override
@@ -84,5 +93,9 @@ public class Sheild extends AbstractObject{
 
     public void setMoving(boolean moving) {
         this.moving = moving;
+    }
+
+    public boolean isMoving() {
+        return moving;
     }
 }
