@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.Math.abs;
+
 public class AiTank extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
     private boolean moving = true;
@@ -101,20 +103,13 @@ public class AiTank extends AbstractObject implements Runnable{
         Random rand = new Random();
         int randomX = rand.nextInt(100);
         switch (randomX) {
-            case 1 : if(direction!=Direction.RIGHT)back(direction);
-                     direction = Direction.RIGHT;
+            case 1 : direction = Direction.RIGHT;
                 break;
-            case 2 : back(direction);
-                if(direction!=Direction.LEFT)back(direction);
-                direction = Direction.LEFT;
+            case 2 : direction = Direction.LEFT;
                 break;
-            case 3 : back(direction);
-                if(direction!=Direction.UP)back(direction);
-                direction = Direction.UP;
+            case 3 : direction = Direction.UP;
                 break;
-            case 4 : back(direction);
-                if(direction!=Direction.DOWN)back(direction);
-                direction = Direction.DOWN;
+            case 4 : direction = Direction.DOWN;
                 break;
             //case 5 : openFire();
             default : direction = direction;
@@ -161,11 +156,15 @@ public class AiTank extends AbstractObject implements Runnable{
         // 实现Ai坦克与玩家坦克的碰撞检测逻辑
             if(checkCollision(tank)) {
                 directions.add(direction);
-                switch (direction) {
-                    case UP -> tank.setY(tank.getY() - speed);
-                    case DOWN -> tank.setY(tank.getY() + speed);
-                    case LEFT -> tank.setX(tank.getX() - speed);
-                    case RIGHT -> tank.setX(tank.getX() + speed);
+                int dx = tank.getX()-getX();
+                int dy = tank.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
                 }
             }
             else directions.remove(direction);
@@ -176,11 +175,15 @@ public class AiTank extends AbstractObject implements Runnable{
             Rock rock = rocks.get(i);
             if(checkCollision(rock)) {
                 directions.add(direction);
-                switch (direction) {
-                    case UP -> setY(getY() + speed);
-                    case DOWN -> setY(getY() - speed);
-                    case LEFT -> setX(getX() + speed);
-                    case RIGHT -> setX(getX() - speed);
+                int dx = rock.getX()-getX();
+                int dy = rock.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
                 }
             }
             else directions.remove(direction);
@@ -192,11 +195,15 @@ public class AiTank extends AbstractObject implements Runnable{
             Tree tree = trees.get(i);
             if(checkCollision(tree)) {
                 directions.add(direction);
-                switch (direction) {
-                    case UP -> setY(getY() + speed);
-                    case DOWN -> setY(getY() - speed);
-                    case LEFT -> setX(getX() + speed);
-                    case RIGHT -> setX(getX() - speed);
+                int dx = tree.getX()-getX();
+                int dy = tree.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
                 }
             }
             else directions.remove(direction);
@@ -220,23 +227,18 @@ public class AiTank extends AbstractObject implements Runnable{
             if (aiTank != this) {
                 if (checkCollision(aiTank)) {
                     directions.add(direction);
-                    switch (direction) {
-                        case UP -> aiTank.setY(aiTank.getY() - speed);
-                        case DOWN -> aiTank.setY(aiTank.getY() + speed);
-                        case LEFT -> aiTank.setX(aiTank.getX() - speed);
-                        case RIGHT -> aiTank.setX(aiTank.getX() + speed);
+                    int dx = aiTank.getX()-getX();
+                    int dy = aiTank.getY()-getY();
+                    if(abs(dx)>=abs(dy)) {
+                        if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                        if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                    }
+                    else {
+                        if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                        if(dy>0&&dy<40)setY(getY() + dy - 40);
                     }
                 } else directions.remove(direction);
             }
-        }
-    }
-
-    public void back(Direction direction) {
-        switch (direction) {
-            case UP -> setY(getY() + speed);
-            case DOWN -> setY(getY() - speed);
-            case LEFT -> setX(getX() + speed);
-            case RIGHT -> setX(getX() - speed);
         }
     }
 
