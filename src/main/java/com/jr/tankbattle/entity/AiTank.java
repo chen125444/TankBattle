@@ -345,6 +345,10 @@ public class AiTank extends AbstractObject implements Runnable{
         }
     }
 
+    public boolean isInvincible() {
+        return invincible;
+    }
+
     public Direction getDirection() {
         return direction;
     }

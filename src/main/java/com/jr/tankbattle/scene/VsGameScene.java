@@ -198,10 +198,10 @@ public class VsGameScene {
         for(int i = 0; i < sheilds.size(); i++){
             Sheild sheild = sheilds.get(i);
             sheild.draw();
-            if(playerTank.checkCollision(sheild) && !sheild.isMoving()){
+            if(playerTank.checkCollision(sheild) && playerTank.isInvincible()){
                 sheild.draw(playerTank);
             }
-            if (playerTank2.checkCollision(sheild) && !sheild.isMoving()){
+            if (playerTank2.checkCollision(sheild) && playerTank2.isInvincible()){
                 sheild.draw(playerTank2);
             }
         }

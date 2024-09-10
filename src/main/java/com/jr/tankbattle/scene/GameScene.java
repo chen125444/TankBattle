@@ -199,11 +199,11 @@ public class GameScene {
         for(int i = 0; i < sheilds.size(); i++){
             Sheild sheild = sheilds.get(i);
             sheild.draw();
-            if(playerTank.checkCollision(sheild) && !sheild.isMoving()){
+            if(playerTank.checkCollision(sheild) && playerTank.isInvincible()){
                 sheild.draw(playerTank);
             }
             for (AiTank aiTank : aiTanks){
-                if(aiTank.checkCollision(sheild) && !sheild.isMoving()) {
+                if(aiTank.checkCollision(sheild) && aiTank.isInvincible()) {
                     sheild.draw(aiTank);
                 }
             }

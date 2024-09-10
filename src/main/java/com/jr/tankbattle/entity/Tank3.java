@@ -378,6 +378,10 @@ public class Tank3 extends AbstractObject implements Runnable {
         } else return;
     }
 
+    public boolean isInvincible() {
+        return invincible;
+    }
+
     public Direction getDirection() {
         return direction;
     }

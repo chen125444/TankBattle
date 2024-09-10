@@ -194,6 +194,7 @@ public class Tank extends AbstractObject implements Runnable{
             }
         }
     }
+    //盾牌
     public void collisionSheild(List<Sheild> sheilds) {
         for (Sheild sheild : sheilds) {
             if (checkCollision(sheild) && !sheild.isMoving()) {
@@ -341,6 +342,10 @@ public class Tank extends AbstractObject implements Runnable{
             }
         }
         else return;
+    }
+
+    public boolean isInvincible() {
+        return invincible;
     }
 
     public Direction getDirection() {

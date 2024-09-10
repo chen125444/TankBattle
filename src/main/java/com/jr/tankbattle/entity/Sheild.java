@@ -129,4 +129,5 @@ public class Sheild extends AbstractObject{
     public boolean isMoving() {
         return moving;
     }
+
 }

@@ -319,16 +319,16 @@ public class OnlineGameScene {
         for(int i = 0; i < sheilds.size(); i++){
             Sheild sheild = sheilds.get(i);
             sheild.draw();
-            if(playerTank1.checkCollision(sheild) && !sheild.isMoving()){
+            if(playerTank1.checkCollision(sheild) && playerTank1.isInvincible()){
                 sheild.draw(playerTank1);
             }
-            if (playerTank2.checkCollision(sheild) && !sheild.isMoving()){
+            if (playerTank2.checkCollision(sheild) && playerTank2.isInvincible()){
                 sheild.draw(playerTank2);
             }
-            if(playerTank3.checkCollision(sheild) && !sheild.isMoving()){
+            if(playerTank3.checkCollision(sheild) && playerTank3.isInvincible()){
                 sheild.draw(playerTank3);
             }
-            if (playerTank3.checkCollision(sheild) && !sheild.isMoving()){
+            if (playerTank3.checkCollision(sheild) && playerTank4.isInvincible()){
                 sheild.draw(playerTank3);
             }
         }
