@@ -22,6 +22,7 @@ public class Tank3 extends AbstractObject implements Runnable {
     private boolean canFire = true;
     //无敌时刻
     private boolean invincible = false;
+    private boolean treadRunning = true;
     private int width;
     private int height;
     private int lives = 4;
@@ -198,7 +199,7 @@ public class Tank3 extends AbstractObject implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (treadRunning) {
             System.out.print("");
             if (!canFire) {
                 try {

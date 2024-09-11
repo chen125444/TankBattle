@@ -18,6 +18,7 @@ public class Tank2 extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
     private boolean moving = false;
     private  boolean canFire = true;
+    private boolean threadRunning = true;
     //无敌时刻
     private boolean invincible = false;
     private int width;
@@ -126,7 +127,7 @@ public class Tank2 extends AbstractObject implements Runnable{
     }
     @Override
     public void run() {
-        while (true){
+        while (threadRunning){
             System.out.print("");
             if(!canFire){
                 try {

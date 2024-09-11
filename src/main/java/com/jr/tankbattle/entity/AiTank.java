@@ -18,6 +18,7 @@ public class AiTank extends AbstractObject implements Runnable{
     private boolean moving = true;
     private boolean canFire = true;
     private boolean invincible = false;
+    private boolean threadRunning = true;
     private int width;
     private int height;
     //坦克速度
@@ -38,7 +39,7 @@ public class AiTank extends AbstractObject implements Runnable{
 
     @Override
     public void run() {
-        while (true){
+        while (threadRunning){
             System.out.print("");
             if(!canFire){
                 try {
@@ -369,6 +370,10 @@ public class AiTank extends AbstractObject implements Runnable{
 
     public boolean isInvincible() {
         return invincible;
+    }
+
+    public void setThreadRunning(boolean threadRunning) {
+        this.threadRunning = threadRunning;
     }
 
     public Direction getDirection() {

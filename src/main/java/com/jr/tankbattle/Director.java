@@ -46,8 +46,9 @@ public class Director {
         stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/logo1.png")));
         stage.setResizable(false);
         stage.setScene(scene);
-        stage.show();
-
+        if(!stage.isShowing()){
+            stage.show();
+        }
         this.stage = stage;
     }
 

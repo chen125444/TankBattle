@@ -261,6 +261,10 @@ public class GameScene {
         trees.clear();
 
         if(!playerTank.isAlive()){
+            playerTank.setThreadRunning(false);
+            for (AiTank aiTank : aiTanks){
+                aiTank.setThreadRunning(false);
+            }
             refresh.stop();
             Platform.runLater(() -> {
                 GameDlg.getInstance().Show("gameLoseSingle");

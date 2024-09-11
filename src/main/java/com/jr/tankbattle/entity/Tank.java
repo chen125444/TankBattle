@@ -18,6 +18,7 @@ import static java.lang.Math.abs;
 
 public class Tank extends AbstractObject implements Runnable{
     private Direction direction = Direction.UP;
+    private boolean threadRunning = true;
     private boolean moving = false;
     private  boolean canFire = true;
     //无敌时刻
@@ -153,7 +154,7 @@ public class Tank extends AbstractObject implements Runnable{
 
     @Override
     public void run() {
-        while (true){
+        while (threadRunning){
             System.out.print("");
             if(!canFire){
                 try {
@@ -351,6 +352,10 @@ public class Tank extends AbstractObject implements Runnable{
 
     public boolean isInvincible() {
         return invincible;
+    }
+
+    public void setThreadRunning(boolean threadRunning) {
+        this.threadRunning = threadRunning;
     }
 
     public Direction getDirection() {
