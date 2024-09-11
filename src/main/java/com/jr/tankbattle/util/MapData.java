@@ -441,6 +441,16 @@ public class MapData {
         map1.hearts.add(heart2);
     }
     public void setMap1 (TankMap map1, OnlineGameScene gameScene){
+        AiTank aiTank1 = new AiTank(280, 40, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank1);
+        AiTank aiTank2 = new AiTank(280, 600, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank2);
+        AiTank aiTank3 = new AiTank(600, 360, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank3);
+        AiTank aiTank4 = new AiTank(280, 120, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank4);
+        AiTank aiTank5 = new AiTank(720, 600, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank5);
         Tree tree1 = new Tree(80, 40, 40, 40, gameScene);
         map1.trees.add(tree1);
         Tree tree2 = new Tree(120, 40, 40, 40, gameScene);
@@ -1237,6 +1247,16 @@ public class MapData {
     }
 
     public void setMap3 (TankMap map3, OnlineGameScene gameScene){
+        AiTank aiTank1 = new AiTank(280, 40, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank1);
+        AiTank aiTank2 = new AiTank(280, 600, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank2);
+        AiTank aiTank3 = new AiTank(600, 360, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank3);
+        AiTank aiTank4 = new AiTank(280, 120, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank4);
+        AiTank aiTank5 = new AiTank(720, 600, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank5);
         Tree tree1 = new Tree(120, 80, 40, 40, gameScene);
         map3.trees.add(tree1);
         Tree tree2 = new Tree(160, 80, 40, 40, gameScene);
@@ -1636,6 +1656,16 @@ public class MapData {
     }
 
     public void setMap4 (TankMap map4, OnlineGameScene gameScene){
+        AiTank aiTank1 = new AiTank(280, 40, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank1);
+        AiTank aiTank2 = new AiTank(280, 600, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank2);
+        AiTank aiTank3 = new AiTank(600, 360, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank3);
+        AiTank aiTank4 = new AiTank(280, 120, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank4);
+        AiTank aiTank5 = new AiTank(720, 600, 40, 40, 2, gameScene);
+        map1.aiTanks.add(aiTank5);
         Tree tree1 = new Tree(40, 80, 40, 40, gameScene);
         map4.trees.add(tree1);
         Tree tree2 = new Tree(80, 80, 40, 40, gameScene);

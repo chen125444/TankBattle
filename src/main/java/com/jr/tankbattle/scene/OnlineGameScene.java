@@ -442,6 +442,30 @@ public class OnlineGameScene implements Client.FireStatusListener {
                 playerTank4.collisionTank(playerTank3);
             }
         }
+        //更新人机坦克
+        for(int i = 0; i < aiTanks.size(); i++){
+            AiTank aiTank = aiTanks.get(i);
+            aiTank.collisionBullet(bulletList);
+            if(!aiTank.isAlive()){
+                aiTanks.remove(i);
+            }
+        }
+        // 绘制人机坦克
+        for(int i = 0; i < aiTanks.size(); i++){
+            AiTank aiTank = aiTanks.get(i);
+            aiTank.collisionTank(playerTank1);
+            aiTank.collisionTank(playerTank2);
+            aiTank.aiMove(playerTank1,aiTanks);
+            aiTank.aiMove(playerTank2,aiTanks);
+            aiTank.collisionRocks(rocks);
+            aiTank.collisionTrees(trees);
+            aiTank.collisionAi(aiTanks);
+            aiTank.collisionIrons(irons);
+            aiTank.collisionLandmines(landmines);
+            aiTank.collisionPools(pools);
+            aiTank.collisionSheild(sheilds);
+            aiTank.draw();
+        }
         //更新石头
         for(int i = 0; i < rocks.size(); i++){
             Rock rock = rocks.get(i);

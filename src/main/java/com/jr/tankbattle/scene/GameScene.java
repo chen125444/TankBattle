@@ -22,6 +22,7 @@ public class GameScene {
     private Canvas canvas =new Canvas(1080,720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     private boolean running = false;
+    private boolean gameOverHandled = false; // 用于标记游戏是否结束
     private Tank playerTank;
     private MapData map = new MapData(this);
     public List<Bullet> bullets = new ArrayList<>();
@@ -88,6 +89,10 @@ public class GameScene {
     private void render() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
+        if (!playerTank.isAlive() || aiTanks.isEmpty()) {
+            gameOver();  // 游戏结束时调用
+            return;  // 避免继续渲染
+        }
         graphicsContext.drawImage(backImage0, 0,0 );
         graphicsContext.drawImage(backImage, 0,0 );
         // 绘制子弹
@@ -112,7 +117,6 @@ public class GameScene {
             playerTank.draw();
             playerTank.drawLives();
         }
-        else gameOver();
         //更新人机坦克
         for(int i = 0; i < aiTanks.size(); i++){
             AiTank aiTank = aiTanks.get(i);
@@ -250,7 +254,15 @@ public class GameScene {
         this.graphicsContext = graphicsContext;
     }
     public void gameOver() {
-        running = false;
+        if (gameOverHandled) return;  // 防止重复处理游戏结束
+        gameOverHandled = true;  // 标记游戏结束已处理
+        refresh.stop();
+        playerTank.setThreadRunning(false);
+        for (AiTank aiTank : aiTanks){
+            aiTank.setThreadRunning(false);
+        }
+
+        // 清空所有游戏对象
         aiTanks.clear();
         bullets.clear();
         explodes.clear();
@@ -262,40 +274,45 @@ public class GameScene {
         sheilds.clear();
         trees.clear();
 
-        if(!playerTank.isAlive()){
-            playerTank.setThreadRunning(false);
-            for (AiTank aiTank : aiTanks){
-                aiTank.setThreadRunning(false);
-            }
-            refresh.stop();
+        // 检查玩家是否失败或者胜利
+        if (!playerTank.isAlive()) {
             Platform.runLater(() -> {
                 GameDlg.getInstance().Show("gameLoseSingle");
-                aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
-                hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
-                irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
-                landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
-                pools.addAll(map.mapData.get(MapScr.getInstance().getId()).pools);
-                rocks.addAll(map.mapData.get(MapScr.getInstance().getId()).rocks);
-                sheilds.addAll(map.mapData.get(MapScr.getInstance().getId()).sheilds);
-                trees.addAll(map.mapData.get(MapScr.getInstance().getId()).trees);
-                refresh.start();
+                resetGame();
             });
-        }
-        else {
-            refresh.stop();
+        } else if (aiTanks.isEmpty()) {
             Platform.runLater(() -> {
                 GameDlg.getInstance().Show("gameWinSingle");
-                aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
-                hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
-                irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
-                landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
-                pools.addAll(map.mapData.get(MapScr.getInstance().getId()).pools);
-                rocks.addAll(map.mapData.get(MapScr.getInstance().getId()).rocks);
-                sheilds.addAll(map.mapData.get(MapScr.getInstance().getId()).sheilds);
-                trees.addAll(map.mapData.get(MapScr.getInstance().getId()).trees);
-                refresh.start();
+                resetGame();
             });
         }
+    }
+
+    // 重置游戏
+    private void resetGame() {
+        gameOverHandled = false;  // 重置游戏结束标志位
+        // 重新初始化所有游戏数据
+        aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
+        hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
+        irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
+        landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
+        pools.addAll(map.mapData.get(MapScr.getInstance().getId()).pools);
+        rocks.addAll(map.mapData.get(MapScr.getInstance().getId()).rocks);
+        sheilds.addAll(map.mapData.get(MapScr.getInstance().getId()).sheilds);
+        trees.addAll(map.mapData.get(MapScr.getInstance().getId()).trees);
+
+        // 重新初始化玩家坦克
+        playerTank = new Tank(400, 500, 40, 40, 2, this);
+
+        // 启动新的游戏线程
+        new Thread(playerTank).start();
+        for (AiTank aiTank : aiTanks) {
+            new Thread(aiTank).start();
+        }
+
+        // 重新启动动画计时器
+        running = true;
+        refresh.start();
     }
 
 }
