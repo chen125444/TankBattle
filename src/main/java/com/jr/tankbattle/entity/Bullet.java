@@ -113,7 +113,7 @@ public class Bullet extends AbstractObject {
                             getOnlineGameScene().getGraphicsContext().drawImage(rightImage, super.getX(), super.getY());
                 }
             } else {
-                getOnlineGameScene().bullets.remove(this);
+                getOnlineGameScene().bullets.remove(this.getId());
                 getOnlineGameScene().explodes.add(new Explode(getX(), getY(), getOnlineGameScene()));
             }
         }

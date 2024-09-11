@@ -269,13 +269,23 @@ public class Client {
 
     public String getBulletsData() throws Exception {
         Message message = new Message();
-        message.username=Account.uid;
+        message.username = Account.uid;
         message.type = "getBulletsData";
 
+        // 发送消息并获取响应
         String response = sendMessageAndGetResponse(message);
+
+        // 将响应字符串转换为 Message 对象
         Message responseMessage = gson.fromJson(response, Message.class);
+
+        // 检查 responseMessage 是否为 null
+        if (responseMessage == null || responseMessage.message == null) {
+            return ""; // 如果 responseMessage 或 message 为 null，则返回空字符串
+        }
+
         return responseMessage.message;
     }
+
 
     /*---------------------------------------------*/
 

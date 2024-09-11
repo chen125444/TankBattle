@@ -80,7 +80,10 @@ public class OnlineGameScene {
             // 只发送以当前玩家 ID 开头的子弹数据
             StringBuilder sbBullets = new StringBuilder();
             for (Bullet bullet : bullets.values()) {
-                if (bullet.getId().startsWith(Account.uid)) { // 检查子弹的 ID 是否以当前玩家的 ID 开头
+                String bulletId = bullet.getId(); // 获取子弹 ID
+
+                // 检查 bulletId 是否为 null
+                if (bulletId != null && bulletId.startsWith(Account.uid)) {
                     if (sbBullets.length() > 0) {
                         sbBullets.append(";");
                     }
