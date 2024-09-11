@@ -12,11 +12,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Client {
     private static final String SERVER_ADDRESS = "47.121.217.200"; // 替换为服务器的 IP 地址
     private static final int SERVER_PORT = 9999; // 服务器的端口号
     private static final Gson gson = new Gson();
+    private static final ExecutorService messageProcessor = Executors.newFixedThreadPool(10); // 可根据需要调整线程池大小
+
+    private DatagramSocket socket;
+    private Map<String, Boolean> tankFireStatus = new HashMap<>();
+
+    // 启动客户端
+    public void start() throws Exception {
+        socket = new DatagramSocket();
+        // 启动消息接收线程
+        Thread receiveThread = new Thread(new MessageReceiver(socket));
+        receiveThread.start();
+    }
 
     // 注册请求
     public boolean register(String username, String password) throws Exception {
@@ -32,7 +46,7 @@ public class Client {
         return sendMessage(message);
     }
 
-    //登出
+    // 登出
     public boolean logout(String username) throws Exception {
         Message message = new Message();
         message.setLogoutRequest(username);
@@ -81,8 +95,7 @@ public class Client {
         return rooms;
     }
 
-
-    //获取房间玩家人数
+    // 获取房间玩家人数
     public int getRoomPlayerCount(String roomId) throws Exception {
         // 创建请求消息
         Message request = new Message();
@@ -96,11 +109,9 @@ public class Client {
         if ("success".equals(response.status)) {
             return Integer.parseInt(response.message); // 将返回的字符串解析为 int
         } else {
-//            throw new Exception("无法获取房间人数: " + response.message);
             return 0;
         }
     }
-
 
     // 创建房间
     public boolean createRoom(String roomId) throws Exception {
@@ -245,6 +256,7 @@ public class Client {
         // 发送消息到服务器
         return sendMessage(message);
     }
+
     public String getPlayerTanksData() throws Exception {
         Message message = new Message();
 
@@ -255,38 +267,110 @@ public class Client {
         return responseMessage.message;
     }
 
-    public boolean sendBulletsData(String data) throws Exception {
-        String bulletsData = data;
+//    public boolean sendBulletsData(String data) throws Exception {
+//        String bulletsData = data;
+//
+//        // 创建消息对象
+//        Message message = new Message();
+//        message.type = "bulletsData";
+//        message.message = bulletsData;
+//
+//        // 发送消息到服务器
+//        return sendMessage(message);
+//    }
+//
+//    public String getBulletsData() throws Exception {
+//        Message message = new Message();
+//        message.username = Account.uid;
+//        message.type = "getBulletsData";
+//
+//        // 发送消息并获取响应
+//        String response = sendMessageAndGetResponse(message);
+//
+//        // 将响应字符串转换为 Message 对象
+//        Message responseMessage = gson.fromJson(response, Message.class);
+//
+//        // 检查 responseMessage 是否为 null
+//        if (responseMessage == null || responseMessage.message == null) {
+//            return ""; // 如果 responseMessage 或 message 为 null，则返回空字符串
+//        }
+//
+//        return responseMessage.message;
+//    }
 
-        // 创建消息对象
+    public boolean sendFireMessage(String tankId) throws Exception {
         Message message = new Message();
-        message.type = "bulletsData";
-        message.message = bulletsData;
-
-        // 发送消息到服务器
-        return sendMessage(message);
-    }
-
-    public String getBulletsData() throws Exception {
-        Message message = new Message();
-        message.username = Account.uid;
-        message.type = "getBulletsData";
-
+        message.username = tankId;
+        message.type = "fireMessage";
         // 发送消息并获取响应
         String response = sendMessageAndGetResponse(message);
 
         // 将响应字符串转换为 Message 对象
         Message responseMessage = gson.fromJson(response, Message.class);
 
-        // 检查 responseMessage 是否为 null
-        if (responseMessage == null || responseMessage.message == null) {
-            return ""; // 如果 responseMessage 或 message 为 null，则返回空字符串
-        }
-
-        return responseMessage.message;
+        return "success".equals(responseMessage.status);
     }
-
 
     /*---------------------------------------------*/
 
+    // 回调接口
+    public interface FireStatusListener {
+        void onFireStatusReceived(String tankId, boolean isFire);
+    }
+
+    public class MessageReceiver implements Runnable {
+        private DatagramSocket socket;
+        private FireStatusListener fireStatusListener;
+
+        public MessageReceiver(DatagramSocket socket, FireStatusListener fireStatusListener) {
+            this.socket = socket;
+            this.fireStatusListener = fireStatusListener;
+        }
+
+        public MessageReceiver(DatagramSocket socket) {
+            this.socket = socket;
+        }
+
+        @Override
+        public void run() {
+            try {
+                while (true) {
+                    byte[] receiveData = new byte[1024];
+                    DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                    socket.receive(receivePacket);
+                    String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
+
+                    // 将消息处理任务提交给线程池
+                    messageProcessor.submit(() -> processMessage(receivedMessage));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void processMessage(String message) {
+            String fireStatus = handleReceivedMessage(message);
+            if (fireStatus != null) {
+                String[] parts = fireStatus.split("\\+");
+                if (parts.length == 2) {
+                    String tankId = parts[0];
+                    boolean isFire = Boolean.parseBoolean(parts[1]);
+                    if (fireStatusListener != null) {
+                        fireStatusListener.onFireStatusReceived(tankId, isFire);
+                    }
+                }
+            }
+        }
+
+
+        private String handleReceivedMessage(String message) {
+            Message receivedMessage = gson.fromJson(message, Message.class);
+
+            if ("fireStatus".equals(receivedMessage.type)) {
+                return receivedMessage.message;
+            }
+            return null;
+        }
+
+    }
 }

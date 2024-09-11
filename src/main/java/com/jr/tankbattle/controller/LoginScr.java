@@ -28,7 +28,6 @@ public class LoginScr {
         String password = txtPwd.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "警告", "用户名或密码不能为空");
             GameDlg.getInstance().Show("loginBlank");
             return;
         }
