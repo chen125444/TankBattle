@@ -336,8 +336,9 @@ public class OnlineGameScene implements Client.FireStatusListener {
     private void render() throws Exception {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
-        graphicsContext.drawImage(backgroundImage, 0, 0);
         graphicsContext.drawImage(backImage0,0,0);
+        graphicsContext.drawImage(backgroundImage, 0, 0);
+
 
         List<Bullet> bulletList = new ArrayList<>(bullets.values());
         // 绘制子弹

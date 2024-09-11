@@ -119,7 +119,7 @@ public class Tank3 extends AbstractObject implements Runnable {
         if(status == 3){
             getOnlineGameScene().getGraphicsContext().drawImage(super.getImage(), 970, 20);
             for (int i = 0; i < lives; i++) {
-                getOnlineGameScene().getGraphicsContext().drawImage(batteryImage, 930, 80 * (i + 6));
+                getOnlineGameScene().getGraphicsContext().drawImage(batteryImage, 930, 80 * (i + 1));
             }
         }
     }
