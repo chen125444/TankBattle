@@ -10,6 +10,7 @@ import com.jr.tankbattle.util.MapData;
 import com.jr.tankbattle.util.TankType;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -18,6 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.net.DatagramSocket;
 import java.nio.channels.AcceptPendingException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -25,7 +27,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class OnlineGameScene {
+public class OnlineGameScene implements Client.FireStatusListener {
     @FXML
     private Canvas canvas = new Canvas(900, 720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
@@ -54,14 +56,36 @@ public class OnlineGameScene {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private long lastSendTime = 0;
     private long lastReceiveTime = 0;
-    private final long GAME_DATA_SEND_INTERVAL_MS = 1000; // 发送间隔1秒
-    private final long GAME_DATA_RECEIVE_INTERVAL_MS = 1000; // 接收间隔1秒
+    private final long GAME_DATA_SEND_INTERVAL_MS = 100; // 发送间隔1秒
+    private final long GAME_DATA_RECEIVE_INTERVAL_MS = 100; // 接收间隔1秒
 
 
-    public Image backgroundImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg"));
+    public Image backgroundImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg")));
     private Client client = new Client();
 
     /*----------------------------------------------*/
+    @Override
+    public void onFireStatusReceived(String tankId, boolean isFire) {
+        Tank3 tank = playerTanks.get(tankId);
+        if (tank != null) {
+            if (isFire) {
+                tank.openFire(); // 假设 Tank3 类有一个 startFiring 方法
+            }
+        }
+    }
+
+    // 启动消息接收线程并传入当前实例作为监听器
+    private void startMessageReceiver() {
+        try {
+            DatagramSocket socket = new DatagramSocket(); // 根据实际情况初始化
+            Client client = new Client(); // 创建或获取现有 Client 实例
+            client.start(); // 启动客户端
+            Client.MessageReceiver receiver = client.new MessageReceiver(socket, this);
+            executor.execute(receiver); // 使用 Executor 启动接收线程
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 // 将 playerTanks 地图序列化为字符串
     private void sendGameData() {
         try {
@@ -77,20 +101,20 @@ public class OnlineGameScene {
             }
             client.sendPlayerTanksData(sb.toString());
 
-            // 只发送以当前玩家 ID 开头的子弹数据
-            StringBuilder sbBullets = new StringBuilder();
-            for (Bullet bullet : bullets.values()) {
-                String bulletId = bullet.getId(); // 获取子弹 ID
-
-                // 检查 bulletId 是否为 null
-                if (bulletId != null && bulletId.startsWith(Account.uid)) {
-                    if (sbBullets.length() > 0) {
-                        sbBullets.append(";");
-                    }
-                    sbBullets.append(bullet.toDataString());
-                }
-            }
-            client.sendBulletsData(sbBullets.toString());
+//            // 只发送以当前玩家 ID 开头的子弹数据
+//            StringBuilder sbBullets = new StringBuilder();
+//            for (Bullet bullet : bullets.values()) {
+//                String bulletId = bullet.getId(); // 获取子弹 ID
+//
+//                // 检查 bulletId 是否为 null
+//                if (bulletId != null && bulletId.startsWith(Account.uid)) {
+//                    if (sbBullets.length() > 0) {
+//                        sbBullets.append(";");
+//                    }
+//                    sbBullets.append(bullet.toDataString());
+//                }
+//            }
+//            client.sendBulletsData(sbBullets.toString());
         } catch (Exception e) {
             e.printStackTrace(); // 处理或记录异常
         }
@@ -102,10 +126,10 @@ public class OnlineGameScene {
             if (!Objects.equals(data, "")) {
                 setPlayerTanks(data);
             }
-            String data1 = client.getBulletsData();
-            if (!Objects.equals(data1, "")) {
-                setBullets(data1);
-            }
+//            String data1 = client.getBulletsData();
+//            if (!Objects.equals(data1, "")) {
+//                setBullets(data1);
+//            }
         } catch (Exception e) {
             e.printStackTrace(); // Handle or log the exception
         }
@@ -188,7 +212,13 @@ public class OnlineGameScene {
         AnchorPane root = new AnchorPane(canvas);
         stage.getScene().setRoot(root);
         //设置键盘事件
-        stage.getScene().setOnKeyReleased(this::handleKeyReleased);
+        stage.getScene().setOnKeyReleased(event1 -> {
+            try {
+                handleKeyReleased(event1);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
         stage.getScene().setOnKeyPressed(event -> {
             try {
                 handleKeyPressed(event);
@@ -293,7 +323,7 @@ public class OnlineGameScene {
     }
 
     // 处理按键松开事件
-    private void handleKeyReleased(KeyEvent event) {
+    private void handleKeyReleased(KeyEvent event) throws Exception {
         // 实现坦克停止移动的逻辑
         if (running) {
             if (playerTank1 != null) playerTank1.released(event.getCode());
@@ -419,8 +449,7 @@ public class OnlineGameScene {
             }
         }
         //绘制石头
-        for (int i = 0; i < rocks.size(); i++) {
-            Rock rock = rocks.get(i);
+        for (Rock rock : rocks) {
             rock.collisionBullet(bulletList);
             rock.draw();
         }
@@ -433,8 +462,7 @@ public class OnlineGameScene {
             }
         }
         //绘制树丛
-        for (int i = 0; i < trees.size(); i++) {
-            Tree tree = trees.get(i);
+        for (Tree tree : trees) {
             tree.draw();
         }
         //更新地雷
@@ -445,8 +473,7 @@ public class OnlineGameScene {
             }
         }
         //绘制地雷
-        for (int i = 0; i < landmines.size(); i++) {
-            Landmine landmine = landmines.get(i);
+        for (Landmine landmine : landmines) {
             landmine.draw();
         }
         //更新水池
@@ -457,8 +484,7 @@ public class OnlineGameScene {
             }
         }
         //绘制水池
-        for (int i = 0; i < pools.size(); i++) {
-            Pool pool = pools.get(i);
+        for (Pool pool : pools) {
             pool.draw();
         }
         //更新铁块
@@ -469,8 +495,7 @@ public class OnlineGameScene {
             }
         }
         //绘制铁块
-        for (int i = 0; i < irons.size(); i++) {
-            Iron iron = irons.get(i);
+        for (Iron iron : irons) {
             iron.collisionBullet(bulletList);
             iron.draw();
         }
@@ -482,8 +507,7 @@ public class OnlineGameScene {
             }
         }
         //绘制桃心
-        for (int i = 0; i < hearts.size(); i++) {
-            Heart heart = hearts.get(i);
+        for (Heart heart : hearts) {
             heart.draw();
         }
         //更新盾牌
@@ -494,33 +518,31 @@ public class OnlineGameScene {
             }
         }
         //绘制盾牌
-        for (int i = 0; i < sheilds.size(); i++) {
-            Sheild sheild = sheilds.get(i);
+        for (Sheild sheild : sheilds) {
             sheild.draw();
             if (playerTank1 != null) {
-                if (playerTank1.checkCollision(sheild) && !sheild.isMoving()) {
+                if (playerTank1.checkCollision(sheild) && playerTank1.isInvincible()) {
                     sheild.draw(playerTank1);
                 }
             }
             if (playerTank2 != null) {
-                if (playerTank2.checkCollision(sheild) && !sheild.isMoving()) {
+                if (playerTank2.checkCollision(sheild) && playerTank2.isInvincible()) {
                     sheild.draw(playerTank2);
                 }
             }
             if (playerTank3 != null) {
-                if (playerTank3.checkCollision(sheild) && !sheild.isMoving()) {
+                if (playerTank3.checkCollision(sheild) && playerTank3.isInvincible()) {
                     sheild.draw(playerTank3);
                 }
             }
             if (playerTank4 != null) {
-                if (playerTank4.checkCollision(sheild) && !sheild.isMoving()) {
+                if (playerTank4.checkCollision(sheild) && playerTank4.isInvincible()) {
                     sheild.draw(playerTank3);
                 }
             }
         }
         //产生爆炸
-        for (int i = 0; i < explodes.size(); i++) {
-            Explode e = explodes.get(i);
+        for (Explode e : explodes) {
             e.draw(graphicsContext);
         }
     }
