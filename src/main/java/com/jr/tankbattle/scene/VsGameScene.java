@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class VsGameScene {
     @FXML
@@ -35,8 +36,8 @@ public class VsGameScene {
     public List<Pool> pools = new ArrayList<>();
     public List<Landmine> landmines = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
-    private Image backImage0 = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bkg5.jpg"));
-    private final Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg"));
+    private final Image backImage0 = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bkg5.jpg")));
+    private final Image backImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg")));
 
 
     public void init(Stage stage) {
@@ -135,8 +136,7 @@ public class VsGameScene {
             }
         }
         //绘制石头
-        for(int i = 0; i < rocks.size(); i++){
-            Rock rock = rocks.get(i);
+        for (Rock rock : rocks) {
             rock.collisionBullet(bullets);
             rock.draw();
         }
@@ -148,8 +148,7 @@ public class VsGameScene {
             }
         }
         //绘制水池
-        for(int i = 0; i < pools.size(); i++){
-            Pool pool = pools.get(i);
+        for (Pool pool : pools) {
             pool.draw();
         }
         //更新铁块
@@ -160,8 +159,7 @@ public class VsGameScene {
             }
         }
         //绘制铁块
-        for(int i = 0; i < irons.size(); i++){
-            Iron iron = irons.get(i);
+        for (Iron iron : irons) {
             iron.collisionBullet(bullets);
             iron.draw();
         }
@@ -174,8 +172,7 @@ public class VsGameScene {
             }
         }
         //绘制树丛
-        for(int i = 0; i < trees.size(); i++){
-            Tree tree = trees.get(i);
+        for (Tree tree : trees) {
             tree.draw();
         }
         //更新桃心
@@ -186,8 +183,7 @@ public class VsGameScene {
             }
         }
         //绘制桃心
-        for(int i = 0; i < hearts.size(); i++){
-            Heart heart = hearts.get(i);
+        for (Heart heart : hearts) {
             heart.draw();
         }
         //更新地雷
@@ -198,8 +194,7 @@ public class VsGameScene {
             }
         }
         //绘制地雷
-        for(int i = 0; i < landmines.size(); i++){
-            Landmine landmine = landmines.get(i);
+        for (Landmine landmine : landmines) {
             landmine.draw();
         }
         //更新盾牌
@@ -210,19 +205,17 @@ public class VsGameScene {
             }
         }
         //绘制盾牌
-        for(int i = 0; i < sheilds.size(); i++){
-            Sheild sheild = sheilds.get(i);
+        for (Sheild sheild : sheilds) {
             sheild.draw();
-            if(playerTank.checkCollision(sheild) && playerTank.isInvincible()){
+            if (playerTank.checkCollision(sheild) && playerTank.isInvincible()) {
                 sheild.draw(playerTank);
             }
-            if (playerTank2.checkCollision(sheild) && playerTank2.isInvincible()){
+            if (playerTank2.checkCollision(sheild) && playerTank2.isInvincible()) {
                 sheild.draw(playerTank2);
             }
         }
         //产生爆炸
-        for (int i = 0; i < explodes.size(); i++) {
-            Explode e = explodes.get(i);
+        for (Explode e : explodes) {
             e.draw(graphicsContext);
         }
     }

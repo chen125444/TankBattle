@@ -1,7 +1,6 @@
 package com.jr.tankbattle.scene;
 
 import com.jr.tankbattle.client.Client;
-import com.jr.tankbattle.client.Message;
 import com.jr.tankbattle.controller.Account;
 import com.jr.tankbattle.controller.GameDlg;
 import com.jr.tankbattle.controller.MapScr;
@@ -18,7 +17,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.nio.channels.AcceptPendingException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,7 +56,7 @@ public class OnlineGameScene {
     private final long GAME_DATA_RECEIVE_INTERVAL_MS = 1000; // 接收间隔1秒
 
 
-    public Image backgroundImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg"));
+    public Image backgroundImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg")));
     private Client client = new Client();
 
     /*----------------------------------------------*/
@@ -84,7 +82,7 @@ public class OnlineGameScene {
 
                 // 检查 bulletId 是否为 null
                 if (bulletId != null && bulletId.startsWith(Account.uid)) {
-                    if (sbBullets.length() > 0) {
+                    if (!sbBullets.isEmpty()) {
                         sbBullets.append(";");
                     }
                     sbBullets.append(bullet.toDataString());
@@ -274,7 +272,7 @@ public class OnlineGameScene {
     }
 
     // 处理按键按下事件
-    private void handleKeyPressed(KeyEvent event) throws Exception {
+    private void handleKeyPressed(KeyEvent event) {
         // Adjust according to which player tank is controlled by which keys
         if(event.getCode() == KeyCode.ESCAPE){
             running = false;
@@ -304,7 +302,7 @@ public class OnlineGameScene {
     }
 
     // 刷新游戏界面
-    private void render() throws Exception {
+    private void render() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
         graphicsContext.drawImage(backgroundImage, 0, 0);
@@ -419,8 +417,7 @@ public class OnlineGameScene {
             }
         }
         //绘制石头
-        for (int i = 0; i < rocks.size(); i++) {
-            Rock rock = rocks.get(i);
+        for (Rock rock : rocks) {
             rock.collisionBullet(bulletList);
             rock.draw();
         }
@@ -433,8 +430,7 @@ public class OnlineGameScene {
             }
         }
         //绘制树丛
-        for (int i = 0; i < trees.size(); i++) {
-            Tree tree = trees.get(i);
+        for (Tree tree : trees) {
             tree.draw();
         }
         //更新地雷
@@ -445,8 +441,7 @@ public class OnlineGameScene {
             }
         }
         //绘制地雷
-        for (int i = 0; i < landmines.size(); i++) {
-            Landmine landmine = landmines.get(i);
+        for (Landmine landmine : landmines) {
             landmine.draw();
         }
         //更新水池
@@ -457,8 +452,7 @@ public class OnlineGameScene {
             }
         }
         //绘制水池
-        for (int i = 0; i < pools.size(); i++) {
-            Pool pool = pools.get(i);
+        for (Pool pool : pools) {
             pool.draw();
         }
         //更新铁块
@@ -469,8 +463,7 @@ public class OnlineGameScene {
             }
         }
         //绘制铁块
-        for (int i = 0; i < irons.size(); i++) {
-            Iron iron = irons.get(i);
+        for (Iron iron : irons) {
             iron.collisionBullet(bulletList);
             iron.draw();
         }
@@ -482,8 +475,7 @@ public class OnlineGameScene {
             }
         }
         //绘制桃心
-        for (int i = 0; i < hearts.size(); i++) {
-            Heart heart = hearts.get(i);
+        for (Heart heart : hearts) {
             heart.draw();
         }
         //更新盾牌
@@ -494,33 +486,23 @@ public class OnlineGameScene {
             }
         }
         //绘制盾牌
-        for (int i = 0; i < sheilds.size(); i++) {
-            Sheild sheild = sheilds.get(i);
+        for (Sheild sheild : sheilds) {
             sheild.draw();
-            if (playerTank1 != null) {
-                if (playerTank1.checkCollision(sheild) && !sheild.isMoving()) {
-                    sheild.draw(playerTank1);
-                }
+            if (playerTank1 != null && playerTank1.checkCollision(sheild) && playerTank1.isInvincible()) {
+                sheild.draw(playerTank1);
             }
-            if (playerTank2 != null) {
-                if (playerTank2.checkCollision(sheild) && !sheild.isMoving()) {
-                    sheild.draw(playerTank2);
-                }
+            if (playerTank2 != null && playerTank2.checkCollision(sheild) && playerTank2.isInvincible()) {
+                sheild.draw(playerTank2);
             }
-            if (playerTank3 != null) {
-                if (playerTank3.checkCollision(sheild) && !sheild.isMoving()) {
-                    sheild.draw(playerTank3);
-                }
+            if (playerTank2 != null && playerTank2.checkCollision(sheild) && playerTank2.isInvincible()) {
+                sheild.draw(playerTank2);
             }
-            if (playerTank4 != null) {
-                if (playerTank4.checkCollision(sheild) && !sheild.isMoving()) {
-                    sheild.draw(playerTank3);
-                }
+            if (playerTank2 != null && playerTank2.checkCollision(sheild) && playerTank2.isInvincible()) {
+                sheild.draw(playerTank2);
             }
         }
         //产生爆炸
-        for (int i = 0; i < explodes.size(); i++) {
-            Explode e = explodes.get(i);
+        for (Explode e : explodes) {
             e.draw(graphicsContext);
         }
     }
@@ -549,10 +531,6 @@ public class OnlineGameScene {
         return graphicsContext;
     }
 
-    // 设置 GraphicsContext 对象
-    public void setGraphicsContext(GraphicsContext graphicsContext) {
-        this.graphicsContext = graphicsContext;
-    }
 
     public void stop() {
         running = false;
