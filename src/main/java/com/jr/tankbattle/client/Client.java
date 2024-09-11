@@ -269,7 +269,7 @@ public class Client {
 
     public String getBulletsData() throws Exception {
         Message message = new Message();
-
+        message.username=Account.uid;
         message.type = "getBulletsData";
 
         String response = sendMessageAndGetResponse(message);

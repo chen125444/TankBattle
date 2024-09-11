@@ -396,22 +396,22 @@ public class Tank3 extends AbstractObject implements Runnable {
             case UP:
                 Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, getOnlineGameScene());
                 bullet0.draw();
-                getOnlineGameScene().bullets.add(bullet0);
+                getOnlineGameScene().bullets.put(bullet0.getId(),bullet0);
                 break;
             case DOWN:
                 Bullet bullet1 = new Bullet(getX() + width / 2 - 5, getY() + height, 22, 10, Direction.DOWN, 5, getOnlineGameScene());
                 bullet1.draw();
-                getOnlineGameScene().bullets.add(bullet1);
+                getOnlineGameScene().bullets.put(bullet1.getId(),bullet1);
                 break;
             case LEFT:
                 Bullet bullet2 = new Bullet(getX() - 22, getY() + height / 2 - 5, 22, 10, Direction.LEFT, 5, getOnlineGameScene());
                 bullet2.draw();
-                getOnlineGameScene().bullets.add(bullet2);
+                getOnlineGameScene().bullets.put(bullet2.getId(),bullet2);
                 break;
             case RIGHT:
                 Bullet bullet3 = new Bullet(getX() + width, getY() + height / 2 - 5, 22, 10, Direction.RIGHT, 5, getOnlineGameScene());
                 bullet3.draw();
-                getOnlineGameScene().bullets.add(bullet3);
+                getOnlineGameScene().bullets.put(bullet3.getId(),bullet3);
         }
     }
 
