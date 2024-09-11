@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 public class OnlineGameScene implements Client.FireStatusListener {
     @FXML
-    private Canvas canvas = new Canvas(900, 720);
+    private Canvas canvas = new Canvas(1080, 720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
     private boolean running = false;
@@ -58,8 +58,7 @@ public class OnlineGameScene implements Client.FireStatusListener {
     private long lastReceiveTime = 0;
     private final long GAME_DATA_SEND_INTERVAL_MS = 500; // 发送间隔
     private final long GAME_DATA_RECEIVE_INTERVAL_MS = 500; // 接收间隔
-
-
+    private Image backImage0 = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bkg5.jpg"));
     public Image backgroundImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg")));
     private Client client = new Client();
 
@@ -338,6 +337,7 @@ public class OnlineGameScene implements Client.FireStatusListener {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
         graphicsContext.drawImage(backgroundImage, 0, 0);
+        graphicsContext.drawImage(backImage0,0,0);
 
         List<Bullet> bulletList = new ArrayList<>(bullets.values());
         // 绘制子弹
