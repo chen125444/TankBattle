@@ -1,5 +1,7 @@
 package com.jr.tankbattle.scene;
 
+import com.jr.tankbattle.controller.GameDlg;
+import com.jr.tankbattle.controller.MapScr;
 import com.jr.tankbattle.entity.*;
 import com.jr.tankbattle.util.MapData;
 import javafx.animation.AnimationTimer;
@@ -24,15 +26,16 @@ public class VsGameScene {
     private Tank2 playerTank2;
     private MapData map = new MapData(this);
     public List<Bullet> bullets = new ArrayList<>();
-    public List<Rock> rocks = map.mapData.get(1).rocks;
-    public List<Tree> trees = map.mapData.get(1).trees;
+    public List<AiTank> aiTanks = new ArrayList<>();
+    public List<Tree> trees = new ArrayList<>();
+    public List<Rock> rocks = new ArrayList<>();
+    public List<Sheild> sheilds = new ArrayList<>();
+    public List<Iron> irons = new ArrayList<>();
+    public List<Heart> hearts = new ArrayList<>();
+    public List<Pool> pools = new ArrayList<>();
+    public List<Landmine> landmines = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
-    public List<Sheild> sheilds = map.mapData.get(1).sheilds;
-    public List<Heart> hearts = map.mapData.get(1).hearts;
-    public List<Landmine> landmines = map.mapData.get(1).landmines;
-    public List<Iron> irons = map.mapData.get(1).irons;
-    public List<Pool> pools = map.mapData.get(1).pools;
-    private final Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
+    private final Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg"));
 
 
     public void init(Stage stage) {
@@ -41,6 +44,14 @@ public class VsGameScene {
         //设置键盘事件
         stage.getScene().setOnKeyReleased(this::handleKeyReleased);
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
+        aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
+        hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
+        irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
+        landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
+        pools.addAll(map.mapData.get(MapScr.getInstance().getId()).pools);
+        rocks.addAll(map.mapData.get(MapScr.getInstance().getId()).rocks);
+        sheilds.addAll(map.mapData.get(MapScr.getInstance().getId()).sheilds);
+        trees.addAll(map.mapData.get(MapScr.getInstance().getId()).trees);
         running = true;
         playerTank = new Tank(400, 500, 40, 40, 2, this);
         //initSprite();
@@ -54,11 +65,11 @@ public class VsGameScene {
     // 处理按键按下事件
     private void handleKeyPressed(KeyEvent event) {
         if(event.getCode() == KeyCode.ESCAPE){
-            if(running){
-                running = false;
-            }else {
-                running = true;
-            }
+            running = false;
+            GameDlg.getInstance().Show("pause");
+        }
+        if(GameDlg.getInstance().isFlag()){
+            running = true;
         }
         if(running){
             playerTank.pressed(event.getCode());

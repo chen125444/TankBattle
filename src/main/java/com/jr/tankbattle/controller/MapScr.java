@@ -17,7 +17,7 @@ public class MapScr {
         return instance;
     }
 
-    private int id =1;
+    public static int id =1;
     @FXML
     public ImageView hoverImage;
     @FXML
@@ -45,10 +45,10 @@ public class MapScr {
         shadow.setRadius(10);
 
         // 将效果应用到多个按钮
-        applyEffects(map1Btn, "/com/jr/tankbattle/img/tankbackground3.png",1);
-        applyEffects(map2Btn, "/com/jr/tankbattle/img/tankbackground4.png",2);
-        applyEffects(map3Btn, "/com/jr/tankbattle/img/tankbackground8.jpg",3);
-        applyEffects(map4Btn, "/com/jr/tankbattle/img/bkg.png",4);
+        applyEffects(map1Btn, "/com/jr/tankbattle/img/tankbackground3.png");
+        applyEffects(map2Btn, "/com/jr/tankbattle/img/tankbackground4.png");
+        applyEffects(map3Btn, "/com/jr/tankbattle/img/tankbackground8.jpg");
+        applyEffects(map4Btn, "/com/jr/tankbattle/img/bkg.png");
         applyEffects(backBtn);
         System.out.println(id);
     }
@@ -66,14 +66,12 @@ public class MapScr {
     private ColorAdjust colorAdjust;
 
 
-    private void applyEffects(ImageView button,String hoverImagePath,int idea) {
-        this.id =idea;
+    private void applyEffects(ImageView button,String hoverImagePath) {
         // 初始化参数
         button.setOnMouseEntered(event -> {
             showHoverImage(hoverImagePath); //鼠标悬停图片显示
             colorAdjust.setBrightness(0.3);  // 增加亮度
             button.setEffect(shadow);        // 添加阴影
-            this.id =idea;
             System.out.println(id);
         });
 
@@ -81,21 +79,18 @@ public class MapScr {
             hideHoverImage();
             colorAdjust.setBrightness(0);    // 还原亮度
             button.setEffect(null);          // 移除阴影
-            this.id =idea;
             System.out.println(id);
         });
 
         button.setOnMousePressed(event -> {
             button.setScaleX(0.95);  // 缩小到 95%
             button.setScaleY(0.95);  // 缩小到 95%
-            this.id =idea;
             System.out.println(id);
         });
 
         button.setOnMouseReleased(event -> {
             button.setScaleX(1.0);   // 还原到原始大小
             button.setScaleY(1.0);   // 还原到原始大小
-            this.id =idea;
             System.out.println(id);
         });
     }
@@ -131,18 +126,22 @@ public class MapScr {
     @FXML
     public void Map1(){
         MapChg(1);
+        id = 1;
     }
     @FXML
     public void Map2(){
         MapChg(2);
+        id = 2;
     }
     @FXML
     public void Map3(){
         MapChg(3);
+        id = 3;
     }
     @FXML
     public void Map4(){
         MapChg(4);
+        id = 4;
     }
 
     public void MapChg(int num){

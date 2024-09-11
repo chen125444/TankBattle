@@ -103,8 +103,9 @@ public class Tank extends AbstractObject implements Runnable{
     }
 
     public void drawLives(){
+        getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png")), 930, 20 );
         for(int i=0;i<lives;i++){
-            getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/battery.png")), 930, 100*(i+1) );
+            getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/battery.png")), 930, 80*(i+1) );
         }
     }
 

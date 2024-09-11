@@ -3,6 +3,8 @@ package com.jr.tankbattle.scene;
 import com.jr.tankbattle.client.Client;
 import com.jr.tankbattle.client.Message;
 import com.jr.tankbattle.controller.Account;
+import com.jr.tankbattle.controller.GameDlg;
+import com.jr.tankbattle.controller.MapScr;
 import com.jr.tankbattle.entity.*;
 import com.jr.tankbattle.util.MapData;
 import com.jr.tankbattle.util.TankType;
@@ -38,13 +40,14 @@ public class OnlineGameScene {
 
     private MapData map = new MapData(this);
     public List<Bullet> bullets = new ArrayList<>();
-    public List<Rock> rocks = map.mapData.get(1).rocks;
-    public List<Tree> trees = map.mapData.get(1).trees;
-    public List<Sheild> sheilds = map.mapData.get(1).sheilds;
-    public List<Landmine> landmines = map.mapData.get(1).landmines;
-    public List<Iron> irons = map.mapData.get(1).irons;
-    public List<Heart> hearts = map.mapData.get(1).hearts;
-    public List<Pool> pools = map.mapData.get(1).pools;
+    public List<AiTank> aiTanks = new ArrayList<>();
+    public List<Tree> trees = new ArrayList<>();
+    public List<Rock> rocks = new ArrayList<>();
+    public List<Sheild> sheilds = new ArrayList<>();
+    public List<Iron> irons = new ArrayList<>();
+    public List<Heart> hearts = new ArrayList<>();
+    public List<Pool> pools = new ArrayList<>();
+    public List<Landmine> landmines = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
 
     private static final ExecutorService executor = Executors.newFixedThreadPool(2);
@@ -55,7 +58,7 @@ public class OnlineGameScene {
     private final long GAME_DATA_RECEIVE_INTERVAL_MS = 1000; // 接收间隔1秒
 
 
-    public Image backgroundImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
+    public Image backgroundImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg"));
 
     private Client client = new Client();
 
@@ -168,6 +171,14 @@ public class OnlineGameScene {
                 throw new RuntimeException(e);
             }
         });
+        aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
+        hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
+        irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
+        landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
+        pools.addAll(map.mapData.get(MapScr.getInstance().getId()).pools);
+        rocks.addAll(map.mapData.get(MapScr.getInstance().getId()).rocks);
+        sheilds.addAll(map.mapData.get(MapScr.getInstance().getId()).sheilds);
+        trees.addAll(map.mapData.get(MapScr.getInstance().getId()).trees);
         running = true;
 
         this.playerList = playerList;
@@ -240,12 +251,12 @@ public class OnlineGameScene {
     // 处理按键按下事件
     private void handleKeyPressed(KeyEvent event) throws Exception {
         // Adjust according to which player tank is controlled by which keys
-        if (event.getCode() == KeyCode.ESCAPE) {
-            if (running) {
-                running = false;
-            } else {
-                running = true;
-            }
+        if(event.getCode() == KeyCode.ESCAPE){
+            running = false;
+            GameDlg.getInstance().Show("pause");
+        }
+        if(GameDlg.getInstance().isFlag()){
+            running = true;
         }
         if (running) {
             if (playerTank1 != null) playerTank1.pressed(event.getCode());

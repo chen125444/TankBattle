@@ -111,7 +111,6 @@ public class GameScene {
             playerTank.drawLives();
         }
         else gameOver();
-        if(aiTanks.isEmpty())gameOver();
         //更新人机坦克
         for(int i = 0; i < aiTanks.size(); i++){
             AiTank aiTank = aiTanks.get(i);
