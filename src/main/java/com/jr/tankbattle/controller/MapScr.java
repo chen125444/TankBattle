@@ -45,10 +45,10 @@ public class MapScr {
         shadow.setRadius(10);
 
         // 将效果应用到多个按钮
-        applyEffects(map1Btn, "/com/jr/tankbattle/img/tankbackground3.png");
-        applyEffects(map2Btn, "/com/jr/tankbattle/img/tankbackground4.png");
-        applyEffects(map3Btn, "/com/jr/tankbattle/img/tankbackground8.jpg");
-        applyEffects(map4Btn, "/com/jr/tankbattle/img/bkg.png");
+        applyEffects(map1Btn, "/com/jr/tankbattle/img/map1.png");
+        applyEffects(map2Btn, "/com/jr/tankbattle/img/map2.png");
+        applyEffects(map3Btn, "/com/jr/tankbattle/img/map3.png");
+        applyEffects(map4Btn, "/com/jr/tankbattle/img/map4.png");
         applyEffects(backBtn);
         System.out.println(id);
     }
@@ -146,16 +146,16 @@ public class MapScr {
 
     public void MapChg(int num){
         if(num==1){
-            mapImage.setImage(new Image(getClass().getResource("/com/jr/tankbattle/img/tankbackground3.png").toExternalForm()));
+            mapImage.setImage(new Image(getClass().getResource("/com/jr/tankbattle/img/map1.png").toExternalForm()));
         }
         else if(num==2){
-            mapImage.setImage(new Image(getClass().getResource("/com/jr/tankbattle/img/tankbackground4.png").toExternalForm()));
+            mapImage.setImage(new Image(getClass().getResource("/com/jr/tankbattle/img/map2.png").toExternalForm()));
         }
         else if(num==3){
-            mapImage.setImage(new Image(getClass().getResource("/com/jr/tankbattle/img/tankbackground8.jpg").toExternalForm()));
+            mapImage.setImage(new Image(getClass().getResource("/com/jr/tankbattle/img/map3.png").toExternalForm()));
         }
         else{
-            mapImage.setImage(new Image(getClass().getResource("/com/jr/tankbattle/img/bkg.png").toExternalForm()));
+            mapImage.setImage(new Image(getClass().getResource("/com/jr/tankbattle/img/map4.png").toExternalForm()));
         }
     }
     public int getId(){

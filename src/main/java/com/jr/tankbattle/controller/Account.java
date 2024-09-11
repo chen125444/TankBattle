@@ -17,7 +17,6 @@ public class Account {
     // FXML 注解字段
     @FXML
     private Label uidLabel;
-
     @FXML
     private Label passwordLabel;
 
@@ -29,6 +28,10 @@ public class Account {
 
     @FXML
     public void initialize() {
+        uidLabel.setStyle("-fx-font-size: 18px; " +
+                "-fx-font-weight: bold; ");
+        passwordLabel.setStyle("-fx-font-size: 18px; " +
+                "-fx-font-weight: bold; ");
         // 在初始化时更新UI上的信息
         if (uidLabel != null && passwordLabel != null) {
             uidLabel.setText(uid != null ? uid : "无账号信息");

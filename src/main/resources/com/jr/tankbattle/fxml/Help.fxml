@@ -17,7 +17,7 @@
             <Image url="@../img/bkg3.jpg" />
          </image>
       </ImageView>
-      <TextArea editable="false" layoutX="325.0" layoutY="143.0" prefHeight="240.0" prefWidth="430.0" text="坦克大战操作方式及新手指南">
+      <TextArea editable="false" layoutX="288.0" layoutY="141.0" prefHeight="245.0" prefWidth="505.0" text="     坦克大战操作方式及新手指南&#10;玩家1：W、A、S、D控制坦克移动，&#10;J发射子弹&#10;玩家2：↑、↓、←、→控制坦克移动，&#10;Enter发射子弹">
          <font>
             <Font size="29.0" />
          </font>
