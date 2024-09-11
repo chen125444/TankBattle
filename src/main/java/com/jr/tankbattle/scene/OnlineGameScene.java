@@ -39,7 +39,7 @@ public class OnlineGameScene {
     private Tank3 playerTank4;
 
     private MapData map = new MapData(this);
-    public List<Bullet> bullets = new ArrayList<>();
+    public Map<String, Bullet> bullets = new HashMap<>();
     public List<AiTank> aiTanks = new ArrayList<>();
     public List<Tree> trees = new ArrayList<>();
     public List<Rock> rocks = new ArrayList<>();
@@ -78,16 +78,19 @@ public class OnlineGameScene {
             }
             client.sendPlayerTanksData(sb.toString());
 
-//            StringBuilder sb1 = new StringBuilder();
-//            for (Bullet bullet : bullets) {
-//                if (sb1.length() > 0) {
-//                    sb1.append(";");
-//                }
-//                sb1.append(bullet.toDataString()); // Ensure Bullet class has a toDataString() method
-//            }
-//            client.sendBulletsData(sb1.toString());
+            // 只发送以当前玩家 ID 开头的子弹数据
+            StringBuilder sbBullets = new StringBuilder();
+            for (Bullet bullet : bullets.values()) {
+                if (bullet.getId().startsWith(Account.uid)) { // 检查子弹的 ID 是否以当前玩家的 ID 开头
+                    if (sbBullets.length() > 0) {
+                        sbBullets.append(";");
+                    }
+                    sbBullets.append(bullet.toDataString());
+                }
+            }
+            client.sendBulletsData(sbBullets.toString());
         } catch (Exception e) {
-            e.printStackTrace(); // Handle or log the exception
+            e.printStackTrace(); // 处理或记录异常
         }
     }
 
@@ -97,10 +100,10 @@ public class OnlineGameScene {
             if (!Objects.equals(data, "")) {
                 setPlayerTanks(data);
             }
-//            String data1 = client.getBulletsData();
-//            if (!Objects.equals(data1, "")) {
-//                setBullets(data1);
-//            }
+            String data1 = client.getBulletsData();
+            if (!Objects.equals(data1, "")) {
+                setBullets(data1);
+            }
         } catch (Exception e) {
             e.printStackTrace(); // Handle or log the exception
         }
@@ -133,7 +136,7 @@ public class OnlineGameScene {
         // 遍历玩家 ID，将对应的坦克分配到 playerTankX 字段
         for (Map.Entry<String, Tank3> entry : playerTanks.entrySet()) {
 
-            String playerId= entry.getKey();
+            String playerId = entry.getKey();
             Tank3 tank = entry.getValue();
             if (playerId.equals(playerTank1.getPlayerId())) {
                 playerTank1 = tank;
@@ -149,13 +152,33 @@ public class OnlineGameScene {
 
 
     private void setBullets(String dataString) {
-        bullets.clear();
+        Map<String, Bullet> updatedBullets = new HashMap<>();
+
+        // 按分号分隔数据段
         String[] bulletDataStrings = dataString.split(";");
         for (String bulletDataString : bulletDataStrings) {
-            Bullet bullet = Bullet.fromDataString(bulletDataString); // Ensure Bullet class has a fromDataString() method
-            bullets.add(bullet);
+            if (!bulletDataString.isEmpty()) {
+                // 按逗号分隔数据部分
+                String[] bulletAttributes = bulletDataString.split(",");
+
+                // 检查数据段是否包含足够的部分（至少包括ID和其他属性）
+                if (bulletAttributes.length > 1) {
+                    String id = bulletAttributes[0];
+                    // 如果 bullets 中存在该 ID 的子弹，则更新
+                    if (bullets.containsKey(id)) {
+                        Bullet bullet = Bullet.fromDataString(bulletDataString);
+                        updatedBullets.put(id, bullet);
+                    }
+                }
+            }
+        }
+
+        // 仅更新现有子弹中的条目
+        for (Map.Entry<String, Bullet> entry : updatedBullets.entrySet()) {
+            bullets.put(entry.getKey(), entry.getValue());
         }
     }
+
 
 
     /*----------------------------------------------*/
@@ -283,10 +306,12 @@ public class OnlineGameScene {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
         graphicsContext.drawImage(backgroundImage, 0, 0);
+
+        List<Bullet> bulletList = new ArrayList<>(bullets.values());
         // 绘制子弹
-        for (int i = 0; i < bullets.size(); i++) {
-            Bullet bullet = bullets.get(i);
-            bullet.collisionBullet(bullets);
+        for (int i = 0; i < bulletList.size(); i++) {
+            Bullet bullet = bulletList.get(i);
+            bullet.collisionBullet(bulletList);
             bullet.draw();
             bullet.move();
         }
@@ -297,7 +322,7 @@ public class OnlineGameScene {
             playerTank1.move();
             playerTank1.collisionRocks(rocks);
             playerTank1.collisionTrees(trees);
-            playerTank1.collisionBullet(bullets);
+            playerTank1.collisionBullet(bulletList);
             playerTank1.collisionPools(pools);
             playerTank1.collisionIrons(irons);
             playerTank1.collisionLandmines(landmines);
@@ -320,7 +345,7 @@ public class OnlineGameScene {
             playerTank2.move();
             playerTank2.collisionRocks(rocks);
             playerTank2.collisionTrees(trees);
-            playerTank2.collisionBullet(bullets);
+            playerTank2.collisionBullet(bulletList);
             playerTank2.collisionPools(pools);
             playerTank2.collisionIrons(irons);
             playerTank2.collisionLandmines(landmines);
@@ -342,7 +367,7 @@ public class OnlineGameScene {
             playerTank3.move();
             playerTank3.collisionRocks(rocks);
             playerTank3.collisionTrees(trees);
-            playerTank3.collisionBullet(bullets);
+            playerTank3.collisionBullet(bulletList);
             playerTank3.collisionPools(pools);
             playerTank3.collisionIrons(irons);
             playerTank3.collisionLandmines(landmines);
@@ -364,7 +389,7 @@ public class OnlineGameScene {
             playerTank4.move();
             playerTank4.collisionRocks(rocks);
             playerTank4.collisionTrees(trees);
-            playerTank4.collisionBullet(bullets);
+            playerTank4.collisionBullet(bulletList);
             playerTank4.collisionPools(pools);
             playerTank4.collisionIrons(irons);
             playerTank4.collisionLandmines(landmines);
@@ -390,13 +415,13 @@ public class OnlineGameScene {
         //绘制石头
         for (int i = 0; i < rocks.size(); i++) {
             Rock rock = rocks.get(i);
-            rock.collisionBullet(bullets);
+            rock.collisionBullet(bulletList);
             rock.draw();
         }
         //更新树丛
         for (int i = 0; i < trees.size(); i++) {
             Tree tree = trees.get(i);
-            tree.collisionBullet(bullets);
+            tree.collisionBullet(bulletList);
             if (!tree.isAlive()) {
                 trees.remove(i);
             }
@@ -440,7 +465,7 @@ public class OnlineGameScene {
         //绘制铁块
         for (int i = 0; i < irons.size(); i++) {
             Iron iron = irons.get(i);
-            iron.collisionBullet(bullets);
+            iron.collisionBullet(bulletList);
             iron.draw();
         }
         //更新桃心

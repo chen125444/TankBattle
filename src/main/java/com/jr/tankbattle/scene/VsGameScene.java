@@ -240,7 +240,6 @@ public class VsGameScene {
 
     public void gameOver() {
         running = false;
-        aiTanks.clear();
         bullets.clear();
         explodes.clear();
         hearts.clear();
@@ -253,13 +252,9 @@ public class VsGameScene {
 
         if(!playerTank.isAlive()){
             playerTank.setThreadRunning(false);
-            for (AiTank aiTank : aiTanks){
-                aiTank.setThreadRunning(false);
-            }
             refresh.stop();
             Platform.runLater(() -> {
                 GameDlg.getInstance().Show("gameLoseSingle");
-                aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
                 hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
                 irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
                 landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
@@ -274,7 +269,6 @@ public class VsGameScene {
             refresh.stop();
             Platform.runLater(() -> {
                 GameDlg.getInstance().Show("gameWinSingle");
-                aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
                 hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
                 irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
                 landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
