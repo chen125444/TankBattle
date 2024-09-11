@@ -259,6 +259,7 @@ public class GameScene {
         rocks.clear();
         sheilds.clear();
         trees.clear();
+
         if(!playerTank.isAlive()){
             refresh.stop();
             Platform.runLater(() -> {
