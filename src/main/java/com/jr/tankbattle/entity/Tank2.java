@@ -1,5 +1,6 @@
 package com.jr.tankbattle.entity;
 
+import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Direction;
 import javafx.scene.image.Image;
@@ -7,7 +8,6 @@ import javafx.scene.input.KeyCode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -22,19 +22,26 @@ public class Tank2 extends AbstractObject implements Runnable{
     private boolean threadRunning = true;
     //无敌时刻
     private boolean invincible = false;
-    private final int width;
-    private final int height;
+    private int width;
+    private int height;
     private int lives = 3;
     //坦克速度
-    private final int speed;
+    private int speed;
     private List<Direction> directions = new ArrayList<>();
-    private final Image upImage = new Image((Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2U.png"))));
-    private final Image downImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2D.png")));
-    private final Image leftImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2L.png")));
-    private final Image rightImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2R.png")));
-    private final Image batteryImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/battery.png")));
+    private Image upImage = new Image((this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2U.png")));
+    private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2D.png"));
+    private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2L.png"));
+    private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2R.png"));
+    private Image batteryImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/battery.png"));
     public Tank2(int x, int y, int width, int height, int speed, VsGameScene vsGameScene) {
         super(x, y, width, height, vsGameScene);
+        super.setImage(upImage);
+        this.speed = speed;
+        this.width = width;
+        this.height = height;
+    }
+    public Tank2(int x, int y, int width, int height, int speed, OnlineGameScene onlineGameScene) {
+        super(x, y, width, height, onlineGameScene);
         super.setImage(upImage);
         this.speed = speed;
         this.width = width;
@@ -57,10 +64,13 @@ public class Tank2 extends AbstractObject implements Runnable{
     }
     //边界检测
     public boolean edgeDetector(){
-        return (getX() <= 0 && direction == Direction.LEFT)
-                || (getY() <= 0 && direction == Direction.UP)
-                || (getX() >= 860 && direction == Direction.RIGHT)
-                || (getY() >= 680 && direction == Direction.DOWN);
+        if((getX() <= 0 && direction == Direction.LEFT)
+                ||(getY() <= 0 && direction == Direction.UP)
+                ||(getX() >= 860 && direction == Direction.RIGHT)
+                ||(getY() >= 680 && direction == Direction.DOWN)){
+            return true;
+        }
+        return false;
     }
     public void draw() {
         // 实现坦克的绘制逻辑
@@ -150,12 +160,13 @@ public class Tank2 extends AbstractObject implements Runnable{
     }
     public void collisionBullet(List<Bullet> bullets) {
         // 实现坦克与子弹的碰撞检测逻辑
-        for (Bullet bullet : bullets) {
-            if (checkCollision(bullet)) {
-                if (!invincible) {
+        for(int i = 0; i < bullets.size(); i++) {
+            Bullet bullet = bullets.get(i);
+            if(checkCollision(bullet)) {
+                if(!invincible){
                     lives--;
                 }
-                if (lives == 0) {
+                if(lives == 0) {
                     setAlive(false);
                 }
                 bullet.setAlive(false);
@@ -164,8 +175,9 @@ public class Tank2 extends AbstractObject implements Runnable{
     }
     public void collisionHeart(List<Heart> hearts){
         // 实现坦克与桃心的碰撞检测逻辑
-        for (Heart heart : hearts) {
-            if (checkCollision(heart)) {
+        for(int i = 0; i < hearts.size(); i++) {
+            Heart heart = hearts.get(i);
+            if(checkCollision(heart)) {
                 heart.setAlive(false);
                 lives = 3;
             }
@@ -191,25 +203,29 @@ public class Tank2 extends AbstractObject implements Runnable{
     }
     public void collisionRocks(List<Rock> rocks) {
         // 实现玩家与石头的碰撞检测逻辑
-        for (Rock rock : rocks) {
-            if (checkCollision(rock)) {
+        for(int i = 0; i < rocks.size(); i++) {
+            Rock rock = rocks.get(i);
+            if(checkCollision(rock)) {
                 directions.add(direction);
-                int dx = rock.getX() - getX();
-                int dy = rock.getY() - getY();
-                if (abs(dx) >= abs(dy)) {
-                    if (dx < 0 && dx >= -40) setX(getX() + dx + 40);
-                    if (dx > 0 && dx <= 40) setX(getX() + dx - 40);
-                } else {
-                    if (dy < 0 && dy > -40) setY(getY() + dy + 40);
-                    if (dy > 0 && dy < 40) setY(getY() + dy - 40);
+                int dx = rock.getX()-getX();
+                int dy = rock.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
                 }
-            } else directions.remove(direction);
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
+                }
+            }
+            else directions.remove(direction);
         }
     }
     public void collisionLandmines(List<Landmine> landmines) {
         // 实现玩家与地雷的碰撞检测逻辑
-        for (Landmine landmine : landmines) {
-            if (checkCollision(landmine)) {
+        for(int i = 0; i < landmines.size(); i++) {
+            Landmine landmine = landmines.get(i);
+            if(checkCollision(landmine)) {
                 landmine.setAlive(false);
                 setAlive(false);
             }
@@ -217,53 +233,62 @@ public class Tank2 extends AbstractObject implements Runnable{
     }
     public void collisionIrons(List<Iron> irons) {
         // 实现玩家与铁块的碰撞检测逻辑
-        for (Iron iron : irons) {
-            if (checkCollision(iron)) {
+        for(int i = 0; i < irons.size(); i++) {
+            Iron iron = irons.get(i);
+            if(checkCollision(iron)) {
                 directions.add(direction);
-                int dx = iron.getX() - getX();
-                int dy = iron.getY() - getY();
-                if (abs(dx) >= abs(dy)) {
-                    if (dx < 0 && dx >= -40) setX(getX() + dx + 40);
-                    if (dx > 0 && dx <= 40) setX(getX() + dx - 40);
-                } else {
-                    if (dy < 0 && dy > -40) setY(getY() + dy + 40);
-                    if (dy > 0 && dy < 40) setY(getY() + dy - 40);
+                int dx = iron.getX()-getX();
+                int dy = iron.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
                 }
-            } else directions.remove(direction);
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
+                }
+            }
+            else directions.remove(direction);
         }
     }
     public void collisionTrees(List<Tree> trees) {
         // 实现玩家与树丛的碰撞检测逻辑
-        for (Tree tree : trees) {
-            if (checkCollision(tree)) {
+        for(int i = 0; i < trees.size(); i++) {
+            Tree tree = trees.get(i);
+            if(checkCollision(tree)) {
                 directions.add(direction);
-                int dx = tree.getX() - getX();
-                int dy = tree.getY() - getY();
-                if (abs(dx) >= abs(dy)) {
-                    if (dx < 0 && dx >= -40) setX(getX() + dx + 40);
-                    if (dx > 0 && dx <= 40) setX(getX() + dx - 40);
-                } else {
-                    if (dy < 0 && dy > -40) setY(getY() + dy + 40);
-                    if (dy > 0 && dy < 40) setY(getY() + dy - 40);
+                int dx = tree.getX()-getX();
+                int dy = tree.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
                 }
-            } else directions.remove(direction);
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
+                }
+            }
+            else directions.remove(direction);
         }
     }
     public void collisionPools(List<Pool> pools) {
         // 实现玩家与水池的碰撞检测逻辑
-        for (Pool pool : pools) {
-            if (checkCollision(pool)) {
+        for(int i = 0; i < pools.size(); i++) {
+            Pool pool = pools.get(i);
+            if(checkCollision(pool)) {
                 directions.add(direction);
-                int dx = pool.getX() - getX();
-                int dy = pool.getY() - getY();
-                if (abs(dx) >= abs(dy)) {
-                    if (dx < 0 && dx >= -40) setX(getX() + dx + 40);
-                    if (dx > 0 && dx <= 40) setX(getX() + dx - 40);
-                } else {
-                    if (dy < 0 && dy > -40) setY(getY() + dy + 40);
-                    if (dy > 0 && dy < 40) setY(getY() + dy - 40);
+                int dx = pool.getX()-getX();
+                int dy = pool.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
                 }
-            } else {
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
+                }
+            }
+            else{
                 directions.remove(direction);
             }
         }
@@ -282,7 +307,7 @@ public class Tank2 extends AbstractObject implements Runnable{
                 if (dy > 0 && dy < 40) setY(getY() + dy - 40);
             }
 
-        }
+        } else return;
     }
 
     public boolean isInvincible() {
@@ -291,6 +316,14 @@ public class Tank2 extends AbstractObject implements Runnable{
 
     public void setThreadRunning(boolean threadRunning) {
         this.threadRunning = threadRunning;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public Image getDownImage() {
