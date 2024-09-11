@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static com.jr.tankbattle.controller.HomePage.status;
 import static java.lang.Math.abs;
 
 public class Tank3 extends AbstractObject implements Runnable {
@@ -49,6 +50,7 @@ public class Tank3 extends AbstractObject implements Runnable {
 
     public TankType tankType;
     private Image upImage, downImage, leftImage, rightImage;
+    private Image batteryImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/battery.png"));
     private List<Direction> directions = new ArrayList<>();
 
 
@@ -107,6 +109,14 @@ public class Tank3 extends AbstractObject implements Runnable {
                 leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4L.jpg"));
                 rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy4R.jpg"));
                 break;
+        }
+    }
+    public void drawLives(){
+        if(status == 3){
+            getOnlineGameScene().getGraphicsContext().drawImage(super.getImage(), 970, 20);
+            for (int i = 0; i < lives; i++) {
+                getOnlineGameScene().getGraphicsContext().drawImage(batteryImage, 930, 80 * (i + 6));
+            }
         }
     }
 

@@ -20,7 +20,7 @@ import java.util.List;
 
 public class VsGameScene {
     @FXML
-    private Canvas canvas =new Canvas(900,720);
+    private Canvas canvas =new Canvas(1080,720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     private boolean running = false;
     private Tank playerTank;
@@ -35,6 +35,7 @@ public class VsGameScene {
     public List<Pool> pools = new ArrayList<>();
     public List<Landmine> landmines = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
+    private Image backImage0 = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bkg5.jpg"));
     private final Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg"));
 
 
@@ -87,6 +88,7 @@ public class VsGameScene {
     private void render() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
+        graphicsContext.drawImage(backImage0, 0,0 );
         graphicsContext.drawImage(backImage, 0,0 );
         for(int i = 0; i < bullets.size(); i++){
             Bullet bullet = bullets.get(i);
@@ -108,6 +110,7 @@ public class VsGameScene {
             playerTank.collisionLandmines(landmines);
             playerTank.collisionHeart(hearts);
             playerTank.collisionTank(playerTank2);
+            playerTank.drawLives();
         }
         if(playerTank2.isAlive()){
             playerTank2.draw();
@@ -122,6 +125,7 @@ public class VsGameScene {
             playerTank2.collisionLandmines(landmines);
             playerTank2.collisionHeart(hearts);
             playerTank2.collisionTank(playerTank);
+            playerTank2.drawLives();
         }
         //更新石头
         for(int i = 0; i < rocks.size(); i++){
@@ -252,6 +256,7 @@ public class VsGameScene {
 
         if(!playerTank.isAlive()){
             playerTank.setThreadRunning(false);
+            playerTank2.setThreadRunning(false);
             refresh.stop();
             Platform.runLater(() -> {
                 GameDlg.getInstance().Show("gameLoseSingle");

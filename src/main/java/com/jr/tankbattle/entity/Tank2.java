@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static com.jr.tankbattle.controller.HomePage.status;
 import static java.lang.Math.abs;
 
 public class Tank2 extends AbstractObject implements Runnable{
@@ -31,7 +32,7 @@ public class Tank2 extends AbstractObject implements Runnable{
     private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2D.png"));
     private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2L.png"));
     private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2R.png"));
-
+    private Image batteryImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/battery.png"));
     public Tank2(int x, int y, int width, int height, int speed, VsGameScene vsGameScene) {
         super(x, y, width, height, vsGameScene);
         super.setImage(upImage);
@@ -142,9 +143,11 @@ public class Tank2 extends AbstractObject implements Runnable{
     }
 
     public void drawLives(){
-        getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2R.png")), 970, 480 );
-        for(int i=0;i<lives;i++){
-            getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/battery.png")), 930, 80*(i+6) );
+        if(status == 2){
+            getVsGameScene().getGraphicsContext().drawImage(super.getImage(), 970, 440);
+            for (int i = 0; i < lives; i++) {
+                getVsGameScene().getGraphicsContext().drawImage(batteryImage, 930, 70 * (i + 7));
+            }
         }
     }
 
@@ -309,6 +312,10 @@ public class Tank2 extends AbstractObject implements Runnable{
 
     public boolean isInvincible() {
         return invincible;
+    }
+
+    public void setThreadRunning(boolean threadRunning) {
+        this.threadRunning = threadRunning;
     }
 
     public Direction getDirection() {

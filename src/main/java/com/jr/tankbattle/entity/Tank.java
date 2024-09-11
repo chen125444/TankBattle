@@ -32,6 +32,7 @@ public class Tank extends AbstractObject implements Runnable{
     private Image downImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1D.png"));
     private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1L.png"));
     private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png"));
+    private Image batteryImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/battery.png"));
     private List<Direction> directions = new ArrayList<>();
     private int lives =5;
 
@@ -103,10 +104,18 @@ public class Tank extends AbstractObject implements Runnable{
         }
     }
 
-    public void drawLives(){
-        getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png")), 970, 20 );
-        for(int i=0;i<lives;i++){
-            getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/battery.png")), 930, 80*(i+1) );
+    public void drawLives() {
+        if (status == 1) {
+            getGameScene().getGraphicsContext().drawImage(super.getImage(), 970, 20);
+            for (int i = 0; i < lives; i++) {
+                getGameScene().getGraphicsContext().drawImage(batteryImage, 930, 80 * (i + 1));
+            }
+        }
+        if(status == 2){
+            getVsGameScene().getGraphicsContext().drawImage(super.getImage(), 970, 20);
+            for (int i = 0; i < lives; i++) {
+                getVsGameScene().getGraphicsContext().drawImage(batteryImage, 930, 70 * (i + 1));
+            }
         }
     }
 

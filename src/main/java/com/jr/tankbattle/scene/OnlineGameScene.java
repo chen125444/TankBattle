@@ -59,7 +59,6 @@ public class OnlineGameScene {
 
 
     public Image backgroundImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg"));
-
     private Client client = new Client();
 
     /*----------------------------------------------*/
@@ -328,6 +327,7 @@ public class OnlineGameScene {
             playerTank1.collisionLandmines(landmines);
             playerTank1.collisionSheild(sheilds);
             playerTank1.collisionHeart(hearts);
+            playerTank1.drawLives();
             if (playerTank2 != null) {
                 playerTank1.collisionTank(playerTank2);
             }
@@ -351,6 +351,7 @@ public class OnlineGameScene {
             playerTank2.collisionLandmines(landmines);
             playerTank2.collisionSheild(sheilds);
             playerTank2.collisionHeart(hearts);
+            playerTank2.drawLives();
             if (playerTank1 != null) {
                 playerTank2.collisionTank(playerTank1);
             }
@@ -373,6 +374,7 @@ public class OnlineGameScene {
             playerTank3.collisionLandmines(landmines);
             playerTank3.collisionSheild(sheilds);
             playerTank3.collisionHeart(hearts);
+            playerTank3.drawLives();
             if (playerTank1 != null) {
                 playerTank3.collisionTank(playerTank1);
             }
@@ -395,6 +397,7 @@ public class OnlineGameScene {
             playerTank4.collisionLandmines(landmines);
             playerTank4.collisionSheild(sheilds);
             playerTank4.collisionHeart(hearts);
+            playerTank4.drawLives();
             if (playerTank1 != null) {
                 playerTank4.collisionTank(playerTank1);
             }
