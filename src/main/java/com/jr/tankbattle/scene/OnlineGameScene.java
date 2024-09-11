@@ -27,7 +27,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class OnlineGameScene implements Client.FireStatusListener {
+public class OnlineGameScene{
     @FXML
     private Canvas canvas = new Canvas(1080, 720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
@@ -56,35 +56,13 @@ public class OnlineGameScene implements Client.FireStatusListener {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private long lastSendTime = 0;
     private long lastReceiveTime = 0;
-    private final long GAME_DATA_SEND_INTERVAL_MS = 500; // 发送间隔
-    private final long GAME_DATA_RECEIVE_INTERVAL_MS = 500; // 接收间隔
+    private final long GAME_DATA_SEND_INTERVAL_MS = 200; // 发送间隔
+    private final long GAME_DATA_RECEIVE_INTERVAL_MS = 200; // 接收间隔
     private Image backImage0 = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bkg5.jpg"));
     public Image backgroundImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg")));
     private Client client = new Client();
 
     /*----------------------------------------------*/
-    @Override
-    public void onFireStatusReceived(String tankId, boolean isFire) {
-        Tank3 tank = playerTanks.get(tankId);
-        if (tank != null) {
-            if (isFire) {
-                tank.openFire(); // 假设 Tank3 类有一个 startFiring 方法
-            }
-        }
-    }
-
-    // 启动消息接收线程并传入当前实例作为监听器
-    private void startMessageReceiver() {
-        try {
-            DatagramSocket socket = new DatagramSocket(); // 根据实际情况初始化
-            Client client = new Client(); // 创建或获取现有 Client 实例
-            client.start(); // 启动客户端
-            Client.MessageReceiver receiver = client.new MessageReceiver(socket, this);
-            executor.execute(receiver); // 使用 Executor 启动接收线程
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 // 将 playerTanks 地图序列化为字符串
     private void sendGameData() {
         try {
@@ -160,19 +138,20 @@ public class OnlineGameScene implements Client.FireStatusListener {
 
         // 遍历玩家 ID，将对应的坦克分配到 playerTankX 字段
         for (Map.Entry<String, Tank3> entry : playerTanks.entrySet()) {
-
             String playerId = entry.getKey();
             Tank3 tank = entry.getValue();
-            if (playerId.equals(playerTank1.getPlayerId())) {
+
+            if (playerTank1 != null && playerId.equals(playerTank1.getPlayerId())) {
                 playerTank1 = tank;
-            } else if (playerId.equals(playerTank2.getPlayerId())) {
+            } else if (playerTank2 != null && playerId.equals(playerTank2.getPlayerId())) {
                 playerTank2 = tank;
-            } else if (playerId.equals(playerTank3.getPlayerId())) {
+            } else if (playerTank3 != null && playerId.equals(playerTank3.getPlayerId())) {
                 playerTank3 = tank;
-            } else if (playerId.equals(playerTank4.getPlayerId())) {
+            } else if (playerTank4 != null && playerId.equals(playerTank4.getPlayerId())) {
                 playerTank4 = tank;
             }
         }
+
     }
 
 

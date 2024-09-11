@@ -33,9 +33,6 @@ public class Tank3 extends AbstractObject implements Runnable {
 
     private String playerId;
 
-    public boolean fire=false;//标记开火
-    public Client client=new Client();
-
     public void setPlayerId(String playerId) {
         this.playerId = playerId;
     }
@@ -202,12 +199,8 @@ public class Tank3 extends AbstractObject implements Runnable {
                 if (canFire) {
                     openFire();
                     canFire = false;
-
-                    //发送开火消息
-                    client.sendFireMessage(this.getPlayerId());
                 }
 
-//                System.out.println("fire");
                 break;
             default:
                 break;
