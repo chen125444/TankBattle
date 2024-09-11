@@ -90,7 +90,7 @@ public class MapData {
             Tree tree15 = new Tree(480, 280, 40, 40, gameScene);
             map1.trees.add(tree15);
 
-            Tree tree17 = new Tree(280, 320, 40, 40, gameScene);
+            Tree tree17 = new Tree(320, 280, 40, 40, gameScene);
             map1.trees.add(tree17);
             Tree tree18 = new Tree(480, 320, 40, 40, gameScene);
             map1.trees.add(tree18);
@@ -129,7 +129,7 @@ public class MapData {
             map1.trees.add(tree36);
             Tree tree37 = new Tree(760, 600, 40, 40, gameScene);
             map1.trees.add(tree37);
-            Tree tree38 = new Tree(80, 640, 40, 40, gameScene);
+            Tree tree38 = new Tree(80, 600, 40, 40, gameScene);
             map1.trees.add(tree38);
 
 
@@ -155,7 +155,7 @@ public class MapData {
             map1.rocks.add(rock13);
             Rock rock14 = new Rock(160, 360, 40, 40, gameScene);
             map1.rocks.add(rock14);
-            Rock rock15 = new Rock(280, 360, 40, 40, gameScene);
+            Rock rock15 = new Rock(280, 400, 40, 40, gameScene);
             map1.rocks.add(rock15);
             Rock rock16 = new Rock(520, 360, 40, 40, gameScene);
             map1.rocks.add(rock16);
@@ -164,7 +164,7 @@ public class MapData {
             Rock rock18 = new Rock(760, 360, 40, 40, gameScene);
             map1.rocks.add(rock18);
 
-            Rock rock21 = new Rock(280, 400, 40, 40, gameScene);
+            Rock rock21 = new Rock(280, 440, 40, 40, gameScene);
             map1.rocks.add(rock21);
             Rock rock22 = new Rock(320, 400, 40, 40, gameScene);
             map1.rocks.add(rock22);
@@ -275,7 +275,7 @@ public class MapData {
         map1.trees.add(tree15);
         Tree tree16 = new Tree(760, 280, 40, 40, gameScene);
         map1.trees.add(tree16);
-        Tree tree17 = new Tree(280, 320, 40, 40, gameScene);
+        Tree tree17 = new Tree(320, 280, 40, 40, gameScene);
         map1.trees.add(tree17);
         Tree tree18 = new Tree(480, 320, 40, 40, gameScene);
         map1.trees.add(tree18);
@@ -315,7 +315,7 @@ public class MapData {
         map1.trees.add(tree36);
         Tree tree37 = new Tree(760, 600, 40, 40, gameScene);
         map1.trees.add(tree37);
-        Tree tree38 = new Tree(80, 640, 40, 40, gameScene);
+        Tree tree38 = new Tree(80, 600, 40, 40, gameScene);
         map1.trees.add(tree38);
 
         Tree tree40 = new Tree(560, 680, 40, 40, gameScene);
@@ -348,7 +348,7 @@ public class MapData {
         map1.rocks.add(rock13);
         Rock rock14 = new Rock(160, 360, 40, 40, gameScene);
         map1.rocks.add(rock14);
-        Rock rock15 = new Rock(280, 360, 40, 40, gameScene);
+        Rock rock15 = new Rock(280, 400, 40, 40, gameScene);
         map1.rocks.add(rock15);
         Rock rock16 = new Rock(520, 360, 40, 40, gameScene);
         map1.rocks.add(rock16);
@@ -360,7 +360,7 @@ public class MapData {
         map1.rocks.add(rock19);
         Rock rock20 = new Rock(560, 480, 40, 40, gameScene);
         map1.rocks.add(rock20);
-        Rock rock21 = new Rock(280, 400, 40, 40, gameScene);
+        Rock rock21 = new Rock(280, 440, 40, 40, gameScene);
         map1.rocks.add(rock21);
         Rock rock22 = new Rock(320, 400, 40, 40, gameScene);
         map1.rocks.add(rock22);
@@ -415,7 +415,7 @@ public class MapData {
         map1.irons.add(iron7);
         Iron iron8 = new Iron(160, 280, 40, 40, gameScene);
         map1.irons.add(iron8);
-        Iron iron9 = new Iron(280, 640, 40, 40, gameScene);
+        Iron iron9 = new Iron(280, 520, 40, 40, gameScene);
         map1.irons.add(iron9);
         Iron iron10 = new Iron(320, 640, 40, 40, gameScene);
         map1.irons.add(iron10);
@@ -470,7 +470,7 @@ public class MapData {
         Tree tree15 = new Tree(480, 280, 40, 40, gameScene);
         map1.trees.add(tree15);
 
-        Tree tree17 = new Tree(280, 320, 40, 40, gameScene);
+        Tree tree17 = new Tree(320, 280, 40, 40, gameScene);
         map1.trees.add(tree17);
         Tree tree18 = new Tree(480, 320, 40, 40, gameScene);
         map1.trees.add(tree18);
@@ -510,7 +510,7 @@ public class MapData {
         map1.trees.add(tree36);
         Tree tree37 = new Tree(760, 600, 40, 40, gameScene);
         map1.trees.add(tree37);
-        Tree tree38 = new Tree(80, 640, 40, 40, gameScene);
+        Tree tree38 = new Tree(80, 600, 40, 40, gameScene);
         map1.trees.add(tree38);
 
         Rock rock1 = new Rock(600, 120, 40, 40, gameScene);
@@ -536,7 +536,7 @@ public class MapData {
         map1.rocks.add(rock13);
         Rock rock14 = new Rock(160, 360, 40, 40, gameScene);
         map1.rocks.add(rock14);
-        Rock rock15 = new Rock(280, 360, 40, 40, gameScene);
+        Rock rock15 = new Rock(280, 400, 40, 40, gameScene);
         map1.rocks.add(rock15);
         Rock rock16 = new Rock(520, 360, 40, 40, gameScene);
         map1.rocks.add(rock16);
@@ -546,7 +546,7 @@ public class MapData {
         map1.rocks.add(rock18);
 
 
-        Rock rock21 = new Rock(280, 400, 40, 40, gameScene);
+        Rock rock21 = new Rock(280, 440, 40, 40, gameScene);
         map1.rocks.add(rock21);
         Rock rock22 = new Rock(320, 400, 40, 40, gameScene);
         map1.rocks.add(rock22);
@@ -598,7 +598,7 @@ public class MapData {
         map1.irons.add(iron7);
         Iron iron8 = new Iron(160, 280, 40, 40, gameScene);
         map1.irons.add(iron8);
-        Iron iron9 = new Iron(280, 640, 40, 40, gameScene);
+        Iron iron9 = new Iron(280, 520, 40, 40, gameScene);
         map1.irons.add(iron9);
         Iron iron10 = new Iron(320, 640, 40, 40, gameScene);
         map1.irons.add(iron10);
@@ -808,7 +808,7 @@ public class MapData {
         map2.irons.add(iron10);
         Pool pool1 = new Pool(520, 160, 40, 40, gameScene);
         map2.pools.add(pool1);
-        Pool pool2 = new Pool(240, 280, 40, 40, gameScene);
+        Pool pool2 = new Pool(240, 240, 40, 40, gameScene);
         map2.pools.add(pool2);
         Pool pool3 = new Pool(640, 320, 40, 40, gameScene);
         map2.pools.add(pool3);
@@ -822,9 +822,9 @@ public class MapData {
         map2.landmines.add(landmine1);
         Landmine landmine2 = new Landmine(280, 320, 40, 40, gameScene);
         map2.landmines.add(landmine2);
-        Heart heart1 = new Heart(560, 240, 40, 40, gameScene);
+        Heart heart1 = new Heart(560, 280, 40, 40, gameScene);
         map2.hearts.add(heart1);
-        Heart heart2 = new Heart(680, 160, 40, 40, gameScene);
+        Heart heart2 = new Heart(680, 200, 40, 40, gameScene);
         map2.hearts.add(heart2);
     }
 
