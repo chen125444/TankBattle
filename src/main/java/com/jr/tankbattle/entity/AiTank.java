@@ -156,7 +156,12 @@ public class AiTank extends AbstractObject implements Runnable {
             case 3:
                 direction = Direction.RIGHT;
                 break;
-            case 4: openFire(); break;
+            case 4:
+                if(canFire){
+                openFire();
+                canFire = false;
+                }
+                 break;
             default:
                 direction = direction;
                 break;
@@ -220,38 +225,6 @@ public class AiTank extends AbstractObject implements Runnable {
                 }
             }
         }
-        if (abs(getX() - tank.getX()) < 40 && getY() > tank.getY()) {
-            if (abs(getY() - tank.getY()) > 80) direction = Direction.UP;
-            else if (abs(getY() - tank.getY()) < 40) return;
-            if (canFire) {
-                openFire();
-                canFire = false;
-            }
-        }
-        if (abs(getX() - tank.getX()) < 40 && getY() < tank.getY()) {
-            if (abs(getY() - tank.getY()) > 80) direction = Direction.DOWN;
-            else if (abs(getY() - tank.getY()) < 40) return;
-            if (canFire) {
-                openFire();
-                canFire = false;
-            }
-        }
-        if (getX() > tank.getX() && abs(getY() - tank.getY()) < 40) {
-            if (abs(getX() - tank.getX()) > 80) direction = Direction.LEFT;
-            else if (abs(getX() - tank.getX()) < 40) return;
-            if (canFire) {
-                openFire();
-                canFire = false;
-            }
-        }
-        if (getX() < tank.getX() && abs(getY() - tank.getY()) < 40) {
-            if (abs(getX() - tank.getX()) > 80) direction = Direction.RIGHT;
-            else if (abs(getX() - tank.getX()) < 40) return;
-            if (canFire) {
-                openFire();
-                canFire = false;
-            }
-        }
         Random random = new Random();
         int num = random.nextInt(200);
         switch (num) {
@@ -267,6 +240,8 @@ public class AiTank extends AbstractObject implements Runnable {
             case 3:
                 direction = Direction.RIGHT;
                 break;
+            case 4,5,6:
+                openFire();break;
             default:
                 direction = direction;
                 break;
@@ -568,4 +543,5 @@ public class AiTank extends AbstractObject implements Runnable {
     public Image getDownImage() {
         return downImage;
     }
+
 }

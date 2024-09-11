@@ -325,7 +325,30 @@ public class GameDlg extends Dialog<ButtonType> {
 
             // 设置按钮的事件
             ensureBtn.setOnAction(event -> {
-                //Director.getInstance().toRegisterScr();
+                Director.getInstance().toVsGameScene();
+                setResult(ButtonType.OK); // 手动设置结果并关闭对话框
+                close(); // 关闭窗口
+            });
+
+            cancelBtn.setOnAction(event -> {
+                Director.getInstance().toHomePage();
+                setResult(ButtonType.CANCEL); // 设置取消结果
+                close(); // 关闭窗口
+            });
+        }
+
+        else if(type=="gameOverOnline"){ //双人模式游戏结束
+            ensureBtn.setText("重新开始");
+            cancelBtn.setText("退出游戏");
+
+            // 清除Dialog中的按钮，并将新的按钮添加到VBox
+            vBox.getChildren().removeIf(node -> node instanceof Button); // 清除已有按钮
+            vBox.getChildren().addAll(ensureBtn, cancelBtn); // 将按钮添加到VBox
+            label.setText("游戏结束！");
+
+            // 设置按钮的事件
+            ensureBtn.setOnAction(event -> {
+                Director.getInstance().toOnlineRoom();
                 setResult(ButtonType.OK); // 手动设置结果并关闭对话框
                 close(); // 关闭窗口
             });

@@ -36,7 +36,7 @@ public class LoginScr {
            boolean loginSuccess = client.login(username, password);
            if (loginSuccess) {
                Account.setInfo(username, password);
-                Director.getInstance().toHomePage();
+               Director.getInstance().toHomePage();
            } else {
                 GameDlg.getInstance().Show("loginEr");//登录失败弹窗
             }

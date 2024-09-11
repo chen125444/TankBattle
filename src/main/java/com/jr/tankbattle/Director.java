@@ -114,6 +114,7 @@ public class Director {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/GameScene.fxml")));
             stage.getScene().setRoot(root);
+            gameScene.resetGame();
             gameScene.init(stage);
         } catch (IOException e) {
             e.printStackTrace();
@@ -149,6 +150,7 @@ public class Director {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/VsGameScene.fxml")));
             stage.getScene().setRoot(root);
+            vsGameScene.resetGame();
             vsGameScene.init(stage);
         } catch (IOException e) {
             e.printStackTrace();
@@ -159,6 +161,7 @@ public class Director {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("/com/jr/tankbattle/fxml/OnlineGameScene.fxml")));
             stage.getScene().setRoot(root);
+            onlineGameScene.resetGame();
             onlineGameScene.init(stage,playerList);
         } catch (IOException e) {
             e.printStackTrace();
@@ -197,4 +200,5 @@ public class Director {
             e.printStackTrace();
         }
     }
+
 }

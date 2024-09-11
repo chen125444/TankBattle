@@ -9,7 +9,6 @@ import java.util.List;
 import static com.jr.tankbattle.controller.HomePage.status;
 
 public class Rock extends AbstractObject{
-    private int lives = 3;
     private Image rockImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/walls(1).png"));
     //构造函数
     public Rock(int x, int y, int width, int height, GameScene gameScene) {
@@ -53,11 +52,8 @@ public class Rock extends AbstractObject{
         for(int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
             if(checkCollision(bullet)) {
-                lives--;
                 bullet.setAlive(false);
-                if(lives == 0){
-                    setAlive(false);
-                }
+                setAlive(false);
             }
         }
     }

@@ -99,8 +99,8 @@ public class GameScene {
         for(int i = 0; i < bullets.size(); i++){
             Bullet bullet = bullets.get(i);
             bullet.collisionBullet(bullets);
-            bullet.draw();
             bullet.move();
+            bullet.draw();
         }
         // 绘制玩家坦克
         if(playerTank.isAlive()){
@@ -123,6 +123,7 @@ public class GameScene {
             aiTank.collisionBullet(bullets);
             if(!aiTank.isAlive()){
                 aiTanks.remove(i);
+                aiTank.setAlive(true);
             }
         }
         // 绘制人机坦克
@@ -142,14 +143,15 @@ public class GameScene {
         //更新石头
         for(int i = 0; i < rocks.size(); i++){
             Rock rock = rocks.get(i);
+            rock.collisionBullet(bullets);
             if(!rock.isAlive()){
                 rocks.remove(i);
+                rock.setAlive(true);
             }
         }
         //绘制石头
         for(int i = 0; i < rocks.size(); i++){
             Rock rock = rocks.get(i);
-            rock.collisionBullet(bullets);
             rock.draw();
         }
         //更新桃心
@@ -157,6 +159,7 @@ public class GameScene {
             Heart heart = hearts.get(i);
             if(!heart.isAlive()){
                 hearts.remove(i);
+                heart.setAlive(true);
             }
         }
         //绘制桃心
@@ -169,6 +172,7 @@ public class GameScene {
             Pool pool = pools.get(i);
             if(!pool.isAlive()){
                 pools.remove(i);
+                pool.setAlive(true);
             }
         }
         //绘制水池
@@ -181,6 +185,7 @@ public class GameScene {
             Iron iron = irons.get(i);
             if(!iron.isAlive()){
                 irons.remove(i);
+                iron.setAlive(true);
             }
         }
         //绘制铁块
@@ -192,17 +197,25 @@ public class GameScene {
         //更新树丛
         for(int i = 0; i < trees.size(); i++){
             Tree tree = trees.get(i);
+            tree.collisionBullet(bullets);
             if(!tree.isAlive()){
                 trees.remove(i);
+                tree.setAlive(true);
             }
         }
         //绘制树丛
         for(int i = 0; i < trees.size(); i++){
             Tree tree = trees.get(i);
-            tree.collisionBullet(bullets);
             tree.draw();
         }
         //更新地雷
+        for(int i = 0; i < landmines.size(); i++) {
+            Landmine landmine = landmines.get(i);
+            if(!landmine.isAlive()){
+                landmines.remove(i);
+                landmine.setAlive(true);
+            }
+        }
         for(int i = 0; i < landmines.size(); i++) {
             Landmine landmine = landmines.get(i);
             landmine.draw();
@@ -212,6 +225,7 @@ public class GameScene {
             Sheild sheild = sheilds.get(i);
             if(!sheild.isAlive()){
                 sheilds.remove(i);
+                sheild.setAlive(true);
             }
         }
         //绘制盾牌
@@ -278,18 +292,16 @@ public class GameScene {
         if (!playerTank.isAlive()) {
             Platform.runLater(() -> {
                 GameDlg.getInstance().Show("gameLoseSingle");
-                resetGame();
             });
         } else if (aiTanks.isEmpty()) {
             Platform.runLater(() -> {
                 GameDlg.getInstance().Show("gameWinSingle");
-                resetGame();
             });
         }
     }
 
     // 重置游戏
-    private void resetGame() {
+    public void resetGame() {
         gameOverHandled = false;  // 重置游戏结束标志位
         // 重新初始化所有游戏数据
         aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
