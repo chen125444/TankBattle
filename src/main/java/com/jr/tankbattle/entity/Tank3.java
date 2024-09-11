@@ -1,6 +1,7 @@
 package com.jr.tankbattle.entity;
 
 import com.jr.tankbattle.Director;
+import com.jr.tankbattle.client.Client;
 import com.jr.tankbattle.controller.Account;
 import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.util.Direction;
@@ -32,6 +33,9 @@ public class Tank3 extends AbstractObject implements Runnable {
     private int speed;
 
     private String playerId;
+
+    public boolean fire=false;//标记开火
+    public Client client=new Client();
 
     public void setPlayerId(String playerId) {
         this.playerId = playerId;
@@ -181,7 +185,7 @@ public class Tank3 extends AbstractObject implements Runnable {
         }
     }
 
-    public void released(KeyCode keyCode) {
+    public void released(KeyCode keyCode) throws Exception {
         if (!playerId.equals(Account.uid)) {
             return; // 不是当前玩家的坦克，不响应键盘事件
         }
@@ -196,6 +200,9 @@ public class Tank3 extends AbstractObject implements Runnable {
                 if (canFire) {
                     openFire();
                     canFire = false;
+
+                    //发送开火消息
+                    client.sendFireMessage(this.getPlayerId());
                 }
 
 //                System.out.println("fire");
@@ -378,22 +385,22 @@ public class Tank3 extends AbstractObject implements Runnable {
     public void openFire() {
         switch (direction) {
             case UP:
-                Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, getOnlineGameScene());
+                Bullet bullet0 = new Bullet(getX() + width / 2 - 5, getY() - 22, 22, 10, Direction.UP, 5, Director.onlineGameScene);
                 bullet0.draw();
                 getOnlineGameScene().bullets.put(bullet0.getId(),bullet0);
                 break;
             case DOWN:
-                Bullet bullet1 = new Bullet(getX() + width / 2 - 5, getY() + height, 22, 10, Direction.DOWN, 5, getOnlineGameScene());
+                Bullet bullet1 = new Bullet(getX() + width / 2 - 5, getY() + height, 22, 10, Direction.DOWN, 5, Director.onlineGameScene);
                 bullet1.draw();
                 getOnlineGameScene().bullets.put(bullet1.getId(),bullet1);
                 break;
             case LEFT:
-                Bullet bullet2 = new Bullet(getX() - 22, getY() + height / 2 - 5, 22, 10, Direction.LEFT, 5, getOnlineGameScene());
+                Bullet bullet2 = new Bullet(getX() - 22, getY() + height / 2 - 5, 22, 10, Direction.LEFT, 5, Director.onlineGameScene);
                 bullet2.draw();
                 getOnlineGameScene().bullets.put(bullet2.getId(),bullet2);
                 break;
             case RIGHT:
-                Bullet bullet3 = new Bullet(getX() + width, getY() + height / 2 - 5, 22, 10, Direction.RIGHT, 5, getOnlineGameScene());
+                Bullet bullet3 = new Bullet(getX() + width, getY() + height / 2 - 5, 22, 10, Direction.RIGHT, 5, Director.onlineGameScene);
                 bullet3.draw();
                 getOnlineGameScene().bullets.put(bullet3.getId(),bullet3);
         }
