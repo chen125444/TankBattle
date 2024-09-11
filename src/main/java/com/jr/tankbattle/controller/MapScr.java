@@ -18,12 +18,6 @@ public class MapScr {
     }
 
     private int id =1;
-    public void setId(int id){
-         id = this.id;
-    }
-    public int getId(){
-        return id;
-    }
     @FXML
     public ImageView hoverImage;
     @FXML
@@ -51,11 +45,12 @@ public class MapScr {
         shadow.setRadius(10);
 
         // 将效果应用到多个按钮
-        applyEffects(map1Btn, "/com/jr/tankbattle/img/tankbackground3.png");
-        applyEffects(map2Btn, "/com/jr/tankbattle/img/tankbackground4.png");
-        applyEffects(map3Btn, "/com/jr/tankbattle/img/tankbackground8.jpg");
-        applyEffects(map4Btn, "/com/jr/tankbattle/img/bkg.png");
+        applyEffects(map1Btn, "/com/jr/tankbattle/img/tankbackground3.png",1);
+        applyEffects(map2Btn, "/com/jr/tankbattle/img/tankbackground4.png",2);
+        applyEffects(map3Btn, "/com/jr/tankbattle/img/tankbackground8.jpg",3);
+        applyEffects(map4Btn, "/com/jr/tankbattle/img/bkg.png",4);
         applyEffects(backBtn);
+        System.out.println(id);
     }
 
     private void showHoverImage(String imagePath) {
@@ -71,28 +66,37 @@ public class MapScr {
     private ColorAdjust colorAdjust;
 
 
-    private void applyEffects(ImageView button,String hoverImagePath) {
+    private void applyEffects(ImageView button,String hoverImagePath,int idea) {
+        this.id =idea;
         // 初始化参数
         button.setOnMouseEntered(event -> {
             showHoverImage(hoverImagePath); //鼠标悬停图片显示
             colorAdjust.setBrightness(0.3);  // 增加亮度
             button.setEffect(shadow);        // 添加阴影
+            this.id =idea;
+            System.out.println(id);
         });
 
         button.setOnMouseExited(event -> {
             hideHoverImage();
             colorAdjust.setBrightness(0);    // 还原亮度
             button.setEffect(null);          // 移除阴影
+            this.id =idea;
+            System.out.println(id);
         });
 
         button.setOnMousePressed(event -> {
             button.setScaleX(0.95);  // 缩小到 95%
             button.setScaleY(0.95);  // 缩小到 95%
+            this.id =idea;
+            System.out.println(id);
         });
 
         button.setOnMouseReleased(event -> {
             button.setScaleX(1.0);   // 还原到原始大小
             button.setScaleY(1.0);   // 还原到原始大小
+            this.id =idea;
+            System.out.println(id);
         });
     }
 
@@ -121,7 +125,7 @@ public class MapScr {
 
     @FXML
     public void Back(){
-        System.out.println("back");
+        System.out.println(id);
         Director.getInstance().toSetting();
     }
     @FXML
@@ -143,20 +147,19 @@ public class MapScr {
 
     public void MapChg(int num){
         if(num==1){
-            setId(1);
             mapImage.setImage(new Image(getClass().getResource("/com/jr/tankbattle/img/tankbackground3.png").toExternalForm()));
         }
         else if(num==2){
-            setId(2);
             mapImage.setImage(new Image(getClass().getResource("/com/jr/tankbattle/img/tankbackground4.png").toExternalForm()));
         }
         else if(num==3){
-            setId(3);
             mapImage.setImage(new Image(getClass().getResource("/com/jr/tankbattle/img/tankbackground8.jpg").toExternalForm()));
         }
         else{
-            setId(4);
             mapImage.setImage(new Image(getClass().getResource("/com/jr/tankbattle/img/bkg.png").toExternalForm()));
         }
+    }
+    public int getId(){
+        return id;
     }
 }

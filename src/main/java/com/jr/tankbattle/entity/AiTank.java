@@ -78,45 +78,58 @@ public class AiTank extends AbstractObject implements Runnable{
                  direction = Direction.RIGHT;
              }
         }
-        // 实现AI坦克的移动逻辑
+         //实现AI坦克的移动逻辑
         for (int i=0;i<aiTanks.size();i++){
             AiTank aiTank = aiTanks.get(i);
             if(aiTank!=this){
-                if(abs(getX()-aiTank.getX())<40||abs(getY()-aiTank.getY())<40){
-                    canFire = false;
+                if(getX()-aiTank.getX()<40&&getX()-aiTank.getX()>0){
+                    setX(getX()+speed);
+                }
+                if(aiTank.getX()-getX()<40&&aiTank.getX()-getX()>0){
+                    setX(getX()-speed);
+                }
+                if(getY()-aiTank.getY()<40&&getY()-aiTank.getY()>0){
+                    setY(getY()+speed);
+                }
+                if(aiTank.getY()-getY()<40&&aiTank.getY()-getY()>0){
+                    setY(getY()-speed);
                 }
             }
         }
         if(abs(getX()-tank.getX())<40&&getY()>tank.getY()){
-            direction = Direction.UP;
+            if(abs(getY()-tank.getY())>80)direction = Direction.UP;
+            else if(abs(getY()-tank.getY())<40)return;
             if(canFire){
                 openFire();
                 canFire = false;
             }
         }
         if(abs(getX()-tank.getX())<40&&getY()<tank.getY()){
-            direction = Direction.DOWN;
+            if(abs(getY()-tank.getY())>80)direction = Direction.DOWN;
+            else if(abs(getY()-tank.getY())<40)return;
             if(canFire){
                 openFire();
                 canFire = false;
             }
         }
         if(getX()>tank.getX()&&abs(getY()-tank.getY())<40){
-            direction = Direction.LEFT;
+            if(abs(getX()-tank.getX())>80)direction = Direction.LEFT;
+            else if(abs(getX()-tank.getX())<40)return;
             if(canFire){
                 openFire();
                 canFire = false;
             }
         }
         if(getX()<tank.getX()&&abs(getY()-tank.getY())<40){
-            direction = Direction.RIGHT;
+            if(abs(getX()-tank.getX())>80)direction = Direction.RIGHT;
+            else if(abs(getX()-tank.getX())<40)return;
             if(canFire){
                 openFire();
                 canFire = false;
             }
         }
         Random random = new Random();
-        int num = random.nextInt(100);
+        int num = random.nextInt(200);
         switch (num){
             case 0 : direction = Direction.UP;break;
             case 1 : direction = Direction.DOWN;break;
@@ -130,7 +143,6 @@ public class AiTank extends AbstractObject implements Runnable{
             case RIGHT -> setX(getX() + speed);
             case LEFT -> setX(getX() - speed);
         }
-
     }
     //边界检测
     public boolean edgeDetector(){
@@ -199,13 +211,23 @@ public class AiTank extends AbstractObject implements Runnable{
         }
     }
     public void collisionLandmines(List<Landmine> landmines) {
-        // 实现玩家与地雷的碰撞检测逻辑
+        // 实现Ai与地雷的碰撞检测逻辑
         for(int i = 0; i < landmines.size(); i++) {
             Landmine landmine = landmines.get(i);
             if(checkCollision(landmine)) {
-                landmine.setAlive(false);
-                setAlive(false);
+                directions.add(direction);
+                int dx = landmine.getX()-getX();
+                int dy = landmine.getY()-getY();
+                if(abs(dx)>=abs(dy)) {
+                    if(dx<0&&dx>=-40)setX(getX() + dx + 40);
+                    if(dx>0&&dx<=40)setX(getX() + dx - 40);
+                }
+                else {
+                    if(dy<0&&dy>-40)setY(getY() + dy + 40);
+                    if(dy>0&&dy<40)setY(getY() + dy - 40);
+                }
             }
+            else directions.remove(direction);
         }
     }
     public void collisionTrees(List<Tree> trees) {

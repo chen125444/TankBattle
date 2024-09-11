@@ -35,7 +35,7 @@ public class Tank extends AbstractObject implements Runnable{
     private Image leftImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1L.png"));
     private Image rightImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy1R.png"));
     private List<Direction> directions = new ArrayList<>();
-    private int lives =4;
+    private int lives =5;
 
     public Tank(int x, int y, int width, int height, int speed, GameScene gameScene) {
         super(x, y, width, height, gameScene);
@@ -105,6 +105,12 @@ public class Tank extends AbstractObject implements Runnable{
         }
     }
 
+    public void drawLives(){
+        for(int i=0;i<lives;i++){
+            getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/battery.png")), 930, 100*(i+1) );
+        }
+    }
+
     public void pressed(KeyCode keyCode) {
             switch (keyCode) {
                 case W:
@@ -153,7 +159,7 @@ public class Tank extends AbstractObject implements Runnable{
             System.out.print("");
             if(!canFire){
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                     canFire = true;
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -189,9 +195,9 @@ public class Tank extends AbstractObject implements Runnable{
         // 实现坦克与桃心的碰撞检测逻辑
         for(int i = 0; i < hearts.size(); i++) {
             Heart heart = hearts.get(i);
-            if(checkCollision(heart)) {
+            if(checkCollision(heart)&&heart.isAlive()) {
                 heart.setAlive(false);
-                lives += 2;
+                lives = 5;
             }
         }
     }

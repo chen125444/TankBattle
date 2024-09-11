@@ -1,7 +1,9 @@
 package com.jr.tankbattle.scene;
 import com.jr.tankbattle.controller.GameDlg;
+import com.jr.tankbattle.controller.MapScr;
 import com.jr.tankbattle.entity.*;
 import com.jr.tankbattle.util.MapData;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
@@ -17,28 +19,36 @@ import java.util.*;
 
 public class GameScene {
     @FXML
-    private Canvas canvas =new Canvas(900,720);
+    private Canvas canvas =new Canvas(1080,720);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     private boolean running = false;
     private Tank playerTank;
     private MapData map = new MapData(this);
     public List<Bullet> bullets = new ArrayList<>();
-    public List<AiTank> aiTanks = map.mapData.get(1).aiTanks;
-    public List<Tree> trees = map.mapData.get(1).trees;
-    public List<Rock> rocks = map.mapData.get(1).rocks;
-    public List<Sheild> sheilds = map.mapData.get(1).sheilds;
-    public List<Iron> irons = map.mapData.get(1).irons;
-    public List<Heart> hearts = map.mapData.get(1).hearts;
-    public List<Pool> pools = map.mapData.get(1).pools;
-    public List<Landmine> landmines = map.mapData.get(1).landmines;
+    public List<AiTank> aiTanks = new ArrayList<>();
+    public List<Tree> trees = new ArrayList<>();
+    public List<Rock> rocks = new ArrayList<>();
+    public List<Sheild> sheilds = new ArrayList<>();
+    public List<Iron> irons = new ArrayList<>();
+    public List<Heart> hearts = new ArrayList<>();
+    public List<Pool> pools = new ArrayList<>();
+    public List<Landmine> landmines = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
-    private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
+    private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg"));
 
     public Map<Integer,GameScene> gameScenes = new HashMap<>();
 
     public void init(Stage stage) {
         AnchorPane root = new AnchorPane(canvas);
         stage.getScene().setRoot(root);
+        aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
+        hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
+        irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
+        landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
+        pools.addAll(map.mapData.get(MapScr.getInstance().getId()).pools);
+        rocks.addAll(map.mapData.get(MapScr.getInstance().getId()).rocks);
+        sheilds.addAll(map.mapData.get(MapScr.getInstance().getId()).sheilds);
+        trees.addAll(map.mapData.get(MapScr.getInstance().getId()).trees);
         //设置键盘事件
         stage.getScene().setOnKeyReleased(this::handleKeyReleased);
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
@@ -57,20 +67,11 @@ public class GameScene {
     private void handleKeyPressed(KeyEvent event) {
         if(event.getCode() == KeyCode.ESCAPE){
            running = false;
-           GameDlg.getInstance().Show("pause");
+                GameDlg.getInstance().Show("pause");
         }
         if(GameDlg.getInstance().isFlag()){
             running = true;
         }
-        if(!playerTank.isAlive()){
-            running = false;
-            GameDlg.getInstance().Show("gameLoseSingle");
-        }
-        if(aiTanks.isEmpty()){
-            running = false;
-            GameDlg.getInstance().Show("gameWinSingle");
-        }
-
         if(running){
             playerTank.pressed(event.getCode());
         }
@@ -107,7 +108,10 @@ public class GameScene {
             playerTank.collisionLandmines(landmines);
             playerTank.move();
             playerTank.draw();
+            playerTank.drawLives();
         }
+        else gameOver();
+        if(aiTanks.isEmpty())gameOver();
         //更新人机坦克
         for(int i = 0; i < aiTanks.size(); i++){
             AiTank aiTank = aiTanks.get(i);
@@ -243,6 +247,49 @@ public class GameScene {
     // 设置 GraphicsContext 对象
     public void setGraphicsContext(GraphicsContext graphicsContext) {
         this.graphicsContext = graphicsContext;
+    }
+    public void gameOver() {
+        running = false;
+        aiTanks.clear();
+        bullets.clear();
+        explodes.clear();
+        hearts.clear();
+        irons.clear();
+        landmines.clear();
+        pools.clear();
+        rocks.clear();
+        sheilds.clear();
+        trees.clear();
+        if(!playerTank.isAlive()){
+            refresh.stop();
+            Platform.runLater(() -> {
+                GameDlg.getInstance().Show("gameLoseSingle");
+                aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
+                hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
+                irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
+                landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
+                pools.addAll(map.mapData.get(MapScr.getInstance().getId()).pools);
+                rocks.addAll(map.mapData.get(MapScr.getInstance().getId()).rocks);
+                sheilds.addAll(map.mapData.get(MapScr.getInstance().getId()).sheilds);
+                trees.addAll(map.mapData.get(MapScr.getInstance().getId()).trees);
+                refresh.start();
+            });
+        }
+        else {
+            refresh.stop();
+            Platform.runLater(() -> {
+                GameDlg.getInstance().Show("gameWinSingle");
+                aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
+                hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
+                irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
+                landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
+                pools.addAll(map.mapData.get(MapScr.getInstance().getId()).pools);
+                rocks.addAll(map.mapData.get(MapScr.getInstance().getId()).rocks);
+                sheilds.addAll(map.mapData.get(MapScr.getInstance().getId()).sheilds);
+                trees.addAll(map.mapData.get(MapScr.getInstance().getId()).trees);
+                refresh.start();
+            });
+        }
     }
 
 }

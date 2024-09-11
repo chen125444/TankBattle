@@ -19,10 +19,16 @@ public class MapData {
         mapData = new HashMap<>(); // 初始化 mapData
         map1 = new TankMap();
         map2 = new TankMap();
+        map3 = new TankMap();
+        map4 = new TankMap();
         setMap1(map1,scene);
-        //setMap2(map2);
+        setMap2(map2,scene);
+        setMap3(map3,scene);
+        setMap4(map4,scene);
         mapData.put(1, map1);
         mapData.put(2, map2);
+        mapData.put(3, map3);
+        mapData.put(4, map4);
     }
     public MapData(VsGameScene scene) {
 
@@ -30,7 +36,7 @@ public class MapData {
         map1 = new TankMap();
         map2 = new TankMap();
         setMap1(map1,scene);
-        //setMap2(map2);
+        //setMap2(map2,scene);
         mapData.put(1, map1);
         mapData.put(2, map2);
     }
