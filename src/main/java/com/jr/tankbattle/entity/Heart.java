@@ -61,5 +61,10 @@ public class Heart extends AbstractObject {
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
+
+    @Override
+    public boolean isAlive() {
+        return alive;
+    }
 }
 

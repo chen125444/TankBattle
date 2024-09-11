@@ -192,7 +192,7 @@ public class Tank extends AbstractObject implements Runnable{
         // 实现坦克与桃心的碰撞检测逻辑
         for(int i = 0; i < hearts.size(); i++) {
             Heart heart = hearts.get(i);
-            if(checkCollision(heart)&&heart.isAlive()) {
+            if(checkCollision(heart)) {
                 heart.setAlive(false);
                 lives = 5;
             }
