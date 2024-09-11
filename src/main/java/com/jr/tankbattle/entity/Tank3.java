@@ -1,5 +1,6 @@
 package com.jr.tankbattle.entity;
 
+import com.jr.tankbattle.Director;
 import com.jr.tankbattle.controller.Account;
 import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.util.Direction;
@@ -412,6 +413,23 @@ public class Tank3 extends AbstractObject implements Runnable {
                 getOnlineGameScene().bullets.add(bullet3);
         }
     }
+
+    // Convert a single tank's data to a comma-separated string
+    public String toDataString() {
+        return playerId+":"+getX() + "," + getY() + "," + direction + "," + playerId + "," + tankType.name();
+    }
+
+    // Static method to create a Tank3 object from a data string
+    public static Tank3 fromDataString(String dataString) {
+        String[] parts = dataString.split(",");
+        Tank3 tank = new Tank3(Integer.parseInt(parts[0]),Integer.parseInt(parts[1]),40,40,2, Director.onlineGameScene);
+        tank.direction = Direction.valueOf(parts[2]);
+        tank.playerId = parts[3];
+        tank.tankType = TankType.valueOf(parts[4]);
+        tank.loadImages();
+        return tank;
+    }
+
 }
 
 

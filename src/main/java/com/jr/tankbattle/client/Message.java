@@ -11,9 +11,6 @@ public class Message {
     public String tankId; // 用于存储坦克 ID
     public double x; // 用于存储位置 X 坐标
     public double y; // 用于存储位置 Y 坐标
-    public GameInfo gameInfo;
-
-//    public GameInfo gameInfo;
 
     public Message() {
     }

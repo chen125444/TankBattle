@@ -1,11 +1,13 @@
 package com.jr.tankbattle.entity;
 
+import com.jr.tankbattle.Director;
 import com.jr.tankbattle.controller.StartScr;
 import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Direction;
 import com.jr.tankbattle.util.Sound;
+import com.jr.tankbattle.util.TankType;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
@@ -134,6 +136,18 @@ public class Bullet extends AbstractObject{
     // 设置子弹的方向
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    // Convert a single tank's data to a comma-separated string
+    public String toDataString() {
+        return super.getX() + "," + super.getY() + "," + direction;
+    }
+
+    // Static method to create a Tank3 object from a data string
+    public static Bullet fromDataString(String dataString) {
+        String[] parts = dataString.split(",");
+        Bullet bullet = new Bullet(Integer.parseInt(parts[0]),Integer.parseInt(parts[1]), 22, 10, Direction.valueOf(parts[2]), 5, Director.onlineGameScene);
+        return bullet;
     }
 }
 

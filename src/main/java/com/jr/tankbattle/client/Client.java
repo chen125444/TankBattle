@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.jr.tankbattle.controller.Account;
 
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -192,7 +191,7 @@ public class Client {
     }
 
     // 发送消息并接收响应
-    private boolean sendMessage(Message message) throws Exception {
+    public boolean sendMessage(Message message) throws Exception {
         DatagramSocket socket = new DatagramSocket();
         InetAddress serverAddress = InetAddress.getByName(SERVER_ADDRESS);
         String jsonMessage = gson.toJson(message);
@@ -233,57 +232,51 @@ public class Client {
         return jsonResponse;
     }
 
+    /*---------------------------------------------*/
+    public boolean sendPlayerTanksData(String data) throws Exception {
+        // 序列化 playerTanks 为字符串
+        String playerTanksData = data;
 
-    public static void sendGameInfo(GameInfo gameInfo) throws Exception {
         // 创建消息对象
         Message message = new Message();
-        message.type = "gameInfo";
-        message.gameInfo = gameInfo;
+        message.type = "playerTanksData";
+        message.message = playerTanksData;
 
-        // 序列化消息对象为 JSON 字符串
-        String jsonMessage = gson.toJson(message);
+        // 发送消息到服务器
+        return sendMessage(message);
+    }
+    public String getPlayerTanksData() throws Exception {
+        Message message = new Message();
 
-        // 发送 JSON 字符串到服务器
-        try (DatagramSocket socket = new DatagramSocket()) {
-            InetAddress serverAddress = InetAddress.getByName(SERVER_ADDRESS);
-            byte[] sendData = jsonMessage.getBytes();
-            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, SERVER_PORT);
-            socket.send(sendPacket);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error sending gameInfo: " + e.getMessage());
-        }
+        message.type = "getPlayerTanksData";
+
+        String response = sendMessageAndGetResponse(message);
+        Message responseMessage = gson.fromJson(response, Message.class);
+        return responseMessage.message;
     }
 
+    public boolean sendBulletsData(String data) throws Exception {
+        String bulletsData = data;
 
-    public static GameInfo receiveServerResponse() throws Exception {
-        try (DatagramSocket socket = new DatagramSocket()) {
-            byte[] receiveData = new byte[1024];
-            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-            socket.receive(receivePacket);
+        // 创建消息对象
+        Message message = new Message();
+        message.type = "bulletsData";
+        message.message = bulletsData;
 
-            String jsonResponse = new String(receivePacket.getData(), 0, receivePacket.getLength());
-            Message response = gson.fromJson(jsonResponse, Message.class);
-
-            if ("gameInfo".equals(response.type) && "success".equals(response.status)) {
-                // 确保 response.gameInfo 不为 null
-                if (response.gameInfo != null) {
-                    return response.gameInfo;
-                } else {
-                    System.err.println("GameInfo is null in server response.");
-                }
-            } else {
-                System.out.println("Error or unexpected message type: " + response.message);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error receiving server response: " + e.getMessage());
-        }
-
-        return null;
+        // 发送消息到服务器
+        return sendMessage(message);
     }
 
+    public String getBulletsData() throws Exception {
+        Message message = new Message();
 
+        message.type = "getBulletsData";
 
+        String response = sendMessageAndGetResponse(message);
+        Message responseMessage = gson.fromJson(response, Message.class);
+        return responseMessage.message;
+    }
+
+    /*---------------------------------------------*/
 
 }
