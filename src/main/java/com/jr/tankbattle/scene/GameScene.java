@@ -34,6 +34,7 @@ public class GameScene {
     public List<Pool> pools = new ArrayList<>();
     public List<Landmine> landmines = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
+    private Image backImage0 = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bkg5.jpg"));
     private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg"));
 
     public Map<Integer,GameScene> gameScenes = new HashMap<>();
@@ -87,6 +88,7 @@ public class GameScene {
     private void render() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // 绘制背景
+        graphicsContext.drawImage(backImage0, 0,0 );
         graphicsContext.drawImage(backImage, 0,0 );
         // 绘制子弹
         for(int i = 0; i < bullets.size(); i++){

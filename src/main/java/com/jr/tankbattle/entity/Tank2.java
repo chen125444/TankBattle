@@ -23,7 +23,7 @@ public class Tank2 extends AbstractObject implements Runnable{
     private boolean invincible = false;
     private int width;
     private int height;
-    private int lives =4;
+    private int lives = 3;
     //坦克速度
     private int speed;
     private List<Direction> directions = new ArrayList<>();
@@ -141,6 +141,13 @@ public class Tank2 extends AbstractObject implements Runnable{
         }
     }
 
+    public void drawLives(){
+        getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/enemy2R.png")), 970, 480 );
+        for(int i=0;i<lives;i++){
+            getGameScene().getGraphicsContext().drawImage(new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/battery.png")), 930, 80*(i+6) );
+        }
+    }
+
     public boolean checkCollision(AbstractObject other) {
         // 实现坦克与其他对象的碰撞检测逻辑
         if(other.isAlive()){
@@ -169,7 +176,7 @@ public class Tank2 extends AbstractObject implements Runnable{
             Heart heart = hearts.get(i);
             if(checkCollision(heart)) {
                 heart.setAlive(false);
-                lives += 2;
+                lives = 3;
             }
         }
     }

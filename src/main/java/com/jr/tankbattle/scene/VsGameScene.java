@@ -26,7 +26,6 @@ public class VsGameScene {
     private Tank2 playerTank2;
     private MapData map = new MapData(this);
     public List<Bullet> bullets = new ArrayList<>();
-    public List<AiTank> aiTanks = new ArrayList<>();
     public List<Tree> trees = new ArrayList<>();
     public List<Rock> rocks = new ArrayList<>();
     public List<Sheild> sheilds = new ArrayList<>();
@@ -44,7 +43,6 @@ public class VsGameScene {
         //设置键盘事件
         stage.getScene().setOnKeyReleased(this::handleKeyReleased);
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
-        aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
         hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
         irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
         landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
@@ -98,6 +96,7 @@ public class VsGameScene {
         // 绘制玩家坦克
         if(playerTank.isAlive()){
             playerTank.draw();
+            //playerTank.drawLives();
             playerTank.move();
             playerTank.collisionRocks(rocks);
             playerTank.collisionTrees(trees);
@@ -111,6 +110,7 @@ public class VsGameScene {
         }
         if(playerTank2.isAlive()){
             playerTank2.draw();
+            //playerTank2.drawLives();
             playerTank2.move();
             playerTank2.collisionRocks(rocks);
             playerTank2.collisionTrees(trees);
