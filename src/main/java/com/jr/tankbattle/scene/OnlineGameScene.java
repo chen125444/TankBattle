@@ -56,8 +56,8 @@ public class OnlineGameScene implements Client.FireStatusListener {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private long lastSendTime = 0;
     private long lastReceiveTime = 0;
-    private final long GAME_DATA_SEND_INTERVAL_MS = 100; // 发送间隔1秒
-    private final long GAME_DATA_RECEIVE_INTERVAL_MS = 100; // 接收间隔1秒
+    private final long GAME_DATA_SEND_INTERVAL_MS = 500; // 发送间隔
+    private final long GAME_DATA_RECEIVE_INTERVAL_MS = 500; // 接收间隔
 
 
     public Image backgroundImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg")));
@@ -442,27 +442,29 @@ public class OnlineGameScene implements Client.FireStatusListener {
             }
         }
         //更新石头
-        for (int i = 0; i < rocks.size(); i++) {
+        for(int i = 0; i < rocks.size(); i++){
             Rock rock = rocks.get(i);
-            if (!rock.isAlive()) {
+            if(!rock.isAlive()){
                 rocks.remove(i);
             }
         }
         //绘制石头
-        for (Rock rock : rocks) {
+        for(int i = 0; i < rocks.size(); i++){
+            Rock rock = rocks.get(i);
             rock.collisionBullet(bulletList);
             rock.draw();
         }
         //更新树丛
-        for (int i = 0; i < trees.size(); i++) {
+        for(int i = 0; i < trees.size(); i++){
             Tree tree = trees.get(i);
             tree.collisionBullet(bulletList);
-            if (!tree.isAlive()) {
+            if(!tree.isAlive()){
                 trees.remove(i);
             }
         }
         //绘制树丛
-        for (Tree tree : trees) {
+        for(int i = 0; i < trees.size(); i++){
+            Tree tree = trees.get(i);
             tree.draw();
         }
         //更新地雷
@@ -473,8 +475,11 @@ public class OnlineGameScene implements Client.FireStatusListener {
             }
         }
         //绘制地雷
-        for (Landmine landmine : landmines) {
-            landmine.draw();
+        for(int i = 0; i < landmines.size(); i++){
+            Landmine landmine = landmines.get(i);
+            if(!landmine.isAlive()){
+                landmines.remove(i);
+            }
         }
         //更新水池
         for (int i = 0; i < pools.size(); i++) {
@@ -484,18 +489,19 @@ public class OnlineGameScene implements Client.FireStatusListener {
             }
         }
         //绘制水池
-        for (Pool pool : pools) {
+        for(int i = 0; i < pools.size(); i++){
+            Pool pool = pools.get(i);
             pool.draw();
         }
         //更新铁块
-        for (int i = 0; i < irons.size(); i++) {
+        for(int i = 0; i < irons.size(); i++){
             Iron iron = irons.get(i);
-            if (!iron.isAlive()) {
-                irons.remove(i);
-            }
+            iron.collisionBullet(bulletList);
+            iron.draw();
         }
         //绘制铁块
-        for (Iron iron : irons) {
+        for(int i = 0; i < irons.size(); i++){
+            Iron iron = irons.get(i);
             iron.collisionBullet(bulletList);
             iron.draw();
         }
@@ -507,7 +513,8 @@ public class OnlineGameScene implements Client.FireStatusListener {
             }
         }
         //绘制桃心
-        for (Heart heart : hearts) {
+        for(int i = 0; i < hearts.size(); i++){
+            Heart heart = hearts.get(i);
             heart.draw();
         }
         //更新盾牌
@@ -518,7 +525,8 @@ public class OnlineGameScene implements Client.FireStatusListener {
             }
         }
         //绘制盾牌
-        for (Sheild sheild : sheilds) {
+        for (int i=0;i<sheilds.size();i++) {
+            Sheild sheild = sheilds.get(i);
             sheild.draw();
             if (playerTank1 != null) {
                 if (playerTank1.checkCollision(sheild) && playerTank1.isInvincible()) {
@@ -542,7 +550,8 @@ public class OnlineGameScene implements Client.FireStatusListener {
             }
         }
         //产生爆炸
-        for (Explode e : explodes) {
+        for (int i = 0; i < explodes.size(); i++) {
+            Explode e = explodes.get(i);
             e.draw(graphicsContext);
         }
     }

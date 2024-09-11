@@ -34,8 +34,8 @@ public class GameScene {
     public List<Pool> pools = new ArrayList<>();
     public List<Landmine> landmines = new ArrayList<>();
     public List<Explode> explodes = new ArrayList<>();
-    private final Image backImage0 = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bkg5.jpg")));
-    private final Image backImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg")));
+    private Image backImage0 = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/bkg5.jpg"));
+    private Image backImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background1.jpg"));
 
     public Map<Integer,GameScene> gameScenes = new HashMap<>();
 
@@ -117,7 +117,7 @@ public class GameScene {
         for(int i = 0; i < aiTanks.size(); i++){
             AiTank aiTank = aiTanks.get(i);
             aiTank.collisionBullet(bullets);
-            if(!aiTank.isAlive()) {
+            if(!aiTank.isAlive()){
                 aiTanks.remove(i);
             }
         }
@@ -138,12 +138,13 @@ public class GameScene {
         //更新石头
         for(int i = 0; i < rocks.size(); i++){
             Rock rock = rocks.get(i);
-            if(!rock.isAlive()) {
+            if(!rock.isAlive()){
                 rocks.remove(i);
             }
         }
         //绘制石头
-        for (Rock rock : rocks) {
+        for(int i = 0; i < rocks.size(); i++){
+            Rock rock = rocks.get(i);
             rock.collisionBullet(bullets);
             rock.draw();
         }
@@ -155,7 +156,8 @@ public class GameScene {
             }
         }
         //绘制桃心
-        for (Heart heart : hearts) {
+        for(int i = 0; i < hearts.size(); i++){
+            Heart heart = hearts.get(i);
             heart.draw();
         }
         //更新水池
@@ -166,7 +168,8 @@ public class GameScene {
             }
         }
         //绘制水池
-        for (Pool pool : pools) {
+        for(int i = 0; i < pools.size(); i++){
+            Pool pool = pools.get(i);
             pool.draw();
         }
         //更新铁块
@@ -177,45 +180,52 @@ public class GameScene {
             }
         }
         //绘制铁块
-        for (Iron iron : irons) {
+        for(int i = 0; i < irons.size(); i++){
+            Iron iron = irons.get(i);
             iron.collisionBullet(bullets);
             iron.draw();
         }
         //更新树丛
         for(int i = 0; i < trees.size(); i++){
             Tree tree = trees.get(i);
-            if(!tree.isAlive()) trees.remove(i);
+            if(!tree.isAlive()){
+                trees.remove(i);
+            }
         }
         //绘制树丛
-        for (Tree tree : trees) {
+        for(int i = 0; i < trees.size(); i++){
+            Tree tree = trees.get(i);
             tree.collisionBullet(bullets);
             tree.draw();
         }
         //更新地雷
-        for (Landmine landmine : landmines) {
+        for(int i = 0; i < landmines.size(); i++) {
+            Landmine landmine = landmines.get(i);
             landmine.draw();
         }
         //更新盾牌
         for(int i = 0; i < sheilds.size(); i++){
             Sheild sheild = sheilds.get(i);
-            if(!sheild.isAlive()) {
+            if(!sheild.isAlive()){
                 sheilds.remove(i);
             }
         }
         //绘制盾牌
-        for (Sheild sheild : sheilds) {
+        for(int i = 0; i < sheilds.size(); i++){
+            Sheild sheild = sheilds.get(i);
             sheild.draw();
-            if (playerTank.checkCollision(sheild) && playerTank.isInvincible()) {
+            if(playerTank.checkCollision(sheild) && playerTank.isInvincible()){
                 sheild.draw(playerTank);
             }
-            for (AiTank aiTank : aiTanks) {
-                if (aiTank.checkCollision(sheild) && aiTank.isInvincible()) {
+            for (AiTank aiTank : aiTanks){
+                if(aiTank.checkCollision(sheild) && aiTank.isInvincible()) {
                     sheild.draw(aiTank);
                 }
             }
         }
         //产生爆炸
-        for (Explode e : explodes) {
+        for (int i = 0; i < explodes.size(); i++) {
+            Explode e = explodes.get(i);
             e.draw(graphicsContext);
         }
     }
@@ -235,6 +245,10 @@ public class GameScene {
         return graphicsContext;
     }
 
+    // 设置 GraphicsContext 对象
+    public void setGraphicsContext(GraphicsContext graphicsContext) {
+        this.graphicsContext = graphicsContext;
+    }
     public void gameOver() {
         running = false;
         aiTanks.clear();
