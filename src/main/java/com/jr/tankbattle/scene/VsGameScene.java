@@ -5,6 +5,7 @@ import com.jr.tankbattle.controller.MapScr;
 import com.jr.tankbattle.entity.*;
 import com.jr.tankbattle.util.MapData;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -237,7 +238,54 @@ public class VsGameScene {
         return graphicsContext;
     }
 
+    public void gameOver() {
+        running = false;
+        aiTanks.clear();
+        bullets.clear();
+        explodes.clear();
+        hearts.clear();
+        irons.clear();
+        landmines.clear();
+        pools.clear();
+        rocks.clear();
+        sheilds.clear();
+        trees.clear();
 
+        if(!playerTank.isAlive()){
+            playerTank.setThreadRunning(false);
+            for (AiTank aiTank : aiTanks){
+                aiTank.setThreadRunning(false);
+            }
+            refresh.stop();
+            Platform.runLater(() -> {
+                GameDlg.getInstance().Show("gameLoseSingle");
+                aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
+                hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
+                irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
+                landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
+                pools.addAll(map.mapData.get(MapScr.getInstance().getId()).pools);
+                rocks.addAll(map.mapData.get(MapScr.getInstance().getId()).rocks);
+                sheilds.addAll(map.mapData.get(MapScr.getInstance().getId()).sheilds);
+                trees.addAll(map.mapData.get(MapScr.getInstance().getId()).trees);
+                refresh.start();
+            });
+        }
+        else {
+            refresh.stop();
+            Platform.runLater(() -> {
+                GameDlg.getInstance().Show("gameWinSingle");
+                aiTanks.addAll(map.mapData.get(MapScr.getInstance().getId()).aiTanks);
+                hearts.addAll(map.mapData.get(MapScr.getInstance().getId()).hearts);
+                irons.addAll(map.mapData.get(MapScr.getInstance().getId()).irons);
+                landmines.addAll(map.mapData.get(MapScr.getInstance().getId()).landmines);
+                pools.addAll(map.mapData.get(MapScr.getInstance().getId()).pools);
+                rocks.addAll(map.mapData.get(MapScr.getInstance().getId()).rocks);
+                sheilds.addAll(map.mapData.get(MapScr.getInstance().getId()).sheilds);
+                trees.addAll(map.mapData.get(MapScr.getInstance().getId()).trees);
+                refresh.start();
+            });
+        }
+    }
 
 }
 
