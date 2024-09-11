@@ -26,6 +26,7 @@ public class Sound {
 
         //子弹爆炸
         audioFiles[0]= new Media(getClass().getResource("/com/jr/tankbattle/sound/playerCrack.mp3").toExternalForm());
+        audioFiles[1]= new Media(getClass().getResource("/com/jr/tankbattle/sound/attack.mp3").toExternalForm());
     }
 
     public static Sound getInstance() {
@@ -50,7 +51,7 @@ public class Sound {
 
     public void playAudio(int num){
         audioPlayer = new MediaPlayer(audioFiles[num]);
-        audioPlayer.setVolume(0.5);
+        audioPlayer.setVolume(0.7);
         audioPlayer.play();
     }
 
