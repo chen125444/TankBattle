@@ -50,7 +50,7 @@ public class MapScr {
         applyEffects(map3Btn, "/com/jr/tankbattle/img/map3.png");
         applyEffects(map4Btn, "/com/jr/tankbattle/img/map4.png");
         applyEffects(backBtn);
-        System.out.println(id);
+        //System.out.println(id);
     }
 
     private void showHoverImage(String imagePath) {
@@ -72,26 +72,26 @@ public class MapScr {
             showHoverImage(hoverImagePath); //鼠标悬停图片显示
             colorAdjust.setBrightness(0.3);  // 增加亮度
             button.setEffect(shadow);        // 添加阴影
-            System.out.println(id);
+            //System.out.println(id);
         });
 
         button.setOnMouseExited(event -> {
             hideHoverImage();
             colorAdjust.setBrightness(0);    // 还原亮度
             button.setEffect(null);          // 移除阴影
-            System.out.println(id);
+            //System.out.println(id);
         });
 
         button.setOnMousePressed(event -> {
             button.setScaleX(0.95);  // 缩小到 95%
             button.setScaleY(0.95);  // 缩小到 95%
-            System.out.println(id);
+            //System.out.println(id);
         });
 
         button.setOnMouseReleased(event -> {
             button.setScaleX(1.0);   // 还原到原始大小
             button.setScaleY(1.0);   // 还原到原始大小
-            System.out.println(id);
+            //System.out.println(id);
         });
     }
 
@@ -127,21 +127,25 @@ public class MapScr {
     public void Map1(){
         MapChg(1);
         id = 1;
+        System.out.println(id);
     }
     @FXML
     public void Map2(){
         MapChg(2);
         id = 2;
+        System.out.println(id);
     }
     @FXML
     public void Map3(){
         MapChg(3);
         id = 3;
+        System.out.println(id);
     }
     @FXML
     public void Map4(){
         MapChg(4);
         id = 4;
+        System.out.println(id);
     }
 
     public void MapChg(int num){

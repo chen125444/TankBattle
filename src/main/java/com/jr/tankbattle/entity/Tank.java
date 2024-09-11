@@ -4,6 +4,7 @@ import com.jr.tankbattle.scene.GameScene;
 import com.jr.tankbattle.scene.OnlineGameScene;
 import com.jr.tankbattle.scene.VsGameScene;
 import com.jr.tankbattle.util.Direction;
+import com.jr.tankbattle.util.Sound;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
@@ -205,6 +206,7 @@ public class Tank extends AbstractObject implements Runnable{
             Heart heart = hearts.get(i);
             if(checkCollision(heart)) {
                 heart.setAlive(false);
+                Sound.getInstance().playAudio(1);
                 lives = 5;
             }
         }
