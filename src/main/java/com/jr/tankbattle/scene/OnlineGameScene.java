@@ -1,7 +1,10 @@
 package com.jr.tankbattle.scene;
 
+import com.jr.tankbattle.client.GameInfo;
+import com.jr.tankbattle.client.TankData;
 import com.jr.tankbattle.entity.*;
 import com.jr.tankbattle.util.MapData;
+import com.jr.tankbattle.util.TankType;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -40,6 +43,58 @@ public class OnlineGameScene {
 
     public Image backgroundImage = new Image(this.getClass().getResourceAsStream("/com/jr/tankbattle/img/background.jpg"));
 
+    private GameInfo createGameInfo() {
+        GameInfo gameInfo = new GameInfo();
+        // 创建用于保存坦克数据的列表
+        List<TankData> tankDataList = new ArrayList<>();
+
+        // 遍历 playerTanks，填充坦克信息
+        for (Map.Entry<String, Tank3> entry : playerTanks.entrySet()) {
+            Tank3 tank = entry.getValue();
+            TankData tankData = new TankData();
+            tankData.x = tank.getX();
+            tankData.y = tank.getY();
+            tankData.direction = tank.getDirection();
+            tankData.playerId = tank.getPlayerId();
+            tankData.tankType = tank.tankType;
+            tankDataList.add(tankData);
+        }
+
+        // 将坦克数据列表添加到 GameInfo 对象中
+        gameInfo.setTanks(tankDataList);
+
+        return gameInfo;
+    }
+
+    public void updateGameInfo(GameInfo gameInfo) {
+        // 先清除旧的坦克数据
+        playerTanks.clear();
+
+        // 遍历新的坦克信息并填充 playerTanks
+        for (TankData tankData : gameInfo.getTanks()) {
+            Tank3 tank = new Tank3(tankData.x, tankData.y,40,40,2,this);
+            tank.setTankType(tankData.tankType);
+            playerTanks.put(tankData.playerId, tank); // 将新的坦克数据存入 playerTanks
+        }
+
+        // 根据玩家 ID 将新的坦克信息赋值给相应的变量
+        if (playerTank1 != null && playerTanks.containsKey(playerTank1.getPlayerId())) {
+            playerTank1 = playerTanks.get(playerTank1.getPlayerId());
+        }
+        if (playerTank2 != null && playerTanks.containsKey(playerTank2.getPlayerId())) {
+            playerTank2 = playerTanks.get(playerTank2.getPlayerId());
+        }
+        if (playerTank3 != null && playerTanks.containsKey(playerTank3.getPlayerId())) {
+            playerTank3 = playerTanks.get(playerTank3.getPlayerId());
+        }
+        if (playerTank4 != null && playerTanks.containsKey(playerTank4.getPlayerId())) {
+            playerTank4 = playerTanks.get(playerTank4.getPlayerId());
+        }
+
+        // 在这里你可以添加更多逻辑来处理游戏状态的更新
+    }
+
+
     public void init(Stage stage, List<String> playerList) {
         AnchorPane root = new AnchorPane(canvas);
         stage.getScene().setRoot(root);
@@ -70,7 +125,7 @@ public class OnlineGameScene {
 
     private void initializePlayerTanks() {
 // Assuming tankTypes are predefined or determined somewhere
-        List<Tank3.TankType> tankTypes = new ArrayList<>(List.of(Tank3.TankType.values()));
+        List<TankType> tankTypes = new ArrayList<>(List.of(TankType.values()));
 
         // Shuffle the tank types to assign randomly
         Collections.shuffle(tankTypes);
@@ -78,7 +133,7 @@ public class OnlineGameScene {
         // Assign tanks to players based on playerList
         for (int i = 0; i < playerList.size(); i++) {
             String playerId = playerList.get(i);
-            Tank3.TankType tankType = tankTypes.get(i % tankTypes.size()); // Assign type cyclically
+            TankType tankType = tankTypes.get(i % tankTypes.size()); // Assign type cyclically
             Tank3 tank=new Tank3();
             // Set default positions for tanks; this can be customized
             switch (i) {
@@ -89,8 +144,8 @@ public class OnlineGameScene {
             }
             tank.setTankType(tankType);
             tank.setPlayerId(playerId);
+            tank.loadImages();
 
-//            tank.loadImages();
             playerTanks.put(playerId, tank);
         }
         // Set the player tank references based on the map
@@ -145,6 +200,8 @@ public class OnlineGameScene {
             bullet.draw();
             bullet.move();
         }
+        //同步游戏状态
+//        updateGameInfo(Client.receiveServerResponse());
         // 绘制玩家坦克
         if (playerTank1 != null && playerTank1.isAlive()) {
             playerTank1.draw();
@@ -319,16 +376,16 @@ public class OnlineGameScene {
         for(int i = 0; i < sheilds.size(); i++){
             Sheild sheild = sheilds.get(i);
             sheild.draw();
-            if(playerTank1.checkCollision(sheild) && !sheild.isMoving()){
+            if(playerTank1.checkCollision(sheild) && playerTank1.isInvincible()){
                 sheild.draw(playerTank1);
             }
-            if (playerTank2.checkCollision(sheild) && !sheild.isMoving()){
+            if (playerTank2.checkCollision(sheild) && playerTank2.isInvincible()){
                 sheild.draw(playerTank2);
             }
-            if(playerTank3.checkCollision(sheild) && !sheild.isMoving()){
+            if(playerTank3.checkCollision(sheild) && playerTank3.isInvincible()){
                 sheild.draw(playerTank3);
             }
-            if (playerTank3.checkCollision(sheild) && !sheild.isMoving()){
+            if (playerTank3.checkCollision(sheild) && playerTank4.isInvincible()){
                 sheild.draw(playerTank3);
             }
         }
@@ -337,6 +394,8 @@ public class OnlineGameScene {
             Explode e = explodes.get(i);
             e.draw(graphicsContext);
         }
+        //发送游戏状态
+//        Client.sendGameInfo(createGameInfo());
     }
 
     // 刷新任务（类似游戏主循环）
@@ -344,7 +403,11 @@ public class OnlineGameScene {
         @Override
         public void handle(long now) {
             if (running) {
-                render();  // 每一帧都调用 render() 以刷新游戏界面
+                try {
+                    render();  // 每一帧都调用 render() 以刷新游戏界面
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     };

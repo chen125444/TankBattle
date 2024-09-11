@@ -1,6 +1,5 @@
 package com.jr.tankbattle.util;
 
-import com.jr.tankbattle.Director;
 import com.jr.tankbattle.entity.*;
 
 import com.jr.tankbattle.scene.GameScene;
